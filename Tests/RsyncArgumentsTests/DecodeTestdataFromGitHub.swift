@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  DecodeTestdataFromGitHub.swift
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 05/08/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GetTestdatafromGitHub {
+struct DecodeTestdataFromGitHub {
     let urlSession = URLSession.shared
     let jsonDecoder = JSONDecoder()
     
