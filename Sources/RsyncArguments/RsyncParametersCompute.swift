@@ -44,7 +44,7 @@ public final class RsyncParametersCompute {
     var snapshotnum = -1
     var rsyncdaemon = -1
 
-    private func initialise_rsyncparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
+    public func initialise_rsyncparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
         let rsyncparameters1to6 = RsyncParameters1to6(parameter1: parameter1,
                                                       parameter2: parameter2,
                                                       parameter3: parameter3,
