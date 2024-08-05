@@ -11,7 +11,7 @@ struct GetTestdata {
     let urlSession = URLSession.shared
     let jsonDecoder = JSONDecoder()
     
-    private var urlJSON: String = "https://raw.githubusercontent.com/rsyncOSX/RsyncUI/master/versionRsyncUI/versionRsyncUIsonoma.json"
+    private var urlJSON: String = "https://raw.githubusercontent.com/rsyncOSX/RsyncArguments/master/Testdata/configurations.json"
 
     func getversionsofrsyncuibyurl() async throws -> [DecodeTestdata]? {
         if let url = URL(string: urlJSON) {
