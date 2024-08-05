@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 public final class RsyncParametersCompute {
-    var computedarguments = [String]()
+    public private(set) var computedarguments = [String]()
 
     var task = ""
 
