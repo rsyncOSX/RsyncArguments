@@ -15,8 +15,7 @@ final class ReadTestdataFromGitHub {
         // Load user configuration
         do {
             if let userconfig = try await testdata.getrsyncuiconfigbyURL() {
-                guard userconfig.count == 1 else { return }
-                await TestUserConfiguration(userconfig[0])
+                await TestUserConfiguration(userconfig)
                 print("ReadTestdataFromGitHub: loading userconfiguration COMPLETED)")
             }
 

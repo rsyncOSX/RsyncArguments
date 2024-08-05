@@ -24,10 +24,10 @@ struct TestdataFromGitHub {
 
     private var urlJSONuiconfig: String = "https://raw.githubusercontent.com/rsyncOSX/RsyncArguments/master/Testdata/rsyncuiconfig.json"
 
-    func getrsyncuiconfigbyURL() async throws -> [DecodeTestUserConfiguration]? {
+    func getrsyncuiconfigbyURL() async throws -> DecodeTestUserConfiguration? {
         if let url = URL(string: urlJSONuiconfig) {
             let (data, _) = try await urlSession.gettestdata(for: url)
-            return try jsonDecoder.decode([DecodeTestUserConfiguration].self, from: data)
+            return try jsonDecoder.decode(DecodeTestUserConfiguration.self, from: data)
         } else {
             return nil
         }
