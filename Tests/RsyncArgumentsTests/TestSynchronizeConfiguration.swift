@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  TestSynchronizeConfiguration.swift
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 05/08/2024.
@@ -41,7 +41,7 @@ struct TestSynchronizeConfiguration: Identifiable, Codable {
     // Snapshots, day to save and last = 1 or every last=0
     var snapdayoffweek: String?
     var snaplast: Int?
-    
+
     // Used when reading JSON data from store
     // see in ReadConfigurationJSON
     init(_ data: DecodeTestdata) {
@@ -125,7 +125,6 @@ extension TestSynchronizeConfiguration: Hashable, Equatable {
         hasher.combine(dateRun)
     }
 }
-
 
 enum TestStringDayofweek: String, CaseIterable, Identifiable, CustomStringConvertible {
     case Monday
