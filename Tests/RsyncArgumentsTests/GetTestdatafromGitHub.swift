@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct GetTestdata {
+struct GetTestdatafromGitHub {
     let urlSession = URLSession.shared
     let jsonDecoder = JSONDecoder()
     
     private var urlJSON: String = "https://raw.githubusercontent.com/rsyncOSX/RsyncArguments/master/Testdata/configurations.json"
 
-    func getversionsofrsyncuibyurl() async throws -> [DecodeTestdata]? {
+    func gettestdatabyURL() async throws -> [DecodeTestdata]? {
         if let url = URL(string: urlJSON) {
             let (data, _) = try await urlSession.gettestdata(for: url)
             return try jsonDecoder.decode([DecodeTestdata].self, from: data)
