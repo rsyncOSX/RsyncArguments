@@ -1,47 +1,19 @@
+
+# nr0
 --archive
 --verbose
 --compress
 --delete
 -e
-ssh -i ~/.ssh_local/local -p 3333
+ssh -i ~/.ssh_global/global -p 2222
 --exclude-from=/Users/thomas/Documents/excludersync/exclude-list-github.txt
 --dry-run
 --stats
+--link-dest=/backups/snapshots_JSON/53
 /Users/thomas/GitHub/
-thomas@raspberrypi:/backups/GitHub/
+thomas@raspberrypi:/backups/snapshots_JSON/54
 
---archive
---verbose
---compress
---delete
--e
-ssh -i ~/.ssh_global/global -p 2222
---dry-run
---stats
-thomas@raspberrypi:/home/thomas/Download/
-/Users/thomas/Downloads/
-
---archive
---verbose
---delete
---dry-run
---stats
-/Users/thomas/Documents/
-/Volumes/WesternDigitalBackup/backup/Documents/
-
---archive
---verbose
---compress
---delete
--e
-ssh -i ~/.ssh_global/global -p 2222
---backup
---backup-dir=../backup_Documents
---dry-run
---stats
-/Users/thomas/Documents/
-thomas@raspberrypi:/backups/Documents/
-
+# nr1
 --archive
 --verbose
 --compress
@@ -56,15 +28,50 @@ ssh -i ~/.ssh_global/global -p 2222
 /Users/thomas/Pictures_raw/
 thomas@raspberrypi:/backups/Pictures_dopfiles/
 
+# nr 2
 --archive
 --verbose
 --compress
 --delete
 -e
 ssh -i ~/.ssh_global/global -p 2222
+--backup
+--backup-dir=../backup_Documents
+--dry-run
+--stats
+/Users/thomas/Documents/
+thomas@raspberrypi:/backups/Documents/
+
+# nr 3
+--archive
+--verbose
+--compress
+--delete
+-e
+ssh -i ~/.ssh_local/local -p 3333
 --exclude-from=/Users/thomas/Documents/excludersync/exclude-list-github.txt
 --dry-run
 --stats
---link-dest=/backups/snapshots_JSON/53
 /Users/thomas/GitHub/
-thomas@raspberrypi:/backups/snapshots_JSON/54
+thomas@raspberrypi:/backups/GitHub/
+
+# nr 4
+--archive
+--verbose
+--delete
+--dry-run
+--stats
+/Users/thomas/Documents/
+/Volumes/WesternDigitalBackup/backup/Documents/
+
+# nr 5
+--archive
+--verbose
+--compress
+--delete
+-e
+ssh -i ~/.ssh_global/global -p 2222
+--dry-run
+--stats
+thomas@raspberrypi:/home/thomas/Download/
+/Users/thomas/Downloads/
