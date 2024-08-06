@@ -3,12 +3,20 @@ import Testing
 
 @Suite final class TestSynchronize {
     var testconfigurations: [TestSynchronizeConfiguration]?
+    // Save computed parameters
+    var nr0: [String]?
+    var nr1: [String]?
+    var nr2: [String]?
+    var nr3: [String]?
+    var nr4: [String]?
+    var nr5: [String]?
 
     @Test func LodaData() async {
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdata()
         testconfigurations = loadtestdata.testconfigurations
         if let testconfigurations {
+            // It are six test configurations
             for i in 0 ..< testconfigurations.count {
                 let rsyncparameterscompute = await RsyncParametersCompute(task: testconfigurations[i].task,
                                                                           parameter1: testconfigurations[i].parameter1,
@@ -37,13 +45,41 @@ import Testing
                                                                           rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
+                    print("SYNCHRONIZE")
                     await rsyncparameterscompute.argumentsforsynchronize(forDisplay: false, verify: false, dryrun: true)
                 case TestSharedReference.shared.snapshot:
+                    print("SNAPSHOT")
                     await rsyncparameterscompute.argumentsforsynchronizesnapshot(forDisplay: false, verify: false, dryrun: true)
                 case TestSharedReference.shared.syncremote:
+                    print("SYNCREMOTE")
                     await rsyncparameterscompute.argumentsforsynchronizeremote(forDisplay: false, verify: false, dryrun: true)
                 default:
                     break
+                }
+                
+                switch i {
+                case 0:
+                    print("Assigned first arguments")
+                    nr0 = await rsyncparameterscompute.computedarguments
+                case 1:
+                    print("Assigned second arguments")
+                    nr1 = await rsyncparameterscompute.computedarguments
+                case 2:
+                    print("Assigned third arguments")
+                    nr2 = await rsyncparameterscompute.computedarguments
+                case 3:
+                    print("Assigned fourth arguments")
+                    nr3 = await rsyncparameterscompute.computedarguments
+                case 4:
+                    print("Assigned fifth arguments")
+                    nr4 = await rsyncparameterscompute.computedarguments
+                case 5:
+                    print("Assigned sixth arguments")
+                    nr5 = await rsyncparameterscompute.computedarguments
+                default:
+                    print("Assigned NO arguments")
+                    return
+                    
                 }
             }
         }
