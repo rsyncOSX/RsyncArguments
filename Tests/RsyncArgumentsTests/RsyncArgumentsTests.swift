@@ -56,7 +56,7 @@ import Testing
                 default:
                     break
                 }
-                
+
                 switch i {
                 case 0:
                     print("Assigned first arguments")
@@ -79,7 +79,6 @@ import Testing
                 default:
                     print("Assigned NO arguments")
                     return
-                    
                 }
             }
         }

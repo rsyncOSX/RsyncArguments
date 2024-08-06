@@ -92,8 +92,7 @@ public final class RsyncParameters8to14 {
                 parameter11: String?,
                 parameter12: String?,
                 parameter13: String?,
-                parameter14: String?)
-    {
+                parameter14: String?) {
         self.parameter8 = parameter8
         self.parameter9 = parameter9
         self.parameter10 = parameter10

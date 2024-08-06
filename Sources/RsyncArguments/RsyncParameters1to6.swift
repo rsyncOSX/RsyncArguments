@@ -159,8 +159,7 @@ public final class RsyncParameters1to6 {
                 sshport: String?,
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
-                sharedsshkeypathandidentityfile: String?)
-    {
+                sharedsshkeypathandidentityfile: String?) {
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3

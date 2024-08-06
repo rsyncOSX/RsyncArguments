@@ -183,8 +183,7 @@ public final class RsyncParametersCompute {
                 offsiteUsername: String,
                 sharedpathforrestore: String,
                 snapshotnum: Int,
-                rsyncdaemon: Int)
-    {
+                rsyncdaemon: Int) {
         self.task = task
         self.parameter1 = parameter1
         self.parameter2 = parameter2
