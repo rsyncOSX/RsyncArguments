@@ -61,21 +61,27 @@ import Testing
                 case 0:
                     print("Assigned first arguments")
                     nr0 = await rsyncparameterscompute.computedarguments
+                    #expect(ArgumentsSynchronize().nr0 == nr0)
                 case 1:
                     print("Assigned second arguments")
                     nr1 = await rsyncparameterscompute.computedarguments
+                    #expect(ArgumentsSynchronize().nr1 == nr1)
                 case 2:
                     print("Assigned third arguments")
                     nr2 = await rsyncparameterscompute.computedarguments
+                    #expect(ArgumentsSynchronize().nr2 == nr2)
                 case 3:
                     print("Assigned fourth arguments")
                     nr3 = await rsyncparameterscompute.computedarguments
+                    #expect(ArgumentsSynchronize().nr3 == nr3)
                 case 4:
                     print("Assigned fifth arguments")
                     nr4 = await rsyncparameterscompute.computedarguments
+                    #expect(ArgumentsSynchronize().nr4 == nr4)
                 case 5:
                     print("Assigned sixth arguments")
                     nr5 = await rsyncparameterscompute.computedarguments
+                    #expect(ArgumentsSynchronize().nr5 == nr5)
                 default:
                     print("Assigned NO arguments")
                     return

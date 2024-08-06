@@ -112,6 +112,9 @@ public final class RsyncParametersCompute {
         // Prepare linkdestparam and
         linkdestparameter(verify: verify)
         computedarguments.append(linkdestparam)
+        if forDisplay { computedarguments.append(" ") }
+        computedarguments.append(localCatalog)
+        if forDisplay { computedarguments.append(" ") }
 
         if offsiteServer.isEmpty == true {
             if forDisplay { computedarguments.append(" ") }
