@@ -34,7 +34,7 @@ struct ArgumentsSynchronize {
                "--stats",
                "/Users/thomas/Pictures_raw/",
                "thomas@raspberrypi:/backups/Pictures_dopfiles/"]
-   
+
     let nr2 = ["--archive",
                "--verbose",
                "--compress",
@@ -47,7 +47,7 @@ struct ArgumentsSynchronize {
                "--stats",
                "/Users/thomas/Documents/",
                "thomas@raspberrypi:/backups/Documents/"]
-    
+
     let nr3 = ["--archive",
                "--verbose",
                "--compress",
@@ -67,7 +67,7 @@ struct ArgumentsSynchronize {
                "--stats",
                "/Users/thomas/Documents/",
                "/Volumes/WesternDigitalBackup/backup/Documents/"]
-    
+
     let nr5 = ["--archive",
                "--verbose",
                "--compress",
