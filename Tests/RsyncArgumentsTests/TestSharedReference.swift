@@ -16,7 +16,7 @@ final class TestSharedReference {
     }
 
     var settingsischanged: Bool = false
-    var rsyncversion3: Bool = false
+    var rsyncversion3: Bool = true
     var localrsyncpath: String?
     var norsync: Bool = false
     var pathforrestore: String?
@@ -35,7 +35,7 @@ final class TestSharedReference {
     let usrbin: String = "/usr/bin"
     let usrlocalbin: String = "/usr/local/bin"
     let usrlocalbinarm: String = "/opt/homebrew/bin"
-    var macosarm: Bool = false
+    var macosarm: Bool = true
     // RsyncUI config files and path
     let configpath: String = "/.rsyncosx/"
     let logname: String = "rsyncui.txt"
@@ -63,5 +63,5 @@ final class TestSharedReference {
     // var errorobject: AlertError?
     // Used when starting up RsyncUI
     // Default profile
-    let defaultprofile = "Default profile"
+    let defaultprofile = "Testprofile"
 }
