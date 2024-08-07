@@ -108,9 +108,9 @@ public final class RsyncParametersRestore {
     private func remoteargssnapshot() -> String {
         offsiteCatalog += String(snapshotnum - 1) + "/"
         if rsyncdaemon == 1 {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + localCatalog
+            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + offsiteCatalog
         } else {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + localCatalog
+            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + offsiteCatalog
         }
         return computedremoteargs
     }
