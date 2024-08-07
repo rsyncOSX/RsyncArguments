@@ -1,5 +1,5 @@
 //
-//  RsyncParametersCompute.swift
+//  RsyncParametersSynchronize.swift
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 03/08/2024.
@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-public final class RsyncParametersCompute {
+public final class RsyncParametersSynchronize {
     public private(set) var computedarguments = [String]()
 
     var task = ""
@@ -128,6 +128,9 @@ public final class RsyncParametersCompute {
     }
 
     func argumentsrestore(forDisplay: Bool, verify: Bool, dryrun: Bool, restoresnapshotbyfiles: Bool, tmprestore: Bool) {
+        // Restore only for synchronize and snapshottasks
+        guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
+
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
 
         let snapshot: Bool = snapshotnum != -1 ? true : false
