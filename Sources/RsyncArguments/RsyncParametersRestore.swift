@@ -70,6 +70,51 @@ public final class RsyncParametersRestore {
         computedarguments += rsyncparameters8to14.setParameters8To14(dryRun: dryrun, forDisplay: forDisplay)
     }
 
+    public func remoteargumentsfilelist() {
+        initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
+
+        computedarguments.append("-r")
+        computedarguments.append("--list-only")
+        computedarguments.append(remoteargs())
+    }
+
+    public func remoteargumentssnapshotcataloglist() {
+        initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
+        // By some reason the "--archive" parameter must be removed
+        // If not all data within all snapshot catalogs are listed
+        computedarguments.removeAll { $0 == "--archive" }
+        computedarguments.append("--list-only")
+        computedarguments.append(remoteargs())
+    }
+    
+    // Retrive files within ONE snapshotcatalog
+    public func remoteargumentssnapshotfilelist() {
+        initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
+
+        computedarguments.append("-r")
+        computedarguments.append("--list-only")
+        computedarguments.append(remoteargssnapshot())
+    }
+
+    private func remoteargs() -> String {
+        if rsyncdaemon == 1 {
+            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + offsiteCatalog
+        } else {
+            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + offsiteCatalog
+        }
+        return computedremoteargs
+    }
+
+    private func remoteargssnapshot() -> String {
+        offsiteCatalog += String(snapshotnum - 1) + "/"
+        if rsyncdaemon == 1 {
+            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + localCatalog
+        } else {
+            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + localCatalog
+        }
+        return computedremoteargs
+    }
+    
     public func argumentsrestore(forDisplay: Bool, verify: Bool, dryrun: Bool, restoresnapshotbyfiles: Bool, tmprestore: Bool) {
         // Restore only for synchronize and snapshottasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
@@ -120,54 +165,6 @@ public final class RsyncParametersRestore {
         }
     }
 
-    public func remoteargumentsfilelist(forDisplay: Bool, verify: Bool, dryrun: Bool, recursive: Bool) {
-        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-
-        if recursive {
-            computedarguments.append("-r")
-        }
-        computedarguments.append("--list-only")
-        if offsiteServer.isEmpty == false {
-            computedarguments.append(remoteargs())
-        } else {
-            computedarguments.append(":" + offsiteCatalog)
-        }
-    }
-
-    public func remoteargumentssnapshotfilelist(forDisplay: Bool, verify: Bool, dryrun: Bool, recursive: Bool) {
-        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-        
-        if recursive {
-            computedarguments.append("-r")
-        }
-        computedarguments.append("--list-only")
-        if recursive == false {
-            // remote arguments for collect snapshot catalogs only
-            computedarguments.append(remoteargs())
-        } else {
-            // remote arguments for recursive collect all files within a snapshot catalog
-            computedarguments.append(remoteargssnapshot())
-        }
-    }
-
-    private func remoteargs() -> String {
-        if rsyncdaemon == 1 {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + offsiteCatalog
-        } else {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + offsiteCatalog
-        }
-        return computedremoteargs
-    }
-
-    private func remoteargssnapshot() -> String {
-        offsiteCatalog += String(snapshotnum - 1) + "/"
-        if rsyncdaemon == 1 {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + localCatalog
-        } else {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + localCatalog
-        }
-        return computedremoteargs
-    }
     
     public init(task: String,
                 parameter1: String,

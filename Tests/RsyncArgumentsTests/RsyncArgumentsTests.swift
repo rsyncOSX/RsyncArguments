@@ -129,10 +129,10 @@ import Testing
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
                     print("SYNCHRONIZE filelist")
-                    await rsyncparametersrestore.remoteargumentsfilelist(forDisplay: false, verify: false, dryrun: true, recursive: true)
+                    await rsyncparametersrestore.remoteargumentsfilelist()
                 case TestSharedReference.shared.snapshot:
                     print("SNAPSHOT filelist")
-                    await rsyncparametersrestore.remoteargumentssnapshotfilelist(forDisplay: false, verify: false, dryrun: true, recursive: false)
+                    await rsyncparametersrestore.remoteargumentssnapshotcataloglist()
                 default:
                     break
                 }
