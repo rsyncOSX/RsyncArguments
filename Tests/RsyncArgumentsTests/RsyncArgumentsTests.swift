@@ -128,11 +128,11 @@ import Testing
                                                                               rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
-                    print("SYNCHRONIZE restore")
+                    print("SYNCHRONIZE filelist")
                     await rsyncparametersrestore.remoteargumentsfilelist(forDisplay: false, verify: false, dryrun: true, recursive: true)
                 case TestSharedReference.shared.snapshot:
-                    print("SNAPSHOT restore")
-                    await rsyncparametersrestore.remoteargumentssnapshotfilelist(forDisplay: false, verify: false, dryrun: true, recursive: true)
+                    print("SNAPSHOT filelist")
+                    await rsyncparametersrestore.remoteargumentssnapshotfilelist(forDisplay: false, verify: false, dryrun: true, recursive: false)
                 default:
                     break
                 }

@@ -120,6 +120,36 @@ public final class RsyncParametersRestore {
         }
     }
 
+    public func remoteargumentsfilelist(forDisplay: Bool, verify: Bool, dryrun: Bool, recursive: Bool) {
+        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
+
+        if recursive {
+            computedarguments.append("-r")
+        }
+        computedarguments.append("--list-only")
+        if offsiteServer.isEmpty == false {
+            computedarguments.append(remoteargs())
+        } else {
+            computedarguments.append(":" + offsiteCatalog)
+        }
+    }
+
+    public func remoteargumentssnapshotfilelist(forDisplay: Bool, verify: Bool, dryrun: Bool, recursive: Bool) {
+        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
+        
+        if recursive {
+            computedarguments.append("-r")
+        }
+        computedarguments.append("--list-only")
+        if recursive == false {
+            // remote arguments for collect snapshot catalogs only
+            computedarguments.append(remoteargs())
+        } else {
+            // remote arguments for recursive collect all files within a snapshot catalog
+            computedarguments.append(remoteargssnapshot())
+        }
+    }
+
     private func remoteargs() -> String {
         if rsyncdaemon == 1 {
             computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + offsiteCatalog
@@ -138,64 +168,7 @@ public final class RsyncParametersRestore {
         }
         return computedremoteargs
     }
-
-    // Arguments for file listings
-
-    /*
-     if config?.offsiteServer.isEmpty == false {
-         if snapshot == true {
-             remoteargumentssnapshot(recursive: recursive)
-         } else {
-             remotearguments(recursive: recursive)
-         }
-     } else {
-         localarguments(recursive: recursive)
-     }
-     */
-
-    public func remoteargumentsfilelist(forDisplay: Bool, verify: Bool, dryrun: Bool, recursive: Bool) {
-        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-
-        if recursive {
-            computedarguments.append("-r")
-        }
-        computedarguments.append("--list-only")
-        if offsiteServer.isEmpty == false {
-            computedarguments.append(remoteargs())
-        } else {
-            computedarguments.append(":" + offsiteCatalog)
-        }
-    }
-
-    public func remoteargumentssnapshotfilelist(forDisplay: Bool, verify: Bool, dryrun: Bool, recursive: Bool) {
-        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-
-        if recursive {
-            computedarguments.append("-r")
-        }
-        computedarguments.append("--list-only")
-        if offsiteServer.isEmpty == false {
-            if recursive == false {
-                // remote arguments for collect snapshot catalogs only
-                computedarguments.append(remoteargs())
-            } else {
-                // remote arguments for recursive collect all files within a snapshot catalog
-                computedarguments.append(remoteargssnapshot())
-            }
-        } else {
-            computedarguments.append(":" + offsiteCatalog + String(snapshotnum - 1) + "/")
-        }
-    }
-
-    /*
-     private func localarguments(recursive: Bool) {
-         if recursive {
-             args?.append("-r")
-         }
-         args?.append("--list-only")
-         args?.append(config?.offsiteCatalog ?? "")
-     }
-     */
+    
     public init(task: String,
                 parameter1: String,
                 parameter2: String,
