@@ -127,6 +127,53 @@ public final class RsyncParametersCompute {
         }
     }
 
+    func argumentsrestore(forDisplay: Bool, verify: Bool, dryrun: Bool, restoresnapshotbyfiles: Bool, tmprestore: Bool) {
+        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
+
+        let snapshot: Bool = snapshotnum != -1 ? true : false
+        if snapshot {
+            if restoresnapshotbyfiles == true {
+                // This is a hack for fixing correct restore for files
+                // from a snapshot. The last snapshot is base for restore
+                // of files. The correct snapshot is added within the
+                // ObserveableRestore which is used within the RestoreView
+                // --archive --verbose --compress --delete -e "ssh -i ~/.ssh_rsyncosx/rsyncosx -p 22"
+                // --exclude-from=/Users/thomas/Documents/excludersync/exclude-list-github.txt --dry-run --stats
+                // thomas@backup:/backups/snapshots/Github/85/AlertToast /Users/thomas/tmp
+                if forDisplay { computedarguments.append(" ") }
+                computedarguments.append(remoteargs())
+                if forDisplay { computedarguments.append(" ") }
+            } else {
+                // --archive --verbose --compress --delete -e "ssh -i ~/.ssh_rsyncosx/rsyncosx -p 22"
+                // --exclude-from=/Users/thomas/Documents/excludersync/exclude-list-github.txt --dry-run --stats
+                // thomas@backup:/backups/snapshots/Github/85/ /Users/thomas/tmp
+                if forDisplay { computedarguments.append(" ") }
+                computedarguments.append(remoteargssnapshot())
+                if forDisplay { computedarguments.append(" ") }
+            }
+        } else {
+            // --archive --verbose --compress --delete -e "ssh -i ~/.ssh_rsyncosx/rsyncosx -p 22" --backup
+            // --backup-dir=../backup_Documents --dry-run --stats thomas@backup:/backups/Documents/
+            // Users/thomas/tmp
+            if forDisplay { computedarguments.append(" ") }
+            computedarguments.append(remoteargssnapshot())
+            if forDisplay { computedarguments.append(" ") }
+        }
+        if offsiteServer.isEmpty == true {
+            computedarguments.append(offsiteCatalog)
+            if forDisplay { computedarguments.append(" ") }
+        } else {
+            if forDisplay { computedarguments.append(" ") }
+            computedarguments.append(remoteargs())
+            if forDisplay { computedarguments.append(" ") }
+        }
+        if tmprestore {
+            computedarguments.append(sharedpathforrestore)
+        } else {
+            computedarguments.append(localCatalog)
+        }
+    }
+
     private func remoteargs() -> String {
         if rsyncdaemon == 1 {
             computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + offsiteCatalog
@@ -160,6 +207,16 @@ public final class RsyncParametersCompute {
         } else {
             offsiteCatalog += String(snapshotnum)
         }
+    }
+
+    private func remoteargssnapshot() -> String {
+        offsiteCatalog += String(snapshotnum - 1) + "/"
+        if rsyncdaemon == 1 {
+            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + localCatalog
+        } else {
+            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + localCatalog
+        }
+        return computedremoteargs
     }
 
     public init(task: String,
