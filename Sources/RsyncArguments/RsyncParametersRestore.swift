@@ -163,6 +163,9 @@ public final class RsyncParametersRestore {
             computedarguments.append(remoteargs())
             if forDisplay { computedarguments.append(" ") }
         }
+        if sharedpathforrestore.hasSuffix("/") == false {
+            sharedpathforrestore += "/"
+        }
         computedarguments.append(sharedpathforrestore)
     }
 
