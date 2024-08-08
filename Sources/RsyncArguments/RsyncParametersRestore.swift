@@ -152,7 +152,6 @@ public final class RsyncParametersRestore {
         computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
         computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
 
-        initialise_sshparametersonly(forDisplay: forDisplay, verify: verify)
         // Must add --dryrun here, normally it is appended in syncparameters8to14
         // Only parameters 1to6 are added for getting remote filelists
         if dryrun {
@@ -160,6 +159,8 @@ public final class RsyncParametersRestore {
             if forDisplay { computedarguments.append(" ") }
         }
         computedarguments.append("--stats")
+        
+        initialise_sshparametersonly(forDisplay: forDisplay, verify: verify)
 
         let snapshot: Bool = snapshotnum != -1 ? true : false
         if snapshot {
