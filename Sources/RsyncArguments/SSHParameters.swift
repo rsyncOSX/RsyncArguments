@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SSHParameters.swift
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 08/08/2024.
@@ -8,26 +8,24 @@
 import Foundation
 
 public class SSHParameters {
-    
     // -e "ssh -i ~/.ssh/id_myserver -p 22"
     // -e "ssh -i ~/sshkeypath/sshidentityfile -p portnumber"
     // default is
     // -e "ssh -i ~/.ssh/id_rsa -p 22"
-    
+
     var computedarguments = [String]()
 
     var parameter5 = ""
     var parameter6 = ""
-    
+
     var offsiteServer = ""
     var sshport: String?
     var sshkeypathandidentityfile: String?
     var sharedsshport: String?
     var sharedsshkeypathandidentityfile: String?
-    
+
     var rsyncversion3 = false
-    
-    
+
     // Local params rules global settings
     public func sshparameterslocal(forDisplay: Bool) {
         var sshportadded = false
@@ -101,7 +99,7 @@ public class SSHParameters {
         }
         if forDisplay { computedarguments.append(" ") }
     }
-    
+
     public init(parameter5: String,
                 parameter6: String,
                 offsiteServer: String,
@@ -118,7 +116,7 @@ public class SSHParameters {
         self.sharedsshport = sharedsshport
         self.sharedsshkeypathandidentityfile = sharedsshkeypathandidentityfile
         self.rsyncversion3 = rsyncversion3
-        
+
         computedarguments.removeAll()
     }
 }

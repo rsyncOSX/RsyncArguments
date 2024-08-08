@@ -43,7 +43,7 @@ public final class RsyncParametersSynchronize {
 
     var snapshotnum = -1
     var rsyncdaemon = -1
-    
+
     var rsyncversion3 = false
 
     public func initialise_rsyncparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
@@ -228,7 +228,7 @@ public final class RsyncParametersSynchronize {
         self.snapshotnum = snapshotnum
         self.rsyncdaemon = rsyncdaemon
         self.rsyncversion3 = rsyncversion3
-        
+
         computedarguments.removeAll()
     }
 }

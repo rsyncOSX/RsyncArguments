@@ -98,7 +98,6 @@ import Testing
     var nr1: [String]?
     var nr2: [String]?
     var nr3: [String]?
-   
 
     @Test func LodaDataTestRestore() async {
         let loadtestdata = ReadTestdataFromGitHub()
@@ -180,7 +179,7 @@ import Testing
 
 @Suite final class TestRestoreFiles {
     var testconfigurations: [TestSynchronizeConfiguration]?
-    
+
     @Test func LodaDataTestRestoreFiles() async {
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdata()
@@ -215,11 +214,11 @@ import Testing
                                                                                rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
                                                                                rsyncversion3: TestSharedReference.shared.rsyncversion3)
                 await rsyncparametersrestorefiles.argumentsrestore(forDisplay: false, verify: false, dryrun: true, restoresnapshotbyfiles: false)
-            
+
                 switch i {
                 case 0:
                     print("Assigned first arguments RESTORE")
-                    let arguments =  await rsyncparametersrestorefiles.computedarguments
+                    let arguments = await rsyncparametersrestorefiles.computedarguments
                     print(arguments)
                 case 1:
                     print("Assigned second arguments RESTORE")
@@ -249,4 +248,3 @@ import Testing
         }
     }
 }
-

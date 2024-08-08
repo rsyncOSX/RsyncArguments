@@ -43,7 +43,7 @@ public final class RsyncParametersRestore {
 
     var snapshotnum = -1
     var rsyncdaemon = -1
-    
+
     var rsyncversion3 = false
 
     public func initialise_rsyncparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
@@ -73,20 +73,19 @@ public final class RsyncParametersRestore {
 
         computedarguments += rsyncparameters8to14.setParameters8To14(dryRun: dryrun, forDisplay: forDisplay)
     }
-    
+
     public func initialise_sshparametersonly(forDisplay: Bool, verify: Bool) {
         let sshparametersonly = RsyncParametersSSHandSSHPORT(
-                                                      parameter5: parameter5,
-                                                      parameter6: parameter6,
-                                                      offsiteServer: offsiteServer,
-                                                      sshport: sshport,
-                                                      sshkeypathandidentityfile: sshkeypathandidentityfile,
-                                                      sharedsshport: sharedsshport,
-                                                      sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
-                                                      rsyncversion3: rsyncversion3)
-        
-        
-        
+            parameter5: parameter5,
+            parameter6: parameter6,
+            offsiteServer: offsiteServer,
+            sshport: sshport,
+            sshkeypathandidentityfile: sshkeypathandidentityfile,
+            sharedsshport: sharedsshport,
+            sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
+            rsyncversion3: rsyncversion3
+        )
+
         computedarguments += sshparametersonly.setParameters1SSHandSSHPORT(forDisplay: forDisplay, verify: verify)
     }
 
@@ -108,7 +107,6 @@ public final class RsyncParametersRestore {
         computedarguments.append("--list-only")
         initialise_sshparametersonly(forDisplay: false, verify: false)
         computedarguments.append(remoteargs())
-        
     }
 
     // Retrive files within ONE snapshotcatalog
@@ -147,7 +145,7 @@ public final class RsyncParametersRestore {
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard offsiteServer.isEmpty == false else { return }
         guard sharedpathforrestore.isEmpty == false else { return }
-        
+
         computedarguments.append(DefaultRsyncParameters.archive_parameter1.rawValue)
         computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
         computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
@@ -159,7 +157,7 @@ public final class RsyncParametersRestore {
             if forDisplay { computedarguments.append(" ") }
         }
         computedarguments.append("--stats")
-        
+
         initialise_sshparametersonly(forDisplay: forDisplay, verify: verify)
 
         let snapshot: Bool = snapshotnum != -1 ? true : false

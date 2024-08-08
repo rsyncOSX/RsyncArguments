@@ -19,7 +19,6 @@ public final class RsyncParameters1to6: SSHParameters {
     var parameter3 = ""
     var parameter4 = ""
 
-
     public func setParameters1To6(forDisplay: Bool, verify: Bool) -> [String] {
         if verify {
             parameter1 = DefaultRsyncParameters.verify_parameter1.rawValue
@@ -85,7 +84,7 @@ public final class RsyncParameters1to6: SSHParameters {
                    sharedsshport: sharedsshport,
                    sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
                    rsyncversion3: rsyncversion3)
-        
+
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3

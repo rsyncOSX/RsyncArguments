@@ -8,9 +8,7 @@
 import Foundation
 
 public final class RsyncParametersSSHandSSHPORT: SSHParameters {
-    
-
-    public func setParameters1SSHandSSHPORT(forDisplay: Bool, verify: Bool) -> [String] {
+    public func setParameters1SSHandSSHPORT(forDisplay: Bool, verify _: Bool) -> [String] {
         if offsiteServer.isEmpty == false {
             // We have to check for both global and local ssh parameters.
             // either set global or local, parameter5 = remote server
@@ -32,19 +30,16 @@ public final class RsyncParametersSSHandSSHPORT: SSHParameters {
         return computedarguments
     }
 
-
-
-    public override init(
-                parameter5: String,
-                parameter6: String,
-                offsiteServer: String,
-                sshport: String?,
-                sshkeypathandidentityfile: String?,
-                sharedsshport: String?,
-                sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool)
-    
-    {
+    override public init(
+        parameter5: String,
+        parameter6: String,
+        offsiteServer: String,
+        sshport: String?,
+        sshkeypathandidentityfile: String?,
+        sharedsshport: String?,
+        sharedsshkeypathandidentityfile: String?,
+        rsyncversion3: Bool
+    ) {
         super.init(parameter5: parameter5,
                    parameter6: parameter6,
                    offsiteServer: offsiteServer,
