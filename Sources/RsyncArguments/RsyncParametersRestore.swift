@@ -74,11 +74,8 @@ public final class RsyncParametersRestore {
         computedarguments += rsyncparameters8to14.setParameters8To14(dryRun: dryrun, forDisplay: forDisplay)
     }
     
-    public func initialise_rsyncparameters_1to6(forDisplay: Bool, verify: Bool) {
-        let rsyncparameters1to6 = RsyncParameters1to6(parameter1: parameter1,
-                                                      parameter2: parameter2,
-                                                      parameter3: parameter3,
-                                                      parameter4: parameter4,
+    public func initialise_sshparametersonly(forDisplay: Bool, verify: Bool) {
+        let sshparametersonly = RsyncParametersSSHandSSHPORT(
                                                       parameter5: parameter5,
                                                       parameter6: parameter6,
                                                       offsiteServer: offsiteServer,
@@ -90,39 +87,39 @@ public final class RsyncParametersRestore {
         
         
         
-        computedarguments += rsyncparameters1to6.setParameters1To6(forDisplay: forDisplay, verify: verify)
+        computedarguments += sshparametersonly.setParameters1SSHandSSHPORT(forDisplay: forDisplay, verify: verify)
     }
 
     public func remoteargumentsfilelist() {
         guard offsiteServer.isEmpty == false else { return }
-        initialise_rsyncparameters_1to6(forDisplay: false, verify: false)
-        computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
-        computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
+        computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
+        computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
         computedarguments.append("-r")
         computedarguments.append("--list-only")
+        initialise_sshparametersonly(forDisplay: false, verify: false)
         computedarguments.append(remoteargs())
     }
 
     public func remoteargumentssnapshotcataloglist() {
+        guard rsyncversion3 == true else { return }
         guard offsiteServer.isEmpty == false else { return }
-        initialise_rsyncparameters_1to6(forDisplay: false, verify: false)
-        // By some reason the "--archive" parameter must be removed
-        // Also removing the --delete and --dry-run parameter
-        // If not all data within all snapshot catalogs are listed
-        computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
-        computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
+        computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
+        computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
         computedarguments.append("--list-only")
+        initialise_sshparametersonly(forDisplay: false, verify: false)
         computedarguments.append(remoteargs())
+        
     }
 
     // Retrive files within ONE snapshotcatalog
     public func remoteargumentssnapshotfilelist() {
+        guard rsyncversion3 == true else { return }
         guard offsiteServer.isEmpty == false else { return }
-        initialise_rsyncparameters_1to6(forDisplay: false, verify: false)
-        computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
-        computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
+        computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
+        computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
         computedarguments.append("-r")
         computedarguments.append("--list-only")
+        initialise_sshparametersonly(forDisplay: false, verify: false)
         computedarguments.append(remoteargssnapshot())
     }
 
@@ -150,8 +147,12 @@ public final class RsyncParametersRestore {
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard offsiteServer.isEmpty == false else { return }
         guard sharedpathforrestore.isEmpty == false else { return }
+        
+        computedarguments.append(DefaultRsyncParameters.archive_parameter1.rawValue)
+        computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
+        computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
 
-        initialise_rsyncparameters_1to6(forDisplay: forDisplay, verify: verify)
+        initialise_sshparametersonly(forDisplay: forDisplay, verify: verify)
         // Must add --dryrun here, normally it is appended in syncparameters8to14
         // Only parameters 1to6 are added for getting remote filelists
         if dryrun {

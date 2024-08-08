@@ -13,10 +13,10 @@ struct ArgumentsRestoreFilelist {
 
     let nr0 = ["--verbose",
                "--compress",
-               "-e",
-               "ssh -i ~/.ssh_global/global -p 2222",
                // "--stats",
                "--list-only",
+               "-e",
+               "ssh -i ~/.ssh_global/global -p 2222",
                "thomas@raspberrypi:/backups/snapshots_JSON/"]
 
     // The full rsync command is, macOS Silicon with rsync from Homebrew:
@@ -24,11 +24,11 @@ struct ArgumentsRestoreFilelist {
 
     let nr1 = ["--verbose",
                "--compress",
-               "-e",
-               "ssh -i ~/.ssh_global/global -p 2222",
                // "--stats",
                "-r",
                "--list-only",
+               "-e",
+               "ssh -i ~/.ssh_global/global -p 2222",
                "thomas@raspberrypi:/backups/Pictures_dopfiles/"]
 
     // The full rsync command is, macOS Silicon with rsync from Homebrew:
@@ -36,11 +36,11 @@ struct ArgumentsRestoreFilelist {
 
     let nr2 = ["--verbose",
                "--compress",
-               "-e",
-               "ssh -i ~/.ssh_global/global -p 2222",
                // "--stats",
                "-r",
                "--list-only",
+               "-e",
+               "ssh -i ~/.ssh_global/global -p 2222",
                "thomas@raspberrypi:/backups/Documents/"]
 
     // The full rsync command is, macOS Silicon with rsync from Homebrew:
@@ -48,10 +48,10 @@ struct ArgumentsRestoreFilelist {
 
     let nr3 = ["--verbose",
                "--compress",
-               "-e",
-               "ssh -i ~/.ssh_local/local -p 3333",
                // "--stats",
                "-r",
                "--list-only",
+               "-e",
+               "ssh -i ~/.ssh_local/local -p 3333",
                "thomas@raspberrypi:/backups/GitHub/"]
 }
