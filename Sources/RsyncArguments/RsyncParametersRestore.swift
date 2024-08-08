@@ -92,7 +92,6 @@ public final class RsyncParametersRestore {
         computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.dryrun.rawValue }
-        computedarguments.append("--stats")
         computedarguments.append("-r")
         computedarguments.append("--list-only")
         computedarguments.append(remoteargs())
@@ -107,7 +106,6 @@ public final class RsyncParametersRestore {
         computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.dryrun.rawValue }
-        computedarguments.append("--stats")
         computedarguments.append("--list-only")
         computedarguments.append(remoteargs())
     }
@@ -119,7 +117,6 @@ public final class RsyncParametersRestore {
         computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.dryrun.rawValue }
-        computedarguments.append("--stats")
         computedarguments.append("-r")
         computedarguments.append("--list-only")
         computedarguments.append(remoteargssnapshot())
@@ -151,6 +148,7 @@ public final class RsyncParametersRestore {
         guard sharedpathforrestore.isEmpty == false else { return }
 
         initialise_rsyncparameters_1to6(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
+        computedarguments.append("--stats")
 
         let snapshot: Bool = snapshotnum != -1 ? true : false
         if snapshot {
