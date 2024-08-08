@@ -71,6 +71,7 @@ public final class RsyncParametersRestore {
     }
 
     public func remoteargumentsfilelist() {
+        guard offsiteServer.isEmpty == false else { return }
         initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
 
         computedarguments.append("-r")
@@ -79,16 +80,20 @@ public final class RsyncParametersRestore {
     }
 
     public func remoteargumentssnapshotcataloglist() {
+        guard offsiteServer.isEmpty == false else { return }
         initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
         // By some reason the "--archive" parameter must be removed
+        // Also removing the --delete parameter
         // If not all data within all snapshot catalogs are listed
-        computedarguments.removeAll { $0 == "--archive" }
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
         computedarguments.append("--list-only")
         computedarguments.append(remoteargs())
     }
     
     // Retrive files within ONE snapshotcatalog
     public func remoteargumentssnapshotfilelist() {
+        guard offsiteServer.isEmpty == false else { return }
         initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
 
         computedarguments.append("-r")
