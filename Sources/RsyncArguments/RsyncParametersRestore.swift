@@ -133,8 +133,7 @@ public final class RsyncParametersRestore {
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
         
-        // Remove a few parameters
-        computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
+        // Remove the --delete parameter
         computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
 
         let snapshot: Bool = snapshotnum != -1 ? true : false
