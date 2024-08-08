@@ -128,8 +128,13 @@ public final class RsyncParametersRestore {
     public func argumentsrestore(forDisplay: Bool, verify: Bool, dryrun: Bool, restoresnapshotbyfiles: Bool, tmprestore: Bool) {
         // Restore only for synchronize and snapshottasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
+        guard offsiteServer.isEmpty == false else { return }
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
+        
+        // Remove a few parameters
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
 
         let snapshot: Bool = snapshotnum != -1 ? true : false
         if snapshot {
