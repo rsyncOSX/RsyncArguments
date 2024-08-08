@@ -69,13 +69,30 @@ public final class RsyncParametersRestore {
 
         computedarguments += rsyncparameters8to14.setParameters8To14(dryRun: dryrun, forDisplay: forDisplay)
     }
+    
+    public func initialise_rsyncparameters_1to6(forDisplay: Bool, verify: Bool, dryrun: Bool) {
+        let rsyncparameters1to6 = RsyncParameters1to6(parameter1: parameter1,
+                                                      parameter2: parameter2,
+                                                      parameter3: parameter3,
+                                                      parameter4: parameter4,
+                                                      parameter5: parameter5,
+                                                      parameter6: parameter6,
+                                                      offsiteServer: offsiteServer,
+                                                      sshport: sshport,
+                                                      sshkeypathandidentityfile: sshkeypathandidentityfile,
+                                                      sharedsshport: sharedsshport,
+                                                      sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile)
+
+        computedarguments += rsyncparameters1to6.setParameters1To6(forDisplay: forDisplay, verify: verify)
+    }
 
     public func remoteargumentsfilelist() {
         guard offsiteServer.isEmpty == false else { return }
-        initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
+        initialise_rsyncparameters_1to6(forDisplay: false, verify: false, dryrun: false)
         computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.dryrun.rawValue }
+        computedarguments.append("--stats")
         computedarguments.append("-r")
         computedarguments.append("--list-only")
         computedarguments.append(remoteargs())
@@ -83,13 +100,14 @@ public final class RsyncParametersRestore {
 
     public func remoteargumentssnapshotcataloglist() {
         guard offsiteServer.isEmpty == false else { return }
-        initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
+        initialise_rsyncparameters_1to6(forDisplay: false, verify: false, dryrun: false)
         // By some reason the "--archive" parameter must be removed
         // Also removing the --delete and --dry-run parameter
         // If not all data within all snapshot catalogs are listed
         computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.dryrun.rawValue }
+        computedarguments.append("--stats")
         computedarguments.append("--list-only")
         computedarguments.append(remoteargs())
     }
@@ -97,10 +115,11 @@ public final class RsyncParametersRestore {
     // Retrive files within ONE snapshotcatalog
     public func remoteargumentssnapshotfilelist() {
         guard offsiteServer.isEmpty == false else { return }
-        initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
+        initialise_rsyncparameters_1to6(forDisplay: false, verify: false, dryrun: false)
         computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.dryrun.rawValue }
+        computedarguments.append("--stats")
         computedarguments.append("-r")
         computedarguments.append("--list-only")
         computedarguments.append(remoteargssnapshot())
@@ -131,10 +150,7 @@ public final class RsyncParametersRestore {
         guard offsiteServer.isEmpty == false else { return }
         guard sharedpathforrestore.isEmpty == false else { return }
 
-        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-        
-        // Remove the --delete parameter
-        computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
+        initialise_rsyncparameters_1to6(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
 
         let snapshot: Bool = snapshotnum != -1 ? true : false
         if snapshot {
