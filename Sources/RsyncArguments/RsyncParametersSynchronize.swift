@@ -43,6 +43,8 @@ public final class RsyncParametersSynchronize {
 
     var snapshotnum = -1
     var rsyncdaemon = -1
+    
+    var rsyncversion3 = false
 
     public func initialise_rsyncparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
         let rsyncparameters1to6 = RsyncParameters1to6(parameter1: parameter1,
@@ -55,7 +57,8 @@ public final class RsyncParametersSynchronize {
                                                       sshport: sshport,
                                                       sshkeypathandidentityfile: sshkeypathandidentityfile,
                                                       sharedsshport: sharedsshport,
-                                                      sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile)
+                                                      sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
+                                                      rsyncversion3: rsyncversion3)
 
         computedarguments += rsyncparameters1to6.setParameters1To6(forDisplay: forDisplay, verify: verify)
 
@@ -65,7 +68,8 @@ public final class RsyncParametersSynchronize {
                                                         parameter11: parameter11,
                                                         parameter12: parameter12,
                                                         parameter13: parameter13,
-                                                        parameter14: parameter14)
+                                                        parameter14: parameter14,
+                                                        rsyncversion3: rsyncversion3)
 
         computedarguments += rsyncparameters8to14.setParameters8To14(dryRun: dryrun, forDisplay: forDisplay)
     }
@@ -124,56 +128,6 @@ public final class RsyncParametersSynchronize {
             if forDisplay { computedarguments.append(" ") }
             computedarguments.append(remoteargs())
             if forDisplay { computedarguments.append(" ") }
-        }
-    }
-
-    func argumentsrestore(forDisplay: Bool, verify: Bool, dryrun: Bool, restoresnapshotbyfiles: Bool, tmprestore: Bool) {
-        // Restore only for synchronize and snapshottasks
-        guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
-
-        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-
-        let snapshot: Bool = snapshotnum != -1 ? true : false
-        if snapshot {
-            if restoresnapshotbyfiles == true {
-                // This is a hack for fixing correct restore for files
-                // from a snapshot. The last snapshot is base for restore
-                // of files. The correct snapshot is added within the
-                // ObserveableRestore which is used within the RestoreView
-                // --archive --verbose --compress --delete -e "ssh -i ~/.ssh_rsyncosx/rsyncosx -p 22"
-                // --exclude-from=/Users/thomas/Documents/excludersync/exclude-list-github.txt --dry-run --stats
-                // thomas@backup:/backups/snapshots/Github/85/AlertToast /Users/thomas/tmp
-                if forDisplay { computedarguments.append(" ") }
-                computedarguments.append(remoteargs())
-                if forDisplay { computedarguments.append(" ") }
-            } else {
-                // --archive --verbose --compress --delete -e "ssh -i ~/.ssh_rsyncosx/rsyncosx -p 22"
-                // --exclude-from=/Users/thomas/Documents/excludersync/exclude-list-github.txt --dry-run --stats
-                // thomas@backup:/backups/snapshots/Github/85/ /Users/thomas/tmp
-                if forDisplay { computedarguments.append(" ") }
-                computedarguments.append(remoteargssnapshot())
-                if forDisplay { computedarguments.append(" ") }
-            }
-        } else {
-            // --archive --verbose --compress --delete -e "ssh -i ~/.ssh_rsyncosx/rsyncosx -p 22" --backup
-            // --backup-dir=../backup_Documents --dry-run --stats thomas@backup:/backups/Documents/
-            // Users/thomas/tmp
-            if forDisplay { computedarguments.append(" ") }
-            computedarguments.append(remoteargssnapshot())
-            if forDisplay { computedarguments.append(" ") }
-        }
-        if offsiteServer.isEmpty == true {
-            computedarguments.append(offsiteCatalog)
-            if forDisplay { computedarguments.append(" ") }
-        } else {
-            if forDisplay { computedarguments.append(" ") }
-            computedarguments.append(remoteargs())
-            if forDisplay { computedarguments.append(" ") }
-        }
-        if tmprestore {
-            computedarguments.append(sharedpathforrestore)
-        } else {
-            computedarguments.append(localCatalog)
         }
     }
 
@@ -246,7 +200,8 @@ public final class RsyncParametersSynchronize {
                 offsiteUsername: String,
                 sharedpathforrestore: String,
                 snapshotnum: Int,
-                rsyncdaemon: Int) {
+                rsyncdaemon: Int,
+                rsyncversion3: Bool) {
         self.task = task
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -272,6 +227,8 @@ public final class RsyncParametersSynchronize {
         self.sharedpathforrestore = sharedpathforrestore
         self.snapshotnum = snapshotnum
         self.rsyncdaemon = rsyncdaemon
+        self.rsyncversion3 = rsyncversion3
+        
         computedarguments.removeAll()
     }
 }

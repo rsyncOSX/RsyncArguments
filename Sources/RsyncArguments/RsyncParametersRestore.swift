@@ -43,6 +43,8 @@ public final class RsyncParametersRestore {
 
     var snapshotnum = -1
     var rsyncdaemon = -1
+    
+    var rsyncversion3 = false
 
     public func initialise_rsyncparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
         let rsyncparameters1to6 = RsyncParameters1to6(parameter1: parameter1,
@@ -55,7 +57,8 @@ public final class RsyncParametersRestore {
                                                       sshport: sshport,
                                                       sshkeypathandidentityfile: sshkeypathandidentityfile,
                                                       sharedsshport: sharedsshport,
-                                                      sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile)
+                                                      sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
+                                                      rsyncversion3: rsyncversion3)
 
         computedarguments += rsyncparameters1to6.setParameters1To6(forDisplay: forDisplay, verify: verify)
 
@@ -65,7 +68,8 @@ public final class RsyncParametersRestore {
                                                         parameter11: parameter11,
                                                         parameter12: parameter12,
                                                         parameter13: parameter13,
-                                                        parameter14: parameter14)
+                                                        parameter14: parameter14,
+                                                        rsyncversion3: rsyncversion3)
 
         computedarguments += rsyncparameters8to14.setParameters8To14(dryRun: dryrun, forDisplay: forDisplay)
     }
@@ -81,7 +85,8 @@ public final class RsyncParametersRestore {
                                                       sshport: sshport,
                                                       sshkeypathandidentityfile: sshkeypathandidentityfile,
                                                       sharedsshport: sharedsshport,
-                                                      sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile)
+                                                      sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
+                                                      rsyncversion3: rsyncversion3)
 
         computedarguments += rsyncparameters1to6.setParameters1To6(forDisplay: forDisplay, verify: verify)
     }
@@ -141,7 +146,7 @@ public final class RsyncParametersRestore {
         return computedremoteargs
     }
 
-    public func argumentsrestore(forDisplay: Bool, verify: Bool, dryrun: Bool, restoresnapshotbyfiles: Bool, tmprestore: Bool) {
+    public func argumentsrestore(forDisplay: Bool, verify: Bool, dryrun: Bool, restoresnapshotbyfiles: Bool) {
         // Restore only for synchronize and snapshottasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard offsiteServer.isEmpty == false else { return }
@@ -203,7 +208,8 @@ public final class RsyncParametersRestore {
                 offsiteUsername: String,
                 sharedpathforrestore: String,
                 snapshotnum: Int,
-                rsyncdaemon: Int) {
+                rsyncdaemon: Int,
+                rsyncversion3: Bool) {
         self.task = task
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -229,6 +235,7 @@ public final class RsyncParametersRestore {
         self.sharedpathforrestore = sharedpathforrestore
         self.snapshotnum = snapshotnum
         self.rsyncdaemon = rsyncdaemon
+        self.rsyncversion3 = rsyncversion3
         computedarguments.removeAll()
     }
 }

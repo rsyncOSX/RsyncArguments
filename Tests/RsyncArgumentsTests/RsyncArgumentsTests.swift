@@ -42,7 +42,8 @@ import Testing
                                                                                   offsiteUsername: testconfigurations[i].offsiteUsername,
                                                                                   sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
                                                                                   snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                                                  rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1)
+                                                                                  rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
+                                                                                  rsyncversion3: TestSharedReference.shared.rsyncversion3)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
                     print("SYNCHRONIZE")
@@ -130,7 +131,8 @@ import Testing
                                                                           offsiteUsername: testconfigurations[i].offsiteUsername,
                                                                           sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
                                                                           snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                                          rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1)
+                                                                          rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
+                                                                          rsyncversion3: TestSharedReference.shared.rsyncversion3)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
                     print("SYNCHRONIZE filelist")
@@ -210,8 +212,9 @@ import Testing
                                                                                offsiteUsername: testconfigurations[i].offsiteUsername,
                                                                                sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
                                                                                snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                                               rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1)
-                await rsyncparametersrestorefiles.argumentsrestore(forDisplay: false, verify: false, dryrun: true, restoresnapshotbyfiles: false, tmprestore: true)
+                                                                               rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
+                                                                               rsyncversion3: TestSharedReference.shared.rsyncversion3)
+                await rsyncparametersrestorefiles.argumentsrestore(forDisplay: false, verify: false, dryrun: true, restoresnapshotbyfiles: false)
             
                 switch i {
                 case 0:

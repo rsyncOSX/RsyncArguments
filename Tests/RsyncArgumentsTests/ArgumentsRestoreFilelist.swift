@@ -15,7 +15,7 @@ struct ArgumentsRestoreFilelist {
                "--compress",
                "-e",
                "ssh -i ~/.ssh_global/global -p 2222",
-               "--stats",
+               // "--stats",
                "--list-only",
                "thomas@raspberrypi:/backups/snapshots_JSON/"]
 
@@ -26,7 +26,7 @@ struct ArgumentsRestoreFilelist {
                "--compress",
                "-e",
                "ssh -i ~/.ssh_global/global -p 2222",
-               "--stats",
+               // "--stats",
                "-r",
                "--list-only",
                "thomas@raspberrypi:/backups/Pictures_dopfiles/"]
@@ -38,7 +38,7 @@ struct ArgumentsRestoreFilelist {
                "--compress",
                "-e",
                "ssh -i ~/.ssh_global/global -p 2222",
-               "--stats",
+               // "--stats",
                "-r",
                "--list-only",
                "thomas@raspberrypi:/backups/Documents/"]
@@ -50,7 +50,7 @@ struct ArgumentsRestoreFilelist {
                "--compress",
                "-e",
                "ssh -i ~/.ssh_local/local -p 3333",
-               "--stats",
+               // "--stats",
                "-r",
                "--list-only",
                "thomas@raspberrypi:/backups/GitHub/"]

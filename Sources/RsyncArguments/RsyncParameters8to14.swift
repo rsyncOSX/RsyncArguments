@@ -20,6 +20,7 @@ public final class RsyncParameters8to14 {
     var parameter14: String?
 
     var stats = false
+    var rsyncversion3 = false
 
     // Compute user selected parameters parameter8 ... parameter14
     // Brute force, check every parameter, not special elegant, but it works
@@ -92,7 +93,8 @@ public final class RsyncParameters8to14 {
                 parameter11: String?,
                 parameter12: String?,
                 parameter13: String?,
-                parameter14: String?) {
+                parameter14: String?,
+                rsyncversion3: Bool) {
         self.parameter8 = parameter8
         self.parameter9 = parameter9
         self.parameter10 = parameter10
@@ -100,6 +102,7 @@ public final class RsyncParameters8to14 {
         self.parameter12 = parameter12
         self.parameter13 = parameter13
         self.parameter14 = parameter14
+        self.rsyncversion3 = rsyncversion3
 
         computedarguments.removeAll()
     }

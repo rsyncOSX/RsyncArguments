@@ -29,6 +29,8 @@ public final class RsyncParameters1to6 {
     var sshkeypathandidentityfile: String?
     var sharedsshport: String?
     var sharedsshkeypathandidentityfile: String?
+    
+    var rsyncversion3 = false
 
     public func setParameters1To6(forDisplay: Bool, verify: Bool) -> [String] {
         if verify {
@@ -159,7 +161,8 @@ public final class RsyncParameters1to6 {
                 sshport: String?,
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
-                sharedsshkeypathandidentityfile: String?) {
+                sharedsshkeypathandidentityfile: String?,
+                rsyncversion3: Bool) {
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
@@ -171,7 +174,8 @@ public final class RsyncParameters1to6 {
         self.sshkeypathandidentityfile = sshkeypathandidentityfile
         self.sharedsshport = sharedsshport
         self.sharedsshkeypathandidentityfile = sharedsshkeypathandidentityfile
-
+        self.rsyncversion3 = rsyncversion3
+        
         computedarguments.removeAll()
     }
 }
