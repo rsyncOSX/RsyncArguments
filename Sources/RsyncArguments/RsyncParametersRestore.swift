@@ -129,6 +129,7 @@ public final class RsyncParametersRestore {
         // Restore only for synchronize and snapshottasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard offsiteServer.isEmpty == false else { return }
+        guard sharedpathforrestore.isEmpty == false else { return }
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
         
@@ -158,26 +159,11 @@ public final class RsyncParametersRestore {
                 if forDisplay { computedarguments.append(" ") }
             }
         } else {
-            // --archive --verbose --compress --delete -e "ssh -i ~/.ssh_rsyncosx/rsyncosx -p 22" --backup
-            // --backup-dir=../backup_Documents --dry-run --stats thomas@backup:/backups/Documents/
-            // Users/thomas/tmp
-            if forDisplay { computedarguments.append(" ") }
-            computedarguments.append(remoteargssnapshot())
-            if forDisplay { computedarguments.append(" ") }
-        }
-        if offsiteServer.isEmpty == true {
-            computedarguments.append(offsiteCatalog)
-            if forDisplay { computedarguments.append(" ") }
-        } else {
             if forDisplay { computedarguments.append(" ") }
             computedarguments.append(remoteargs())
             if forDisplay { computedarguments.append(" ") }
         }
-        if tmprestore {
-            computedarguments.append(sharedpathforrestore)
-        } else {
-            computedarguments.append(localCatalog)
-        }
+        computedarguments.append(sharedpathforrestore)
     }
 
     public init(task: String,
