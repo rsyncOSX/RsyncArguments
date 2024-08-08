@@ -73,7 +73,9 @@ public final class RsyncParametersRestore {
     public func remoteargumentsfilelist() {
         guard offsiteServer.isEmpty == false else { return }
         initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
-
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.dryrun.rawValue }
         computedarguments.append("-r")
         computedarguments.append("--list-only")
         computedarguments.append(remoteargs())
@@ -83,19 +85,22 @@ public final class RsyncParametersRestore {
         guard offsiteServer.isEmpty == false else { return }
         initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
         // By some reason the "--archive" parameter must be removed
-        // Also removing the --delete parameter
+        // Also removing the --delete and --dry-run parameter
         // If not all data within all snapshot catalogs are listed
         computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
         computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.dryrun.rawValue }
         computedarguments.append("--list-only")
         computedarguments.append(remoteargs())
     }
-    
+
     // Retrive files within ONE snapshotcatalog
     public func remoteargumentssnapshotfilelist() {
         guard offsiteServer.isEmpty == false else { return }
         initialise_rsyncparameters(forDisplay: false, verify: false, dryrun: false)
-
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.archive_parameter1.rawValue }
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.delete_parameter4.rawValue }
+        computedarguments.removeAll { $0 == DefaultRsyncParameters.dryrun.rawValue }
         computedarguments.append("-r")
         computedarguments.append("--list-only")
         computedarguments.append(remoteargssnapshot())
@@ -119,7 +124,7 @@ public final class RsyncParametersRestore {
         }
         return computedremoteargs
     }
-    
+
     public func argumentsrestore(forDisplay: Bool, verify: Bool, dryrun: Bool, restoresnapshotbyfiles: Bool, tmprestore: Bool) {
         // Restore only for synchronize and snapshottasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
@@ -170,7 +175,6 @@ public final class RsyncParametersRestore {
         }
     }
 
-    
     public init(task: String,
                 parameter1: String,
                 parameter2: String,

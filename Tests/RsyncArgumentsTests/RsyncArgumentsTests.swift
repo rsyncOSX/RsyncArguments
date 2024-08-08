@@ -19,30 +19,30 @@ import Testing
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
                 let rsyncparameterssynchronize = await RsyncParametersSynchronize(task: testconfigurations[i].task,
-                                                                              parameter1: testconfigurations[i].parameter1,
-                                                                              parameter2: testconfigurations[i].parameter2,
-                                                                              parameter3: testconfigurations[i].parameter3,
-                                                                              parameter4: testconfigurations[i].parameter4,
-                                                                              parameter5: testconfigurations[i].parameter5,
-                                                                              parameter6: testconfigurations[i].parameter5,
-                                                                              parameter8: testconfigurations[i].parameter8,
-                                                                              parameter9: testconfigurations[i].parameter9,
-                                                                              parameter10: testconfigurations[i].parameter10,
-                                                                              parameter11: testconfigurations[i].parameter11,
-                                                                              parameter12: testconfigurations[i].parameter12,
-                                                                              parameter13: testconfigurations[i].parameter13,
-                                                                              parameter14: testconfigurations[i].parameter14,
-                                                                              sshport: String(testconfigurations[i].sshport ?? -1),
-                                                                              sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                                                                              sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                                                                              sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                                                                              localCatalog: testconfigurations[i].localCatalog,
-                                                                              offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                                                                              offsiteServer: testconfigurations[i].offsiteServer,
-                                                                              offsiteUsername: testconfigurations[i].offsiteUsername,
-                                                                              sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
-                                                                              snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                                              rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1)
+                                                                                  parameter1: testconfigurations[i].parameter1,
+                                                                                  parameter2: testconfigurations[i].parameter2,
+                                                                                  parameter3: testconfigurations[i].parameter3,
+                                                                                  parameter4: testconfigurations[i].parameter4,
+                                                                                  parameter5: testconfigurations[i].parameter5,
+                                                                                  parameter6: testconfigurations[i].parameter5,
+                                                                                  parameter8: testconfigurations[i].parameter8,
+                                                                                  parameter9: testconfigurations[i].parameter9,
+                                                                                  parameter10: testconfigurations[i].parameter10,
+                                                                                  parameter11: testconfigurations[i].parameter11,
+                                                                                  parameter12: testconfigurations[i].parameter12,
+                                                                                  parameter13: testconfigurations[i].parameter13,
+                                                                                  parameter14: testconfigurations[i].parameter14,
+                                                                                  sshport: String(testconfigurations[i].sshport ?? -1),
+                                                                                  sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                                                                                  sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                                                                                  sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                                                                                  localCatalog: testconfigurations[i].localCatalog,
+                                                                                  offsiteCatalog: testconfigurations[i].offsiteCatalog,
+                                                                                  offsiteServer: testconfigurations[i].offsiteServer,
+                                                                                  offsiteUsername: testconfigurations[i].offsiteUsername,
+                                                                                  sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
+                                                                                  snapshotnum: testconfigurations[i].snapshotnum ?? -1,
+                                                                                  rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
                     print("SYNCHRONIZE")
@@ -91,9 +91,14 @@ import Testing
     }
 }
 
-@Suite final class TestRestore {
+@Suite final class TestRestoreFilelist {
     var testconfigurations: [TestSynchronizeConfiguration]?
-    
+    var nr0: [String]?
+    var nr1: [String]?
+    var nr2: [String]?
+    var nr3: [String]?
+   
+
     @Test func LodaDataTestRestore() async {
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdata()
@@ -102,30 +107,30 @@ import Testing
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
                 let rsyncparametersrestore = await RsyncParametersRestore(task: testconfigurations[i].task,
-                                                                              parameter1: testconfigurations[i].parameter1,
-                                                                              parameter2: testconfigurations[i].parameter2,
-                                                                              parameter3: testconfigurations[i].parameter3,
-                                                                              parameter4: testconfigurations[i].parameter4,
-                                                                              parameter5: testconfigurations[i].parameter5,
-                                                                              parameter6: testconfigurations[i].parameter5,
-                                                                              parameter8: testconfigurations[i].parameter8,
-                                                                              parameter9: testconfigurations[i].parameter9,
-                                                                              parameter10: testconfigurations[i].parameter10,
-                                                                              parameter11: testconfigurations[i].parameter11,
-                                                                              parameter12: testconfigurations[i].parameter12,
-                                                                              parameter13: testconfigurations[i].parameter13,
-                                                                              parameter14: testconfigurations[i].parameter14,
-                                                                              sshport: String(testconfigurations[i].sshport ?? -1),
-                                                                              sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                                                                              sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                                                                              sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                                                                              localCatalog: testconfigurations[i].localCatalog,
-                                                                              offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                                                                              offsiteServer: testconfigurations[i].offsiteServer,
-                                                                              offsiteUsername: testconfigurations[i].offsiteUsername,
-                                                                              sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
-                                                                              snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                                              rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1)
+                                                                          parameter1: testconfigurations[i].parameter1,
+                                                                          parameter2: testconfigurations[i].parameter2,
+                                                                          parameter3: testconfigurations[i].parameter3,
+                                                                          parameter4: testconfigurations[i].parameter4,
+                                                                          parameter5: testconfigurations[i].parameter5,
+                                                                          parameter6: testconfigurations[i].parameter5,
+                                                                          parameter8: testconfigurations[i].parameter8,
+                                                                          parameter9: testconfigurations[i].parameter9,
+                                                                          parameter10: testconfigurations[i].parameter10,
+                                                                          parameter11: testconfigurations[i].parameter11,
+                                                                          parameter12: testconfigurations[i].parameter12,
+                                                                          parameter13: testconfigurations[i].parameter13,
+                                                                          parameter14: testconfigurations[i].parameter14,
+                                                                          sshport: String(testconfigurations[i].sshport ?? -1),
+                                                                          sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                                                                          sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                                                                          sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                                                                          localCatalog: testconfigurations[i].localCatalog,
+                                                                          offsiteCatalog: testconfigurations[i].offsiteCatalog,
+                                                                          offsiteServer: testconfigurations[i].offsiteServer,
+                                                                          offsiteUsername: testconfigurations[i].offsiteUsername,
+                                                                          sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
+                                                                          snapshotnum: testconfigurations[i].snapshotnum ?? -1,
+                                                                          rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
                     print("SYNCHRONIZE filelist")
@@ -139,29 +144,29 @@ import Testing
 
                 switch i {
                 case 0:
-                    print("Assigned first arguments RESTORE")
-                    let arguments = await rsyncparametersrestore.computedarguments
-                    print(arguments)
+                    print("Assigned first arguments RESTORE filelist")
+                    nr0 = await rsyncparametersrestore.computedarguments
+                    #expect(ArgumentsRestoreFilelist().nr0 == nr0)
                 case 1:
-                    print("Assigned second arguments RESTORE")
-                    let arguments = await rsyncparametersrestore.computedarguments
-                    print(arguments)
+                    print("Assigned second arguments RESTORE filelist")
+                    nr1 = await rsyncparametersrestore.computedarguments
+                    #expect(ArgumentsRestoreFilelist().nr1 == nr1)
                 case 2:
-                    print("Assigned third arguments RESTORE")
-                    let arguments = await rsyncparametersrestore.computedarguments
-                    print(arguments)
+                    print("Assigned third arguments RESTORE filelist")
+                    nr2 = await rsyncparametersrestore.computedarguments
+                    #expect(ArgumentsRestoreFilelist().nr2 == nr2)
                 case 3:
-                    print("Assigned fourth arguments RESTORE")
-                    let arguments = await rsyncparametersrestore.computedarguments
-                    print(arguments)
+                    print("Assigned fourth arguments RESTORE filelist")
+                    nr3 = await rsyncparametersrestore.computedarguments
+                    #expect(ArgumentsRestoreFilelist().nr3 == nr3)
                 case 4:
-                    print("Assigned fifth arguments RESTORE")
+                    print("Assigned fifth arguments RESTORE filelist")
                     let arguments = await rsyncparametersrestore.computedarguments
-                    print(arguments)
+                    #expect(arguments.isEmpty == true)
                 case 5:
-                    print("Assigned sixth arguments RESTORE")
+                    print("Assigned sixth arguments RESTORE filelist")
                     let arguments = await rsyncparametersrestore.computedarguments
-                    print(arguments)
+                    #expect(arguments.isEmpty == true)
                 default:
                     print("Assigned NO arguments RESTORE")
                     return
@@ -169,5 +174,4 @@ import Testing
             }
         }
     }
-    
 }
