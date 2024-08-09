@@ -179,6 +179,10 @@ import Testing
 
 @Suite final class TestRestoreFiles {
     var testconfigurations: [TestSynchronizeConfiguration]?
+    var nr0: [String]?
+    var nr1: [String]?
+    var nr2: [String]?
+    var nr3: [String]?
 
     @Test func LodaDataTestRestoreFiles() async {
         let loadtestdata = ReadTestdataFromGitHub()
@@ -218,28 +222,28 @@ import Testing
                 switch i {
                 case 0:
                     print("Assigned first arguments RESTORE")
-                    let arguments = await rsyncparametersrestorefiles.computedarguments
-                    print(arguments)
+                    nr0 = await rsyncparametersrestorefiles.computedarguments
+                    #expect(ArgumentsRestore().nr0 == nr0)
                 case 1:
                     print("Assigned second arguments RESTORE")
-                    let arguments = await rsyncparametersrestorefiles.computedarguments
-                    print(arguments)
+                    nr1 = await rsyncparametersrestorefiles.computedarguments
+                    #expect(ArgumentsRestore().nr1 == nr1)
                 case 2:
                     print("Assigned third arguments RESTORE")
-                    let arguments = await rsyncparametersrestorefiles.computedarguments
-                    print(arguments)
+                    nr2 = await rsyncparametersrestorefiles.computedarguments
+                    #expect(ArgumentsRestore().nr2 == nr2)
                 case 3:
                     print("Assigned fourth arguments RESTORE")
-                    let arguments = await rsyncparametersrestorefiles.computedarguments
-                    print(arguments)
+                    nr3 = await rsyncparametersrestorefiles.computedarguments
+                    #expect(ArgumentsRestore().nr3 == nr3)
                 case 4:
                     print("Assigned fifth arguments RESTORE")
                     let arguments = await rsyncparametersrestorefiles.computedarguments
-                    print(arguments)
+                    #expect(arguments.isEmpty == true)
                 case 5:
                     print("Assigned sixth arguments RESTORE")
                     let arguments = await rsyncparametersrestorefiles.computedarguments
-                    print(arguments)
+                    #expect(arguments.isEmpty == true)
                 default:
                     print("Assigned NO arguments RESTORE")
                     return
