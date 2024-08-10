@@ -252,3 +252,63 @@ import Testing
         }
     }
 }
+
+@Suite final class TestSSHCommands {
+    var testconfigurations: [TestSynchronizeConfiguration]?
+
+    var nr0: [String]?
+    var nr1: [String]?
+    var nr2: [String]?
+    var nr3: [String]?
+    var nr4: [String]?
+    var nr5: [String]?
+
+    @Test func LodaDataTSSHCommands() async {
+        let loadtestdata = ReadTestdataFromGitHub()
+        await loadtestdata.getdata()
+        testconfigurations = loadtestdata.testconfigurations
+        if let testconfigurations {
+            // It are six test configurations
+            for i in 0 ..< testconfigurations.count {
+                let sshcommands = await DeleteSnapshotcatalogs(
+                    offsiteServer: testconfigurations[i].offsiteServer, sshport: String(testconfigurations[i].sshport ?? -1),
+                    sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                    sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                    sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                    rsyncversion3: TestSharedReference.shared.rsyncversion3
+                )
+                await sshcommands.initialise_setsshidentityfileandsshport()
+
+                switch i {
+                case 0:
+                    print("Assigned first arguments RESTORE")
+                    let nr0 = await sshcommands.computedarguments
+                    print(nr0)
+                case 1:
+                    print("Assigned second arguments RESTORE")
+                    let nr1 = await sshcommands.computedarguments
+                    print(nr1)
+                case 2:
+                    print("Assigned third arguments RESTORE")
+                    let nr2 = await sshcommands.computedarguments
+                    print(nr2)
+                case 3:
+                    print("Assigned fourth arguments RESTORE")
+                    let nr3 = await sshcommands.computedarguments
+                    print(nr3)
+                case 4:
+                    print("Assigned fifth arguments RESTORE")
+                    let nr4 = await sshcommands.computedarguments
+                    print(nr4)
+                case 5:
+                    print("Assigned sixth arguments RESTORE")
+                    let nr5 = await sshcommands.computedarguments
+                    print(nr5)
+                default:
+                    print("Assigned NO arguments RESTORE")
+                    return
+                }
+            }
+        }
+    }
+}
