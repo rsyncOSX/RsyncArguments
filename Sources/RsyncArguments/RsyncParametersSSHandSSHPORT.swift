@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class RsyncParametersSSHandSSHPORT: SSHParameters {
+public final class RsyncParametersSSHandSSHPORT: SSHParametersRsync {
     public func setParameters1SSHandSSHPORT(forDisplay: Bool, verify _: Bool) -> [String] {
         if offsiteServer.isEmpty == false {
             // We have to check for both global and local ssh parameters.

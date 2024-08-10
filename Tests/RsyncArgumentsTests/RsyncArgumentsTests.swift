@@ -270,7 +270,7 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let sshcommands = await DeleteSnapshotcatalogs(
+                let sshcommands = await SSHCommandParametersInitialize(
                     offsiteServer: testconfigurations[i].offsiteServer, sshport: String(testconfigurations[i].sshport ?? -1),
                     sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
                     sharedsshport: String(TestSharedReference.shared.sshport ?? -1),

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public final class RsyncParameters1to6: SSHParameters {
+public final class RsyncParameters1to6: SSHParametersRsync {
     // -e "ssh -i ~/.ssh/id_myserver -p 22"
     // -e "ssh -i ~/sshkeypath/sshidentityfile -p portnumber"
     // default is

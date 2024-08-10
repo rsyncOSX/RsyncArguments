@@ -8,8 +8,8 @@
 import Foundation
 
 @MainActor
-public final class DeleteSnapshotcatalogs {
-    var computedarguments = [String]()
+public final class SSHCommandParametersInitialize {
+    public private(set) var computedarguments = [String]()
 
     var offsiteServer = ""
     var sshport: String?
