@@ -266,27 +266,24 @@ import Testing
     
     private func test1(remotecatalog: String, offsiteServer: String) {
         if offsiteServer.isEmpty == false {
-            
             let remotecommand = "rm -rf " + remotecatalog
-            // arguments?.append(remotecommand)
+            // arguments.append(remotecommand)
             let command = "/usr/bin/ssh"
         } else {
-            // arguments?.append("-rf")
-            // arguments?.append(remotecatalog)
+            // arguments.append("-rf")
+            // arguments.append(remotecatalog)
             let command = "/bin/rm"
         }
     }
     
     private func test2(offsiteCatalog: String, offsiteServer: String, offsiteUsername: String) {
-       
             if offsiteServer.isEmpty == false {
                 let remotearg = offsiteUsername + "@" + offsiteServer
-                // arguments?.append(remotearg)
+                // arguments.append(remotearg)
             }
             let remotecommand = "mkdir -p " + offsiteCatalog
-            // arguments?.append(remotecommand)
-        
-        let command = "/usr/bin/ssh"
+            // arguments.append(remotecommand)
+            let command = "/usr/bin/ssh"
     }
 
     @Test func LodaDataTSSHCommands() async {
