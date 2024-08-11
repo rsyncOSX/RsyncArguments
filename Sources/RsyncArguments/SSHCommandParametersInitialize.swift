@@ -12,6 +12,7 @@ public class SSHCommandParametersInitialize {
     public private(set) var computedarguments = [String]()
 
     var offsiteServer = ""
+    var offsiteUsername = ""
     var sshport: String?
     var sshkeypathandidentityfile: String?
     var sharedsshport: String?
@@ -37,12 +38,14 @@ public class SSHCommandParametersInitialize {
     }
 
     public init(offsiteServer: String,
+                offsiteUsername: String,
                 sshport: String?,
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
                 rsyncversion3: Bool) {
         self.offsiteServer = offsiteServer
+        self.offsiteUsername = offsiteUsername
         self.sshport = sshport
         self.sshkeypathandidentityfile = sshkeypathandidentityfile
         self.sharedsshport = sharedsshport

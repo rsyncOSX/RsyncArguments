@@ -15,6 +15,7 @@ public final class SnapshotDelete: SSHCommandParametersInitialize {
     
     public func snapshotdelete(remotecatalog: String) -> [String] {
         if offsiteServer.isEmpty == false {
+            appendparameter(remotearges())
             let remotecommand = "rm -rf " + remotecatalog
             appendparameter(remotecommand)
             return computedarguments
@@ -25,13 +26,19 @@ public final class SnapshotDelete: SSHCommandParametersInitialize {
         }
     }
     
+    private func remotearges () -> String {
+        offsiteUsername + "@" + offsiteServer
+    }
+    
     public override init(offsiteServer: String,
+                         offsiteUsername: String,
                          sshport: String?,
                          sshkeypathandidentityfile: String?,
                          sharedsshport: String?,
                          sharedsshkeypathandidentityfile: String?,
                          rsyncversion3: Bool) {
         super.init(offsiteServer: offsiteServer,
+                   offsiteUsername: offsiteUsername,
                    sshport: sshport,
                    sshkeypathandidentityfile: sshkeypathandidentityfile,
                    sharedsshport: sharedsshport,

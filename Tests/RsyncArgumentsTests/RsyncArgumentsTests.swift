@@ -294,7 +294,9 @@ import Testing
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
                 let sshcommands = await SnapshotDelete (
-                    offsiteServer: testconfigurations[i].offsiteServer, sshport: String(testconfigurations[i].sshport ?? -1),
+                    offsiteServer: testconfigurations[i].offsiteServer,
+                    offsiteUsername: testconfigurations[i].offsiteUsername,
+                    sshport: String(testconfigurations[i].sshport ?? -1),
                     sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
                     sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
                     sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
