@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-public final class SSHCommandParametersInitialize {
+public class SSHCommandParametersInitialize {
     public private(set) var computedarguments = [String]()
 
     var offsiteServer = ""
@@ -30,6 +30,10 @@ public final class SSHCommandParametersInitialize {
         )
 
         computedarguments += setsshidentityfileandsshport.setsshidentityfileandsshport()
+    }
+    
+    public func appendparameter(_ parameter: String) {
+        computedarguments.append(parameter)
     }
 
     public init(offsiteServer: String,

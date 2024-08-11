@@ -253,7 +253,7 @@ import Testing
     }
 }
 
-@Suite final class TestSSHCommands {
+@Suite final class TestDeleteSnapshot {
     var testconfigurations: [TestSynchronizeConfiguration]?
 
     var nr0: [String]?
@@ -263,7 +263,7 @@ import Testing
     var nr4: [String]?
     var nr5: [String]?
     
-    
+/*
     private func test1(remotecatalog: String, offsiteServer: String) {
         if offsiteServer.isEmpty == false {
             let remotecommand = "rm -rf " + remotecatalog
@@ -285,7 +285,7 @@ import Testing
             // arguments.append(remotecommand)
             let command = "/usr/bin/ssh"
     }
-
+*/
     @Test func LodaDataTSSHCommands() async {
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdata()
@@ -293,7 +293,7 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let sshcommands = await SSHCommandParametersInitialize(
+                let sshcommands = await SnapshotDelete (
                     offsiteServer: testconfigurations[i].offsiteServer, sshport: String(testconfigurations[i].sshport ?? -1),
                     sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
                     sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
@@ -305,27 +305,27 @@ import Testing
                 switch i {
                 case 0:
                     print("Assigned first arguments RESTORE")
-                    let nr0 = await sshcommands.computedarguments
+                    let nr0 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     print(nr0)
                 case 1:
                     print("Assigned second arguments RESTORE")
-                    let nr1 = await sshcommands.computedarguments
+                    let nr1 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     print(nr1)
                 case 2:
                     print("Assigned third arguments RESTORE")
-                    let nr2 = await sshcommands.computedarguments
+                    let nr2 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     print(nr2)
                 case 3:
                     print("Assigned fourth arguments RESTORE")
-                    let nr3 = await sshcommands.computedarguments
+                    let nr3 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     print(nr3)
                 case 4:
                     print("Assigned fifth arguments RESTORE")
-                    let nr4 = await sshcommands.computedarguments
+                    let nr4 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     print(nr4)
                 case 5:
                     print("Assigned sixth arguments RESTORE")
-                    let nr5 = await sshcommands.computedarguments
+                    let nr5 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     print(nr5)
                 default:
                     print("Assigned NO arguments RESTORE")
