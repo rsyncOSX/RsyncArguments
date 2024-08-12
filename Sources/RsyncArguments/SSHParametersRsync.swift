@@ -1,5 +1,5 @@
 //
-//  SSHParameters.swift
+//  SSHParametersRsync.swift
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 08/08/2024.

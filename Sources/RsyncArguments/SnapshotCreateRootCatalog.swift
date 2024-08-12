@@ -8,9 +8,8 @@
 import Foundation
 
 public final class SnapshotCreateRootCatalog: SSHCommandParametersInitialize {
-    
     public let remotecommand = "/usr/bin/ssh"
-    
+
     public func snapshotcreaterootcatalog(offsiteCatalog: String) -> [String] {
         if offsiteServer.isEmpty == false {
             appendparameter(remotearges())
@@ -19,12 +18,12 @@ public final class SnapshotCreateRootCatalog: SSHCommandParametersInitialize {
         appendparameter(remotecommand)
         return computedarguments
     }
-    
-    private func remotearges () -> String {
+
+    private func remotearges() -> String {
         offsiteUsername + "@" + offsiteServer
     }
-    
-    public override init(offsiteServer: String,
+
+    override public init(offsiteServer: String,
                          offsiteUsername: String,
                          sshport: String?,
                          sshkeypathandidentityfile: String?,
@@ -40,4 +39,3 @@ public final class SnapshotCreateRootCatalog: SSHCommandParametersInitialize {
                    rsyncversion3: rsyncversion3)
     }
 }
-

@@ -1,5 +1,5 @@
 //
-//  DeleteSnapshotcatalogs.swift
+//  SSHCommandParametersInitialize.swift
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 10/08/2024.
@@ -32,7 +32,7 @@ public class SSHCommandParametersInitialize {
 
         computedarguments += setsshidentityfileandsshport.setsshidentityfileandsshport()
     }
-    
+
     public func appendparameter(_ parameter: String) {
         computedarguments.append(parameter)
     }
