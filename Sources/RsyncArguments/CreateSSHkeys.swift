@@ -10,8 +10,8 @@ import Foundation
 @MainActor
 public final class CreateSSHkeys {
     
-    var offsiteServer = ""
-    var offsiteUsername = ""
+    // var offsiteServer = ""
+    // var offsiteUsername = ""
 
     var sharedsshport: String?
     var sharedsshkeypathandidentityfile: String?
@@ -143,8 +143,8 @@ public final class CreateSSHkeys {
     // Set parameters for ssh-copy-id for copy public ssh key to server
     // ssh-address = "backup@server.com"
     // ssh-copy-id -i $ssh-keypath -p port $ssh-address
-    public func argumentssshcopyid() -> String? {
-        guard offsiteServer.isEmpty == false else { return nil }
+    public func argumentssshcopyid(offsiteServer: String,
+                                   offsiteUsername: String) -> String {
         var args = [String]()
         let command = "/usr/bin/ssh-copy-id"
         args.append(command)
@@ -158,14 +158,14 @@ public final class CreateSSHkeys {
             args.append("-p")
             args.append(sharedsshport)
         }
-        args.append(remotearges())
+        args.append( offsiteUsername + "@" + offsiteServer)
         return args.joined(separator: " ")
     }
 
     // Check if pub key exists on remote server
     // ssh -p port -i $ssh-keypath $ssh-address
-    public func argumentscheckremotepubkey() -> String? {
-        guard offsiteServer.isEmpty == false else { return nil }
+    public func argumentscheckremotepubkey(offsiteServer: String,
+                                           offsiteUsername: String) -> String {
         var args = [String]()
         let command = "/usr/bin/ssh"
         args.append(command)
@@ -180,7 +180,7 @@ public final class CreateSSHkeys {
             args.append(sharedsshkeypathandidentityfile)
         }
 
-        args.append(remotearges())
+        args.append( offsiteUsername + "@" + offsiteServer)
         return args.joined(separator: " ")
     }
 
@@ -189,8 +189,6 @@ public final class CreateSSHkeys {
     // ssh-keygen -t rsa -N "" -f $ssh-keypath
     public func argumentscreatekey() -> [String]? {
         var args = [String]()
-        let command = "/usr/bin/ssh-keygen"
-        args.append(command)
         args.append("-t")
         args.append("rsa")
         args.append("-N")
@@ -243,17 +241,9 @@ public final class CreateSSHkeys {
         return true
     }
 
-    private func remotearges() -> String {
-        offsiteUsername + "@" + offsiteServer
-    }
-
-    public init(offsiteServer: String,
-                offsiteUsername: String,
-                sharedsshport: String?,
+    public init( sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?)
     {
-        self.offsiteServer = offsiteServer
-        self.offsiteUsername = offsiteUsername
         self.sharedsshport = sharedsshport
         self.sharedsshkeypathandidentityfile = sharedsshkeypathandidentityfile
     }
