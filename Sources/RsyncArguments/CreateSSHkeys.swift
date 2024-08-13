@@ -88,13 +88,14 @@ public final class CreateSSHkeys {
             if sharedsshkeypathandidentityfile.first == "~" {
                 // must drop identityfile and then set rootpath
                 // also drop the "~" character
-                let sshkeypathandidentityfilesplit = sharedsshkeypathandidentityfile.split(separator: "/")
+                var sshkeypathandidentityfilesplit = sharedsshkeypathandidentityfile.split(separator: "/")
                 guard sshkeypathandidentityfilesplit.count > 2 else {
                     // If anything goes wrong set to default global values
                     return NSHomeDirectory()
                 }
+                sshkeypathandidentityfilesplit.remove(at: sshkeypathandidentityfilesplit.count - 1)
                 return userHomeDirectoryPath +
-                    sshkeypathandidentityfilesplit.joined(separator: "/").dropLast()
+                String(sshkeypathandidentityfilesplit.joined(separator: "/").dropFirst())
 
             } else {
                 // If anything goes wrong set to default global values

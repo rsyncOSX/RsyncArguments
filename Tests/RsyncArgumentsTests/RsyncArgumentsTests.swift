@@ -326,17 +326,10 @@ import Testing
             // Test for one configuration only, config nr 0
             guard testconfigurations.count > 0 else { return }
             let config = testconfigurations[0]
-            let createsshkeys = await CreateSSHkeys(
-                offsiteServer: config.offsiteServer,
-                offsiteUsername: config.offsiteUsername,
-                sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+            let createsshkeys = await CreateSSHkeys(sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
                 sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile
             )
 
-            let arg0 = await createsshkeys.argumentssshcopyid()
-            print(arg0 ?? "")
-            let arg1 = await createsshkeys.argumentscheckremotepubkey()
-            print(arg1 ?? "")
             let arg3 = await createsshkeys.keypathonly
             print(arg3 ?? "")
             let arg4 = await createsshkeys.identityfile
