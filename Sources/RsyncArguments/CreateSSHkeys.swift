@@ -20,7 +20,7 @@ public final class CreateSSHkeys {
     // Arrays listing all key files
     public var keyFileStrings: [String]? {
         let fm = FileManager.default
-        if let atpath = sshkeypathandidentityfile {
+        if let atpath = keypathonly {
             var array = [String]()
             do {
                 for files in try fm.contentsOfDirectory(atPath: atpath) {
@@ -200,22 +200,6 @@ public final class CreateSSHkeys {
             args.append(sharedsshkeypathandidentityfile)
         }
         return args
-    }
-    
-    public func getfullkeypathonly() -> [String]? {
-        let fm = FileManager.default
-        if let atpath = keypathonly {
-            var array = [String]()
-            do {
-                for files in try fm.contentsOfDirectory(atPath: atpath) {
-                    array.append(files)
-                }
-                return array
-            } catch {
-                return nil
-            }
-        }
-        return nil
     }
     
     // Check if rsa pub key exists
