@@ -206,22 +206,22 @@ public final class CreateSSHkeys {
     // Check if rsa pub key exists
     public func islocalpublicrsakeypresent() throws -> Bool {
         guard keyFileStrings != nil else { return false }
-        guard keyFileStrings?.filter({ $0.contains(sshkeypathandidentityfile ?? "") }).count ?? 0 > 0 else { return false }
-        guard keyFileStrings?.filter({ $0.contains((sshkeypathandidentityfile ?? "") + ".pub") }).count ?? 0 > 0 else {
+        guard keyFileStrings?.filter({ $0.contains(identityfile ?? "") }).count ?? 0 > 0 else { return false }
+        guard keyFileStrings?.filter({ $0.contains((identityfile ?? "") + ".pub") }).count ?? 0 > 0 else {
             throw SshError.sshkeys
         }
-        rsaStringPath = keyFileStrings?.filter { $0.contains((sshkeypathandidentityfile ?? "") + ".pub") }[0]
+        rsaStringPath = keyFileStrings?.filter { $0.contains((identityfile ?? "") + ".pub") }[0]
         guard rsaStringPath?.count ?? 0 > 0 else { return false }
         throw SshError.sshkeys
     }
 
     public func validatepublickeypresent() -> Bool {
         guard keyFileStrings != nil else { return false }
-        guard keyFileStrings?.filter({ $0.contains(sshkeypathandidentityfile ?? "") }).count ?? 0 > 0 else { return false }
-        guard keyFileStrings?.filter({ $0.contains((sshkeypathandidentityfile ?? "") + ".pub") }).count ?? 0 > 0 else {
+        guard keyFileStrings?.filter({ $0.contains(identityfile ?? "") }).count ?? 0 > 0 else { return false }
+        guard keyFileStrings?.filter({ $0.contains((identityfile ?? "") + ".pub") }).count ?? 0 > 0 else {
             return true
         }
-        rsaStringPath = keyFileStrings?.filter { $0.contains((sshkeypathandidentityfile ?? "") + ".pub") }[0]
+        rsaStringPath = keyFileStrings?.filter { $0.contains((identityfile ?? "") + ".pub") }[0]
         guard rsaStringPath?.count ?? 0 > 0 else { return false }
         return true
     }
