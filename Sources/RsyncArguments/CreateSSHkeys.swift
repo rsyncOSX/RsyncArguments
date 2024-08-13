@@ -117,7 +117,7 @@ public final class CreateSSHkeys {
 
     // Create SSH catalog
     // If ssh catalog exists - bail out, no need to create
-    func createsshkeyrootpath() {
+    public func createsshkeyrootpath() {
         let fm = FileManager.default
         if let keypathonly,
            let userHomeDirectoryPath
