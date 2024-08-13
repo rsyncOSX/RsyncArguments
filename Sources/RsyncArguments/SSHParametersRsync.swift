@@ -107,7 +107,8 @@ public class SSHParametersRsync {
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool) {
+                rsyncversion3: Bool)
+    {
         self.parameter5 = parameter5
         self.parameter6 = parameter6
         self.offsiteServer = offsiteServer

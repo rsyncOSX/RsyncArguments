@@ -9,14 +9,118 @@ import Foundation
 
 @MainActor
 public final class CreateSSHkeys {
-        
     var offsiteServer = ""
     var offsiteUsername = ""
-    var sshport: String?
-    var sshkeypathandidentityfile: String?
+
     var sharedsshport: String?
     var sharedsshkeypathandidentityfile: String?
-    
+
+    // Path to ssh keypath
+    public var sshkeypathandidentityfile: String? {
+        if let sharedsshkeypathandidentityfile,
+           let userHomeDirectoryPath
+        {
+            if sharedsshkeypathandidentityfile.first == "~" {
+                // must drop identityfile and then set rootpath
+                // also drop the "~" character
+                let sshkeypathandidentityfilesplit = sharedsshkeypathandidentityfile.split(separator: "/")
+                guard sshkeypathandidentityfilesplit.count > 2 else {
+                    // If anything goes wrong set to default global values
+                    return userHomeDirectoryPath + "/.ssh"
+                }
+                return userHomeDirectoryPath + sshkeypathandidentityfilesplit.joined(separator: "/").dropFirst()
+
+            } else {
+                // If anything goes wrong set to default global values
+                return userHomeDirectoryPath + "/.ssh"
+            }
+        } else {
+            return (userHomeDirectoryPath ?? "") + "/.ssh"
+        }
+    }
+
+    // SSH identityfile with full keypath if NOT default is used
+    // If default, only return defalt value
+    public var identityfile: String? {
+        if let sharedsshkeypathandidentityfile {
+            if sharedsshkeypathandidentityfile.first == "~" {
+                // must drop identityfile and then set rootpath
+                // also drop the "~" character
+                let sshkeypathandidentityfilesplit = sharedsshkeypathandidentityfile.split(separator: "/")
+                guard sshkeypathandidentityfilesplit.count > 2 else {
+                    // If anything goes wrong set to default global values
+                    return "id_rsa"
+                }
+                return String(sshkeypathandidentityfilesplit[sshkeypathandidentityfilesplit.count - 1])
+            } else {
+                // If anything goes wrong set to default global values
+                return "id_rsa"
+            }
+        } else {
+            return "id_rsa"
+        }
+    }
+
+    // Used when creating ssh keypath
+    public var keypathonly: String? {
+        if let sharedsshkeypathandidentityfile,
+           let userHomeDirectoryPath
+        {
+            if sharedsshkeypathandidentityfile.first == "~" {
+                // must drop identityfile and then set rootpath
+                // also drop the "~" character
+                let sshkeypathandidentityfilesplit = sharedsshkeypathandidentityfile.split(separator: "/")
+                guard sshkeypathandidentityfilesplit.count > 2 else {
+                    // If anything goes wrong set to default global values
+                    return NSHomeDirectory()
+                }
+                return userHomeDirectoryPath +
+                    sshkeypathandidentityfilesplit.joined(separator: "/").dropLast()
+
+            } else {
+                // If anything goes wrong set to default global values
+                return userHomeDirectoryPath
+            }
+        } else {
+            return userHomeDirectoryPath
+        }
+    }
+
+    public var userHomeDirectoryPath: String? {
+        let pw = getpwuid(getuid())
+        if let home = pw?.pointee.pw_dir {
+            let homePath = FileManager.default.string(withFileSystemRepresentation: home, length: Int(strlen(home)))
+            return homePath
+        } else {
+            return nil
+        }
+    }
+
+    // Create SSH catalog
+    // If ssh catalog exists - bail out, no need to create
+    func createsshkeyrootpath() {
+        let fm = FileManager.default
+        if let keypathonly,
+           let userHomeDirectoryPath
+        {
+            let sshkeypathString = userHomeDirectoryPath + "/." + keypathonly
+            guard fm.locationExists(at: sshkeypathString, kind: .folder) == false else {
+                return
+            }
+
+            let userHomeDirectoryPathURL = URL(fileURLWithPath: userHomeDirectoryPath)
+            let sshkeypathlURL = userHomeDirectoryPathURL.appendingPathComponent("/." + keypathonly)
+
+            do {
+                try fm.createDirectory(at: sshkeypathlURL, withIntermediateDirectories: true, attributes: nil)
+            } catch let e {
+                let error = e
+                // propogateerror(error: error)
+                return
+            }
+        }
+    }
+
     // Set parameters for ssh-copy-id for copy public ssh key to server
     // ssh-address = "backup@server.com"
     // ssh-copy-id -i $ssh-keypath -p port $ssh-address
@@ -28,8 +132,9 @@ public final class CreateSSHkeys {
         args.append("-i")
         if let sharedsshkeypathandidentityfile,
            let sharedsshport,
-            sharedsshkeypathandidentityfile.isEmpty == false,
-            sharedsshport != "-1" {
+           sharedsshkeypathandidentityfile.isEmpty == false,
+           sharedsshport != "-1"
+        {
             args.append(sharedsshkeypathandidentityfile)
             args.append("-p")
             args.append(sharedsshport)
@@ -37,7 +142,6 @@ public final class CreateSSHkeys {
         args.append(remotearges())
         return args.joined(separator: " ")
     }
-
 
     // Check if pub key exists on remote server
     // ssh -p port -i $ssh-keypath $ssh-address
@@ -52,10 +156,11 @@ public final class CreateSSHkeys {
         }
         args.append("-i")
         if let sharedsshkeypathandidentityfile,
-           sharedsshkeypathandidentityfile.isEmpty == false {
+           sharedsshkeypathandidentityfile.isEmpty == false
+        {
             args.append(sharedsshkeypathandidentityfile)
         }
-        
+
         args.append(remotearges())
         return args.joined(separator: " ")
     }
@@ -73,7 +178,8 @@ public final class CreateSSHkeys {
         args.append("")
         args.append("-f")
         if let sharedsshkeypathandidentityfile,
-           sharedsshkeypathandidentityfile.isEmpty == false {
+           sharedsshkeypathandidentityfile.isEmpty == false
+        {
             args.append(sharedsshkeypathandidentityfile)
         }
         return args
@@ -83,18 +189,37 @@ public final class CreateSSHkeys {
         offsiteUsername + "@" + offsiteServer
     }
 
-
     public init(offsiteServer: String,
                 offsiteUsername: String,
-                sshport: String?,
-                sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
-                sharedsshkeypathandidentityfile: String?) {
+                sharedsshkeypathandidentityfile: String?)
+    {
         self.offsiteServer = offsiteServer
         self.offsiteUsername = offsiteUsername
-        self.sshport = sshport
-        self.sshkeypathandidentityfile = sshkeypathandidentityfile
         self.sharedsshport = sharedsshport
         self.sharedsshkeypathandidentityfile = sharedsshkeypathandidentityfile
     }
+}
+
+extension FileManager {
+    func locationExists(at path: String, kind: LocationKind) -> Bool {
+        var isFolder: ObjCBool = false
+
+        guard fileExists(atPath: path, isDirectory: &isFolder) else {
+            return false
+        }
+
+        switch kind {
+        case .file: return !isFolder.boolValue
+        case .folder: return isFolder.boolValue
+        }
+    }
+}
+
+/// Enum describing various kinds of locations that can be found on a file system.
+public enum LocationKind {
+    /// A file can be found at the location.
+    case file
+    /// A folder can be found at the location.
+    case folder
 }
