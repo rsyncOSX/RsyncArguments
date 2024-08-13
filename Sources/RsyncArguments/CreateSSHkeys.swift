@@ -202,9 +202,9 @@ public final class CreateSSHkeys {
         return args
     }
     
-    public func getfullpathsshkeys() -> [String]? {
+    public func getfullkeypathonly() -> [String]? {
         let fm = FileManager.default
-        if let atpath = sshkeypathandidentityfile {
+        if let atpath = keypathonly {
             var array = [String]()
             do {
                 for files in try fm.contentsOfDirectory(atPath: atpath) {
