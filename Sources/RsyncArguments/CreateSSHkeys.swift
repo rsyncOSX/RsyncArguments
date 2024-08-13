@@ -9,11 +9,30 @@ import Foundation
 
 @MainActor
 public final class CreateSSHkeys {
+    
     var offsiteServer = ""
     var offsiteUsername = ""
 
     var sharedsshport: String?
     var sharedsshkeypathandidentityfile: String?
+    
+    public var rsaStringPath: String?
+    // Arrays listing all key files
+    public var keyFileStrings: [String]? {
+        let fm = FileManager.default
+        if let atpath = sshkeypathandidentityfile {
+            var array = [String]()
+            do {
+                for files in try fm.contentsOfDirectory(atPath: atpath) {
+                    array.append(files)
+                }
+                return array
+            } catch {
+                return nil
+            }
+        }
+        return nil
+    }
 
     // Path to ssh keypath
     public var sshkeypathandidentityfile: String? {
@@ -104,7 +123,7 @@ public final class CreateSSHkeys {
            let userHomeDirectoryPath
         {
             let sshkeypathString = userHomeDirectoryPath + "/." + keypathonly
-            guard fm.locationExists(at: sshkeypathString, kind: .folder) == false else {
+            guard fm.keypathlocationExists(at: sshkeypathString, kind: .folder) == false else {
                 return
             }
 
@@ -184,6 +203,45 @@ public final class CreateSSHkeys {
         }
         return args
     }
+    
+    public func getfullpathsshkeys() -> [String]? {
+        let fm = FileManager.default
+        if let atpath = sshkeypathandidentityfile {
+            var array = [String]()
+            do {
+                for files in try fm.contentsOfDirectory(atPath: atpath) {
+                    array.append(files)
+                }
+                return array
+            } catch {
+                return nil
+            }
+        }
+        return nil
+    }
+    
+    // Check if rsa pub key exists
+    public func islocalpublicrsakeypresent() throws -> Bool {
+        guard keyFileStrings != nil else { return false }
+        guard keyFileStrings?.filter({ $0.contains(sshkeypathandidentityfile ?? "") }).count ?? 0 > 0 else { return false }
+        guard keyFileStrings?.filter({ $0.contains((sshkeypathandidentityfile ?? "") + ".pub") }).count ?? 0 > 0 else {
+            throw SshError.sshkeys
+        }
+        rsaStringPath = keyFileStrings?.filter { $0.contains((sshkeypathandidentityfile ?? "") + ".pub") }[0]
+        guard rsaStringPath?.count ?? 0 > 0 else { return false }
+        throw SshError.sshkeys
+    }
+
+    public func validatepublickeypresent() -> Bool {
+        guard keyFileStrings != nil else { return false }
+        guard keyFileStrings?.filter({ $0.contains(sshkeypathandidentityfile ?? "") }).count ?? 0 > 0 else { return false }
+        guard keyFileStrings?.filter({ $0.contains((sshkeypathandidentityfile ?? "") + ".pub") }).count ?? 0 > 0 else {
+            return true
+        }
+        rsaStringPath = keyFileStrings?.filter { $0.contains((sshkeypathandidentityfile ?? "") + ".pub") }[0]
+        guard rsaStringPath?.count ?? 0 > 0 else { return false }
+        return true
+    }
 
     private func remotearges() -> String {
         offsiteUsername + "@" + offsiteServer
@@ -202,7 +260,7 @@ public final class CreateSSHkeys {
 }
 
 extension FileManager {
-    func locationExists(at path: String, kind: LocationKind) -> Bool {
+    func keypathlocationExists(at path: String, kind: LocationKind) -> Bool {
         var isFolder: ObjCBool = false
 
         guard fileExists(atPath: path, isDirectory: &isFolder) else {
@@ -222,4 +280,21 @@ public enum LocationKind {
     case file
     /// A folder can be found at the location.
     case folder
+}
+
+public enum SshError: LocalizedError {
+    case notvalidpath
+    case sshkeys
+    case noslash
+
+    public var errorDescription: String? {
+        switch self {
+        case .notvalidpath:
+            "SSH keypath is not valid"
+        case .sshkeys:
+            "SSH RSA keys exist, cannot create"
+        case .noslash:
+            "SSH keypath must be like ~/.ssh_keypath/identityfile"
+        }
+    }
 }
