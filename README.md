@@ -2,7 +2,7 @@
 
 This package is under development.
 
-This package is code for creating parameters to `rsync` in RsyncUI. The package is used in [RsyncUI version 2.1.0](https://github.com/rsyncOSX/RsyncUI_ver_2.1.0). To be released as part of RsyncUI later in 2024.
+This package is code for creating parameters to `rsync` in RsyncUI. The package is used in [Version 2.1.0 and later](https://github.com/rsyncOSX/RsyncUI). To be released as part of RsyncUI in September or October 2024.
 
 In RsyncUI there are three rsync commands: 
 
