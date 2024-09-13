@@ -70,7 +70,6 @@ public final class RsyncParameters1to6: SSHParametersRsync {
                 parameter3: String,
                 parameter4: String,
                 parameter5: String,
-                parameter6: String,
                 offsiteServer: String,
                 sshport: String?,
                 sshkeypathandidentityfile: String?,
@@ -79,7 +78,6 @@ public final class RsyncParameters1to6: SSHParametersRsync {
                 rsyncversion3: Bool)
     {
         super.init(parameter5: parameter5,
-                   parameter6: parameter6,
                    offsiteServer: offsiteServer,
                    sshport: sshport,
                    sshkeypathandidentityfile: sshkeypathandidentityfile,
@@ -92,7 +90,6 @@ public final class RsyncParameters1to6: SSHParametersRsync {
         self.parameter3 = parameter3
         self.parameter4 = parameter4
         self.parameter5 = parameter5
-        self.parameter6 = parameter6
         self.offsiteServer = offsiteServer
         self.sshport = sshport
         self.sshkeypathandidentityfile = sshkeypathandidentityfile

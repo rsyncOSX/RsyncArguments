@@ -18,11 +18,6 @@ public final class RsyncParametersSSHandSSHPORT: SSHParametersRsync {
                     sshparameterslocal(forDisplay: forDisplay)
                 } else if sharedsshkeypathandidentityfile != nil || sharedsshport != nil {
                     sshparametersglobal(forDisplay: forDisplay)
-                } else {
-                    computedarguments.append(parameter5)
-                    if forDisplay { computedarguments.append(" ") }
-                    computedarguments.append(parameter6)
-                    if forDisplay { computedarguments.append(" ") }
                 }
             }
         }
@@ -32,7 +27,6 @@ public final class RsyncParametersSSHandSSHPORT: SSHParametersRsync {
 
     override public init(
         parameter5: String,
-        parameter6: String,
         offsiteServer: String,
         sshport: String?,
         sshkeypathandidentityfile: String?,
@@ -41,7 +35,6 @@ public final class RsyncParametersSSHandSSHPORT: SSHParametersRsync {
         rsyncversion3: Bool
     ) {
         super.init(parameter5: parameter5,
-                   parameter6: parameter6,
                    offsiteServer: offsiteServer,
                    sshport: sshport,
                    sshkeypathandidentityfile: sshkeypathandidentityfile,
