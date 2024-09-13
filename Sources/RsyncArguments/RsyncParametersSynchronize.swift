@@ -229,6 +229,14 @@ public final class RsyncParametersSynchronize {
         self.snapshotnum = snapshotnum
         self.rsyncdaemon = rsyncdaemon
         self.rsyncversion3 = rsyncversion3
+        
+        // Some checks for sshport and sshkeypathandidentityfile
+        
+        if sshport == "-1" {
+            // Reset values to nil
+            self.sshport = nil
+            self.sshkeypathandidentityfile = nil
+        }
 
         computedarguments.removeAll()
     }

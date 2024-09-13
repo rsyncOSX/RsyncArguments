@@ -242,6 +242,13 @@ public final class RsyncParametersRestore {
         self.snapshotnum = snapshotnum
         self.rsyncdaemon = rsyncdaemon
         self.rsyncversion3 = rsyncversion3
+        
+        if sshport == "-1" {
+            // Reset values to nil
+            self.sshport = nil
+            self.sshkeypathandidentityfile = nil
+        }
+        
         computedarguments.removeAll()
     }
 }
