@@ -20,9 +20,14 @@ public class SSHCommandParameters {
 
     public func setsshidentityfileandsshport() -> [String] {
         if offsiteServer.isEmpty == false {
-            if let sshport, sshport != "-1", let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false {
+            if let sshport, sshport != "-1",
+               let sshkeypathandidentityfile,
+               sshkeypathandidentityfile.isEmpty == false {
                 sshcommandparameterslocal()
-            } else if sharedsshkeypathandidentityfile != nil || sharedsshport != nil {
+            } else if let sharedsshkeypathandidentityfile,
+                      sharedsshkeypathandidentityfile.isEmpty == false,
+                      let sharedsshport,
+                      sharedsshport != "-1" {
                 sshcommandparametersglobal()
             }
             return computedarguments
