@@ -237,6 +237,12 @@ public final class RsyncParametersSynchronize {
             self.sshport = nil
             self.sshkeypathandidentityfile = nil
         }
+        
+        if sharedsshport == "-1" {
+            // Reset values to nil
+            self.sharedsshport = nil
+            self.sharedsshkeypathandidentityfile = nil
+        }
 
         computedarguments.removeAll()
     }

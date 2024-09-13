@@ -243,10 +243,18 @@ public final class RsyncParametersRestore {
         self.rsyncdaemon = rsyncdaemon
         self.rsyncversion3 = rsyncversion3
         
+        // Some checks for sshport and sshkeypathandidentityfile
+        
         if sshport == "-1" {
             // Reset values to nil
             self.sshport = nil
             self.sshkeypathandidentityfile = nil
+        }
+        
+        if sharedsshport == "-1" {
+            // Reset values to nil
+            self.sharedsshport = nil
+            self.sharedsshkeypathandidentityfile = nil
         }
         
         computedarguments.removeAll()
