@@ -13,9 +13,14 @@ public final class RsyncParametersSSHandSSHPORT: SSHParametersRsync {
             // We have to check for both global and local ssh parameters.
             // either set global or local
             // ssh params only apply if remote server
-            if let sshport, sshport != "-1", let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false {
+            if let sshport, sshport != "-1",
+               let sshkeypathandidentityfile,
+               sshkeypathandidentityfile.isEmpty == false {
                 sshparameterslocal(forDisplay: forDisplay)
-            } else if sharedsshkeypathandidentityfile != nil || sharedsshport != nil {
+            } else if let sharedsshkeypathandidentityfile,
+                      sharedsshkeypathandidentityfile.isEmpty == false,
+                      let sharedsshport,
+                      sharedsshport != "-1" {
                 sshparametersglobal(forDisplay: forDisplay)
             }
         }
