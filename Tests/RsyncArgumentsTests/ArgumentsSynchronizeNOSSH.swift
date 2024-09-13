@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ArgumentsSynchronizeNOSSH.swift
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 13/09/2024.
@@ -89,4 +89,3 @@ struct ArgumentsSynchronizeNOSSH {
                "thomas@raspberrypi:/home/thomas/Downloads/",
                "/Users/thomas/Downloads/"]
 }
-

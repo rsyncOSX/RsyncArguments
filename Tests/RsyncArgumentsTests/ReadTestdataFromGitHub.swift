@@ -41,7 +41,7 @@ final class ReadTestdataFromGitHub {
             print("ReadTestdataFromGitHub: loading data FAILED)")
         }
     }
-    
+
     func getdatanossh() async {
         let testdata = TestdataFromGitHub()
         // Load user configuration

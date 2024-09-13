@@ -17,7 +17,6 @@ public final class RsyncParametersSynchronize {
     var parameter2 = ""
     var parameter3 = ""
     var parameter4 = ""
-    var parameter5 = ""
 
     var parameter8: String?
     var parameter9: String?
@@ -50,7 +49,6 @@ public final class RsyncParametersSynchronize {
                                                       parameter2: parameter2,
                                                       parameter3: parameter3,
                                                       parameter4: parameter4,
-                                                      parameter5: parameter5,
                                                       offsiteServer: offsiteServer,
                                                       sshport: sshport,
                                                       sshkeypathandidentityfile: sshkeypathandidentityfile,
@@ -179,7 +177,6 @@ public final class RsyncParametersSynchronize {
                 parameter2: String,
                 parameter3: String,
                 parameter4: String,
-                parameter5: String,
                 parameter8: String?,
                 parameter9: String?,
                 parameter10: String?,
@@ -198,14 +195,12 @@ public final class RsyncParametersSynchronize {
                 sharedpathforrestore: String,
                 snapshotnum: Int,
                 rsyncdaemon: Int,
-                rsyncversion3: Bool)
-    {
+                rsyncversion3: Bool) {
         self.task = task
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.parameter5 = parameter5
         self.parameter8 = parameter8
         self.parameter9 = parameter9
         self.parameter10 = parameter10

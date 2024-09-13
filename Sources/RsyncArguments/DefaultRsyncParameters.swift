@@ -13,8 +13,6 @@ public enum DefaultRsyncParameters: String, CaseIterable, Identifiable, CustomSt
     case verbose_parameter2 = "--verbose"
     case compress_parameter3 = "--compress"
     case delete_parameter4 = "--delete"
-    case eparam_parameter5 = "-e"
-    case ssh_parameter6 = "ssh"
     case recursive = "--recursive"
     case stats = "--stats"
     case dryrun = "--dry-run"

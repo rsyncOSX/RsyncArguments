@@ -29,8 +29,7 @@ public final class SnapshotCreateRootCatalog: SSHCommandParametersInitialize {
                          sshkeypathandidentityfile: String?,
                          sharedsshport: String?,
                          sharedsshkeypathandidentityfile: String?,
-                         rsyncversion3: Bool)
-    {
+                         rsyncversion3: Bool) {
         super.init(offsiteServer: offsiteServer,
                    offsiteUsername: offsiteUsername,
                    sshport: sshport,

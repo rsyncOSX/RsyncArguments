@@ -45,20 +45,17 @@ public final class RsyncParameters1to6: SSHParametersRsync {
         }
         if offsiteServer.isEmpty == false {
             // We have to check for both global and local ssh parameters.
-            // either set global or local, parameter5 = remote server
+            // either set global or local
             // ssh params only apply if remote server
-            if parameter5.isEmpty == false {
-                if let sshport, sshport != "-1",
-                    let sshkeypathandidentityfile,
-                    sshkeypathandidentityfile.isEmpty == false
-                {
-                    sshparameterslocal(forDisplay: forDisplay)
-                } else if let sharedsshkeypathandidentityfile,
-                          sharedsshkeypathandidentityfile.isEmpty == false,
-                          let sharedsshport,
-                          sharedsshport != "-1" {
-                    sshparametersglobal(forDisplay: forDisplay)
-                }
+            if let sshport, sshport != "-1",
+               let sshkeypathandidentityfile,
+               sshkeypathandidentityfile.isEmpty == false {
+                sshparameterslocal(forDisplay: forDisplay)
+            } else if let sharedsshkeypathandidentityfile,
+                      sharedsshkeypathandidentityfile.isEmpty == false,
+                      let sharedsshport,
+                      sharedsshport != "-1" {
+                sshparametersglobal(forDisplay: forDisplay)
             }
         }
 
@@ -69,16 +66,13 @@ public final class RsyncParameters1to6: SSHParametersRsync {
                 parameter2: String,
                 parameter3: String,
                 parameter4: String,
-                parameter5: String,
                 offsiteServer: String,
                 sshport: String?,
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool)
-    {
-        super.init(parameter5: parameter5,
-                   offsiteServer: offsiteServer,
+                rsyncversion3: Bool) {
+        super.init(offsiteServer: offsiteServer,
                    sshport: sshport,
                    sshkeypathandidentityfile: sshkeypathandidentityfile,
                    sharedsshport: sharedsshport,
@@ -89,7 +83,6 @@ public final class RsyncParameters1to6: SSHParametersRsync {
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.parameter5 = parameter5
         self.offsiteServer = offsiteServer
         self.sshport = sshport
         self.sshkeypathandidentityfile = sshkeypathandidentityfile

@@ -14,8 +14,6 @@ public class SSHParametersRsync {
     // -e "ssh -i ~/.ssh/id_rsa -p 22"
 
     var computedarguments = [String]()
-    var parameter5 = ""
-
     var offsiteServer = ""
     var sshport: String?
     var sshkeypathandidentityfile: String?
@@ -26,8 +24,7 @@ public class SSHParametersRsync {
 
     // Local params rules global settings
     public func sshparameterslocal(forDisplay: Bool) {
-
-        computedarguments.append(parameter5)
+        computedarguments.append("-e")
         if forDisplay { computedarguments.append(" ") }
         if let sshkeypathandidentityfile {
             if forDisplay { computedarguments.append(" \"") }
@@ -41,17 +38,16 @@ public class SSHParametersRsync {
             if forDisplay { computedarguments.append("\" ") }
         } else if let sshport {
             // "ssh -p xxx"
-                if forDisplay { computedarguments.append(" \"") }
-                computedarguments.append("ssh -p " + String(sshport))
-                if forDisplay { computedarguments.append("\" ") }
+            if forDisplay { computedarguments.append(" \"") }
+            computedarguments.append("ssh -p " + String(sshport))
+            if forDisplay { computedarguments.append("\" ") }
         }
         if forDisplay { computedarguments.append(" ") }
     }
 
     // Global ssh parameters
     public func sshparametersglobal(forDisplay: Bool) {
-
-        computedarguments.append(parameter5)
+        computedarguments.append("-e")
         if forDisplay { computedarguments.append(" ") }
         if let sshkeypathandidentityfile = sharedsshkeypathandidentityfile {
             if forDisplay { computedarguments.append(" \"") }
@@ -65,22 +61,19 @@ public class SSHParametersRsync {
             if forDisplay { computedarguments.append("\" ") }
         } else if let sshport = sharedsshport {
             // "ssh -p xxx"
-                if forDisplay { computedarguments.append(" \"") }
-                computedarguments.append("ssh -p " + String(sshport))
-                if forDisplay { computedarguments.append("\" ") }
+            if forDisplay { computedarguments.append(" \"") }
+            computedarguments.append("ssh -p " + String(sshport))
+            if forDisplay { computedarguments.append("\" ") }
         }
         if forDisplay { computedarguments.append(" ") }
     }
 
-    public init(parameter5: String,
-                offsiteServer: String,
+    public init(offsiteServer: String,
                 sshport: String?,
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool)
-    {
-        self.parameter5 = parameter5
+                rsyncversion3: Bool) {
         self.offsiteServer = offsiteServer
         self.sshport = sshport
         self.sshkeypathandidentityfile = sshkeypathandidentityfile
