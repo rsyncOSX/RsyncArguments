@@ -52,11 +52,6 @@ public final class RsyncParameters1to6: SSHParametersRsync {
                     sshparameterslocal(forDisplay: forDisplay)
                 } else if sharedsshkeypathandidentityfile != nil || sharedsshport != nil {
                     sshparametersglobal(forDisplay: forDisplay)
-                } else {
-                    computedarguments.append(parameter5)
-                    if forDisplay { computedarguments.append(" ") }
-                    computedarguments.append(parameter6)
-                    if forDisplay { computedarguments.append(" ") }
                 }
             }
         }
