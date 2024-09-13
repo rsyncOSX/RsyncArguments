@@ -14,7 +14,6 @@ public class SSHParametersRsync {
     // -e "ssh -i ~/.ssh/id_rsa -p 22"
 
     var computedarguments = [String]()
-
     var parameter5 = ""
     var parameter6 = ""
 

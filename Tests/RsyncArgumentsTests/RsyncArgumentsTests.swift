@@ -374,31 +374,31 @@ import Testing
 
                 switch i {
                 case 0:
-                    print("Assigned first arguments SYNCHRONIZE")
+                    print("Assigned first arguments NOSSH SYNCHRONIZE")
                     nr0 = await rsyncparameterssynchronize.computedarguments
-                    #expect(ArgumentsSynchronize().nr0 == nr0)
+                    #expect(ArgumentsSynchronizeNOSSH().nr0 == nr0)
                 case 1:
-                    print("Assigned second arguments SYNCHRONIZE")
+                    print("Assigned second arguments NOSSH SYNCHRONIZE")
                     nr1 = await rsyncparameterssynchronize.computedarguments
-                    #expect(ArgumentsSynchronize().nr1 == nr1)
+                    #expect(ArgumentsSynchronizeNOSSH().nr1 == nr1)
                 case 2:
-                    print("Assigned third arguments SYNCHRONIZE")
+                    print("Assigned third arguments NOSSH SYNCHRONIZE")
                     nr2 = await rsyncparameterssynchronize.computedarguments
-                    #expect(ArgumentsSynchronize().nr2 == nr2)
+                    #expect(ArgumentsSynchronizeNOSSH().nr2 == nr2)
                 case 3:
-                    print("Assigned fourth arguments SYNCHRONIZE")
+                    print("Assigned fourth arguments NOSSH SYNCHRONIZE")
                     nr3 = await rsyncparameterssynchronize.computedarguments
-                    #expect(ArgumentsSynchronize().nr3 == nr3)
+                    #expect(ArgumentsSynchronizeNOSSH().nr3 == nr3)
                 case 4:
-                    print("Assigned fifth arguments SYNCHRONIZE")
+                    print("Assigned fifth arguments NOSSH SYNCHRONIZE")
                     nr4 = await rsyncparameterssynchronize.computedarguments
-                    #expect(ArgumentsSynchronize().nr4 == nr4)
+                    #expect(ArgumentsSynchronizeNOSSH().nr4 == nr4)
                 case 5:
-                    print("Assigned sixth arguments SYNCHRONIZE")
+                    print("Assigned sixth arguments NOSSH SYNCHRONIZE")
                     nr5 = await rsyncparameterssynchronize.computedarguments
-                    #expect(ArgumentsSynchronize().nr5 == nr5)
+                    #expect(ArgumentsSynchronizeNOSSH().nr5 == nr5)
                 default:
-                    print("Assigned NO arguments SYNCHRONIZE")
+                    print("Assigned NO arguments NOSSH SYNCHRONIZE")
                     return
                 }
             }
