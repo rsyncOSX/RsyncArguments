@@ -97,8 +97,7 @@ public final class RsyncParameters1to4: SSHParametersRsync {
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool)
-    {
+                rsyncversion3: Bool) {
         super.init(offsiteServer: offsiteServer,
                    sshport: sshport,
                    sshkeypathandidentityfile: sshkeypathandidentityfile,
