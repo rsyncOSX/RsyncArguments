@@ -26,7 +26,7 @@ public class SSHParametersRsync {
     public func sshparameterslocal(forDisplay: Bool) {
         computedarguments.append("-e")
         if forDisplay { computedarguments.append(" ") }
-        if let sshkeypathandidentityfile {
+        if let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false {
             if forDisplay { computedarguments.append(" \"") }
             // Then check if ssh port is set also
             if let sshport {
@@ -36,7 +36,7 @@ public class SSHParametersRsync {
                 computedarguments.append("ssh -i " + sshkeypathandidentityfile)
             }
             if forDisplay { computedarguments.append("\" ") }
-        } else if let sshport {
+        } else if let sshport, sshport != "-1" {
             // "ssh -p xxx"
             if forDisplay { computedarguments.append(" \"") }
             computedarguments.append("ssh -p " + String(sshport))
@@ -49,7 +49,8 @@ public class SSHParametersRsync {
     public func sshparametersglobal(forDisplay: Bool) {
         computedarguments.append("-e")
         if forDisplay { computedarguments.append(" ") }
-        if let sshkeypathandidentityfile = sharedsshkeypathandidentityfile {
+        if let sshkeypathandidentityfile = sharedsshkeypathandidentityfile,
+            sshkeypathandidentityfile.isEmpty == false {
             if forDisplay { computedarguments.append(" \"") }
             // Then check if ssh port is set also
             if let sshport = sharedsshport {
@@ -59,7 +60,7 @@ public class SSHParametersRsync {
                 computedarguments.append("ssh -i " + sshkeypathandidentityfile)
             }
             if forDisplay { computedarguments.append("\" ") }
-        } else if let sshport = sharedsshport {
+        } else if let sshport = sharedsshport, sshport != "-1" {
             // "ssh -p xxx"
             if forDisplay { computedarguments.append(" \"") }
             computedarguments.append("ssh -p " + String(sshport))
