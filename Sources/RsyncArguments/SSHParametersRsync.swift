@@ -50,7 +50,8 @@ public class SSHParametersRsync {
         computedarguments.append("-e")
         if forDisplay { computedarguments.append(" ") }
         if let sshkeypathandidentityfile = sharedsshkeypathandidentityfile,
-            sshkeypathandidentityfile.isEmpty == false {
+           sshkeypathandidentityfile.isEmpty == false
+        {
             if forDisplay { computedarguments.append(" \"") }
             // Then check if ssh port is set also
             if let sshport = sharedsshport, sshport != "-1" {

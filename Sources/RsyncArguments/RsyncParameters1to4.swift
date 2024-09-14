@@ -8,6 +8,16 @@
 
 import Foundation
 
+public enum Verifysshparameters: String, CaseIterable, Identifiable, CustomStringConvertible {
+    case localesshport
+    case localesshkeypath
+    case alllocale
+    case allglobal
+
+    public var id: String { rawValue }
+    public var description: String { rawValue.localizedLowercase }
+}
+
 public final class RsyncParameters1to4: SSHParametersRsync {
     // -e "ssh -i ~/.ssh/id_myserver -p 22"
     // -e "ssh -i ~/sshkeypath/sshidentityfile -p portnumber"
@@ -18,6 +28,8 @@ public final class RsyncParameters1to4: SSHParametersRsync {
     var parameter2 = ""
     var parameter3 = ""
     var parameter4 = ""
+
+    var sshdecison: Verifysshparameters = .allglobal
 
     public func setParameters1To4(forDisplay: Bool, verify: Bool) -> [String] {
         if verify {
@@ -44,42 +56,41 @@ public final class RsyncParameters1to4: SSHParametersRsync {
             if forDisplay { computedarguments.append(" ") }
         }
         if offsiteServer.isEmpty == false {
-            // We have to check for both global and local ssh parameters.
-            // either set global or local
-            // ssh params only apply if remote server
-            if let sshport, sshport != "-1",
-               let sshkeypathandidentityfile,
-               sshkeypathandidentityfile.isEmpty == false
-            {
+            let verify: Verifysshparameters = verifysshparameters()
+            switch verify {
+            case .localesshport:
                 sshparameterslocal(forDisplay: forDisplay)
-            } else if let sharedsshkeypathandidentityfile,
-                      sharedsshkeypathandidentityfile.isEmpty == false,
-                      let sharedsshport,
-                      sharedsshport != "-1"
-            {
-                sshparametersglobal(forDisplay: forDisplay)
-            } else if let sharedsshkeypathandidentityfile,
-                      sharedsshkeypathandidentityfile.isEmpty == false
-            {
-                // Shared SSH keypathandidentityfile
-                sshparametersglobal(forDisplay: forDisplay)
-            } else if let sshkeypathandidentityfile,
-                      sshkeypathandidentityfile.isEmpty == false
-            {
-                // SSH keypathandidentityfile,
+            case .localesshkeypath:
                 sshparameterslocal(forDisplay: forDisplay)
-            } else if let sharedsshport,
-                      sharedsshport != "-1"
-            {
-                // Shared global SSH-port only
-                sshparametersglobal(forDisplay: forDisplay)
-            } else if let sshport, sshport != "-1" {
-                // Shared ssh port only
+            case .alllocale:
                 sshparameterslocal(forDisplay: forDisplay)
+            case .allglobal:
+                sshparametersglobal(forDisplay: forDisplay)
             }
         }
 
         return computedarguments
+    }
+
+    public func verifysshparameters() -> Verifysshparameters {
+        if let sshport, sshport != "-1",
+           let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true
+        {
+            return .localesshport
+        } else if let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false,
+                  let sshport, sshport == "-1"
+        {
+            return .localesshkeypath
+        } else if let sshport, sshport != "-1",
+                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false
+        {
+            return .alllocale
+        } else if let sharedsshkeypathandidentityfile, sharedsshkeypathandidentityfile.isEmpty == false,
+                  let sharedsshport, sharedsshport != "-1"
+        {
+            return .allglobal
+        }
+        return .allglobal
     }
 
     public init(parameter1: String,
