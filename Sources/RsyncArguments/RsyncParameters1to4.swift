@@ -1,5 +1,5 @@
 //
-//  RsyncParameters1to6.swift
+//  RsyncParameters1to4.swift
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 02/08/2024.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public final class RsyncParameters1to6: SSHParametersRsync {
+public final class RsyncParameters1to4: SSHParametersRsync {
     // -e "ssh -i ~/.ssh/id_myserver -p 22"
     // -e "ssh -i ~/sshkeypath/sshidentityfile -p portnumber"
     // default is
@@ -49,23 +49,28 @@ public final class RsyncParameters1to6: SSHParametersRsync {
             // ssh params only apply if remote server
             if let sshport, sshport != "-1",
                let sshkeypathandidentityfile,
-               sshkeypathandidentityfile.isEmpty == false {
+               sshkeypathandidentityfile.isEmpty == false
+            {
                 sshparameterslocal(forDisplay: forDisplay)
             } else if let sharedsshkeypathandidentityfile,
                       sharedsshkeypathandidentityfile.isEmpty == false,
                       let sharedsshport,
-                      sharedsshport != "-1" {
+                      sharedsshport != "-1"
+            {
                 sshparametersglobal(forDisplay: forDisplay)
             } else if let sharedsshkeypathandidentityfile,
-                      sharedsshkeypathandidentityfile.isEmpty == false {
+                      sharedsshkeypathandidentityfile.isEmpty == false
+            {
                 // Shared SSH keypathandidentityfile
                 sshparametersglobal(forDisplay: forDisplay)
             } else if let sshkeypathandidentityfile,
-                          sshkeypathandidentityfile.isEmpty == false {
-                    // SSH keypathandidentityfile,
-                    sshparameterslocal(forDisplay: forDisplay)
+                      sshkeypathandidentityfile.isEmpty == false
+            {
+                // SSH keypathandidentityfile,
+                sshparameterslocal(forDisplay: forDisplay)
             } else if let sharedsshport,
-                      sharedsshport != "-1" {
+                      sharedsshport != "-1"
+            {
                 // Shared global SSH-port only
                 sshparametersglobal(forDisplay: forDisplay)
             } else if let sshport, sshport != "-1" {
@@ -86,7 +91,8 @@ public final class RsyncParameters1to6: SSHParametersRsync {
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool) {
+                rsyncversion3: Bool)
+    {
         super.init(offsiteServer: offsiteServer,
                    sshport: sshport,
                    sshkeypathandidentityfile: sshkeypathandidentityfile,

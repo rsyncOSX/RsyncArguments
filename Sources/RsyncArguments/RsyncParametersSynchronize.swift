@@ -45,7 +45,7 @@ public final class RsyncParametersSynchronize {
     var rsyncversion3 = false
 
     public func initialise_rsyncparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
-        let rsyncparameters1to6 = RsyncParameters1to6(parameter1: parameter1,
+        let rsyncparameters1to6 = RsyncParameters1to4(parameter1: parameter1,
                                                       parameter2: parameter2,
                                                       parameter3: parameter3,
                                                       parameter4: parameter4,
@@ -195,7 +195,8 @@ public final class RsyncParametersSynchronize {
                 sharedpathforrestore: String,
                 snapshotnum: Int,
                 rsyncdaemon: Int,
-                rsyncversion3: Bool) {
+                rsyncversion3: Bool)
+    {
         self.task = task
         self.parameter1 = parameter1
         self.parameter2 = parameter2

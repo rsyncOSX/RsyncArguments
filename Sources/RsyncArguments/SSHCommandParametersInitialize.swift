@@ -43,7 +43,8 @@ public class SSHCommandParametersInitialize {
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool) {
+                rsyncversion3: Bool)
+    {
         self.offsiteServer = offsiteServer
         self.offsiteUsername = offsiteUsername
         self.sshport = sshport
