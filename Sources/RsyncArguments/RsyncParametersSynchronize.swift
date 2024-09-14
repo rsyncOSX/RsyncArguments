@@ -195,7 +195,8 @@ public final class RsyncParametersSynchronize {
                 sharedpathforrestore: String,
                 snapshotnum: Int,
                 rsyncdaemon: Int,
-                rsyncversion3: Bool) {
+                rsyncversion3: Bool)
+    {
         self.task = task
         self.parameter1 = parameter1
         self.parameter2 = parameter2

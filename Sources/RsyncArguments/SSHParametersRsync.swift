@@ -7,6 +7,16 @@
 
 import Foundation
 
+public enum Verifysshparameters: String, CaseIterable, Identifiable, CustomStringConvertible {
+    case localesshport
+    case localesshkeypath
+    case alllocale
+    case allglobal
+
+    public var id: String { rawValue }
+    public var description: String { rawValue.localizedLowercase }
+}
+
 public class SSHParametersRsync {
     // -e "ssh -i ~/.ssh/id_myserver -p 22"
     // -e "ssh -i ~/sshkeypath/sshidentityfile -p portnumber"
@@ -50,7 +60,8 @@ public class SSHParametersRsync {
         computedarguments.append("-e")
         if forDisplay { computedarguments.append(" ") }
         if let sshkeypathandidentityfile = sharedsshkeypathandidentityfile,
-           sshkeypathandidentityfile.isEmpty == false {
+           sshkeypathandidentityfile.isEmpty == false
+        {
             if forDisplay { computedarguments.append(" \"") }
             // Then check if ssh port is set also
             if let sshport = sharedsshport, sshport != "-1" {
@@ -68,13 +79,35 @@ public class SSHParametersRsync {
         }
         if forDisplay { computedarguments.append(" ") }
     }
+    
+    public func verifysshparameters() -> Verifysshparameters? {
+        if let sshport, sshport != "-1",
+           let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true
+        {
+            return .localesshport
+        } else if let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false,
+                  let sshport, sshport == "-1"
+        {
+            return .localesshkeypath
+        } else if let sshport, sshport != "-1",
+                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false
+        {
+            return .alllocale
+        } else if let sharedsshkeypathandidentityfile, sharedsshkeypathandidentityfile.isEmpty == false,
+                  let sharedsshport, sharedsshport != "-1"
+        {
+            return .allglobal
+        }
+        return nil
+    }
 
     public init(offsiteServer: String,
                 sshport: String?,
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool) {
+                rsyncversion3: Bool)
+    {
         self.offsiteServer = offsiteServer
         self.sshport = sshport
         self.sshkeypathandidentityfile = sshkeypathandidentityfile

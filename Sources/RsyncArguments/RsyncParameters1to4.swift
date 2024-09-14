@@ -8,16 +8,6 @@
 
 import Foundation
 
-public enum Verifysshparameters: String, CaseIterable, Identifiable, CustomStringConvertible {
-    case localesshport
-    case localesshkeypath
-    case alllocale
-    case allglobal
-
-    public var id: String { rawValue }
-    public var description: String { rawValue.localizedLowercase }
-}
-
 public final class RsyncParameters1to4: SSHParametersRsync {
     // -e "ssh -i ~/.ssh/id_myserver -p 22"
     // -e "ssh -i ~/sshkeypath/sshidentityfile -p portnumber"
@@ -71,23 +61,6 @@ public final class RsyncParameters1to4: SSHParametersRsync {
         return computedarguments
     }
 
-    public func verifysshparameters() -> Verifysshparameters? {
-        if let sshport, sshport != "-1",
-           let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true {
-            return .localesshport
-        } else if let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false,
-                  let sshport, sshport == "-1" {
-            return .localesshkeypath
-        } else if let sshport, sshport != "-1",
-                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false {
-            return .alllocale
-        } else if let sharedsshkeypathandidentityfile, sharedsshkeypathandidentityfile.isEmpty == false,
-                  let sharedsshport, sharedsshport != "-1" {
-            return .allglobal
-        }
-        return nil
-    }
-
     public init(parameter1: String,
                 parameter2: String,
                 parameter3: String,
@@ -97,7 +70,8 @@ public final class RsyncParameters1to4: SSHParametersRsync {
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool) {
+                rsyncversion3: Bool)
+    {
         super.init(offsiteServer: offsiteServer,
                    sshport: sshport,
                    sshkeypathandidentityfile: sshkeypathandidentityfile,

@@ -18,7 +18,8 @@ final class ReadTestdataFromGitHub {
         // Load user configuration
         do {
             if let userconfig = try await
-                testdata.loadanddecodestringdata(DecodeTestUserConfiguration.self, fromwhere: urlJSONuiconfig) {
+                testdata.loadanddecodestringdata(DecodeTestUserConfiguration.self, fromwhere: urlJSONuiconfig)
+            {
                 await TestUserConfiguration(userconfig)
                 print("ReadTestdataFromGitHub: loading userconfiguration COMPLETED)")
             }
@@ -47,7 +48,8 @@ final class ReadTestdataFromGitHub {
         // Load user configuration
         do {
             if let userconfig = try await
-                testdata.loadanddecodestringdata(DecodeTestUserConfiguration.self, fromwhere: urlJSONuiconfignossh) {
+                testdata.loadanddecodestringdata(DecodeTestUserConfiguration.self, fromwhere: urlJSONuiconfignossh)
+            {
                 await TestUserConfiguration(userconfig)
                 print("ReadTestdataFromGitHub: loading userconfiguration NOSSH COMPLETED)")
             }
