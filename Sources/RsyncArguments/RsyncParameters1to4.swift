@@ -29,8 +29,6 @@ public final class RsyncParameters1to4: SSHParametersRsync {
     var parameter3 = ""
     var parameter4 = ""
 
-    var sshdecison: Verifysshparameters = .allglobal
-
     public func setParameters1To4(forDisplay: Bool, verify: Bool) -> [String] {
         if verify {
             parameter1 = DefaultRsyncParameters.verify_parameter1.rawValue
@@ -56,41 +54,38 @@ public final class RsyncParameters1to4: SSHParametersRsync {
             if forDisplay { computedarguments.append(" ") }
         }
         if offsiteServer.isEmpty == false {
-            let verify: Verifysshparameters = verifysshparameters()
-            switch verify {
-            case .localesshport:
-                sshparameterslocal(forDisplay: forDisplay)
-            case .localesshkeypath:
-                sshparameterslocal(forDisplay: forDisplay)
-            case .alllocale:
-                sshparameterslocal(forDisplay: forDisplay)
-            case .allglobal:
-                sshparametersglobal(forDisplay: forDisplay)
+            if let verify: Verifysshparameters = verifysshparameters() {
+                switch verify {
+                case .localesshport:
+                    sshparameterslocal(forDisplay: forDisplay)
+                case .localesshkeypath:
+                    sshparameterslocal(forDisplay: forDisplay)
+                case .alllocale:
+                    sshparameterslocal(forDisplay: forDisplay)
+                case .allglobal:
+                    sshparametersglobal(forDisplay: forDisplay)
+                }
             }
         }
 
         return computedarguments
     }
 
-    public func verifysshparameters() -> Verifysshparameters {
+    public func verifysshparameters() -> Verifysshparameters? {
         if let sshport, sshport != "-1",
-           let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true
-        {
+           let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true {
             return .localesshport
         } else if let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false,
-                  let sshport, sshport == "-1"
-        {
+                  let sshport, sshport == "-1" {
             return .localesshkeypath
         } else if let sshport, sshport != "-1",
-                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false
-        {
+                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false {
             return .alllocale
         } else if let sharedsshkeypathandidentityfile, sharedsshkeypathandidentityfile.isEmpty == false,
-                  let sharedsshport, sharedsshport != "-1"
-        {
+                  let sharedsshport, sharedsshport != "-1" {
             return .allglobal
         }
-        return .allglobal
+        return nil
     }
 
     public init(parameter1: String,
