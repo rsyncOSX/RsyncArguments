@@ -19,7 +19,7 @@ public final class RsyncParameters1to6: SSHParametersRsync {
     var parameter3 = ""
     var parameter4 = ""
 
-    public func setParameters1To6(forDisplay: Bool, verify: Bool) -> [String] {
+    public func setParameters1To4(forDisplay: Bool, verify: Bool) -> [String] {
         if verify {
             parameter1 = DefaultRsyncParameters.verify_parameter1.rawValue
         } else {
@@ -56,6 +56,21 @@ public final class RsyncParameters1to6: SSHParametersRsync {
                       let sharedsshport,
                       sharedsshport != "-1" {
                 sshparametersglobal(forDisplay: forDisplay)
+            } else if let sharedsshkeypathandidentityfile,
+                      sharedsshkeypathandidentityfile.isEmpty == false {
+                // Shared SSH keypathandidentityfile
+                sshparametersglobal(forDisplay: forDisplay)
+            } else if let sshkeypathandidentityfile,
+                          sshkeypathandidentityfile.isEmpty == false {
+                    // SSH keypathandidentityfile,
+                    sshparameterslocal(forDisplay: forDisplay)
+            } else if let sharedsshport,
+                      sharedsshport != "-1" {
+                // Shared global SSH-port only
+                sshparametersglobal(forDisplay: forDisplay)
+            } else if let sshport, sshport != "-1" {
+                // Shared ssh port only
+                sshparameterslocal(forDisplay: forDisplay)
             }
         }
 

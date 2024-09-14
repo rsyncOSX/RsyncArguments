@@ -56,7 +56,7 @@ public final class RsyncParametersSynchronize {
                                                       sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
                                                       rsyncversion3: rsyncversion3)
 
-        computedarguments += rsyncparameters1to6.setParameters1To6(forDisplay: forDisplay, verify: verify)
+        computedarguments += rsyncparameters1to6.setParameters1To4(forDisplay: forDisplay, verify: verify)
 
         let rsyncparameters8to14 = RsyncParameters8to14(parameter8: parameter8,
                                                         parameter9: parameter9,
