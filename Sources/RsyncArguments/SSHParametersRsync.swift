@@ -29,7 +29,7 @@ public class SSHParametersRsync {
         if let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false {
             if forDisplay { computedarguments.append(" \"") }
             // Then check if ssh port is set also
-            if let sshport {
+            if let sshport, sshport != "-1" {
                 // "ssh -i ~/sshkeypath/sshidentityfile -p portnumber"
                 computedarguments.append("ssh -i " + sshkeypathandidentityfile + " " + "-p " + String(sshport))
             } else {
@@ -53,7 +53,7 @@ public class SSHParametersRsync {
             sshkeypathandidentityfile.isEmpty == false {
             if forDisplay { computedarguments.append(" \"") }
             // Then check if ssh port is set also
-            if let sshport = sharedsshport {
+            if let sshport = sharedsshport, sshport != "-1" {
                 // "ssh -i ~/sshkeypath/sshidentityfile -p portnumber"
                 computedarguments.append("ssh -i " + sshkeypathandidentityfile + " " + "-p " + String(sshport))
             } else {
