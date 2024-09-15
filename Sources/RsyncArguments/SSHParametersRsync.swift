@@ -97,6 +97,10 @@ public class SSHParametersRsync {
                   let sharedsshport, sharedsshport != "-1"
         {
             return .allglobal
+        } else if let sharedsshkeypathandidentityfile, sharedsshkeypathandidentityfile.isEmpty == false {
+            return .allglobal
+        } else if let sharedsshport, sharedsshport != "-1" {
+            return .allglobal
         }
         return nil
     }
