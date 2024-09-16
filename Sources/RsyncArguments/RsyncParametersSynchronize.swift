@@ -162,16 +162,6 @@ public final class RsyncParametersSynchronize {
         }
     }
 
-    private func remoteargssnapshot() -> String {
-        offsiteCatalog += String(snapshotnum - 1) + "/"
-        if rsyncdaemon == 1 {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + localCatalog
-        } else {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + localCatalog
-        }
-        return computedremoteargs
-    }
-
     public init(task: String,
                 parameter1: String,
                 parameter2: String,

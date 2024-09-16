@@ -36,7 +36,6 @@ public final class RsyncParametersRestore {
     var offsiteServer = ""
     var offsiteUsername = ""
     var computedremoteargs = ""
-    var linkdestparam = ""
     var sharedpathforrestore = ""
 
     var snapshotnum = -1
