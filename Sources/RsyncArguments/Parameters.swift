@@ -7,38 +7,38 @@
 
 
 public final class Parameters {
-    var task = ""
+    public var task = ""
     
-    var parameter1 = ""
-    var parameter2 = ""
-    var parameter3 = ""
-    var parameter4 = ""
+    public var parameter1 = ""
+    public var parameter2 = ""
+    public var parameter3 = ""
+    public var parameter4 = ""
 
-    var parameter8: String?
-    var parameter9: String?
-    var parameter10: String?
-    var parameter11: String?
-    var parameter12: String?
-    var parameter13: String?
-    var parameter14: String?
+    public var parameter8: String?
+    public var parameter9: String?
+    public var parameter10: String?
+    public var parameter11: String?
+    public var parameter12: String?
+    public var parameter13: String?
+    public var parameter14: String?
 
-    var sshport: String?
-    var sshkeypathandidentityfile: String?
-    var sharedsshport: String?
-    var sharedsshkeypathandidentityfile: String?
+    public var sshport: String?
+    public var sshkeypathandidentityfile: String?
+    public var sharedsshport: String?
+    public var sharedsshkeypathandidentityfile: String?
 
-    var localCatalog = ""
-    var offsiteCatalog = ""
-    var offsiteServer = ""
-    var offsiteUsername = ""
-    var computedremoteargs = ""
-    var linkdestparam = ""
-    var sharedpathforrestore = ""
+    public var localCatalog = ""
+    public var offsiteCatalog = ""
+    public var offsiteServer = ""
+    public var offsiteUsername = ""
+    public var computedremoteargs = ""
+    public var linkdestparam = ""
+    public var sharedpathforrestore = ""
 
-    var snapshotnum = -1
-    var rsyncdaemon = -1
+    public var snapshotnum = -1
+    public var rsyncdaemon = -1
 
-    var rsyncversion3 = false
+    public var rsyncversion3 = false
     
     public init(task: String,
                 parameter1: String,
