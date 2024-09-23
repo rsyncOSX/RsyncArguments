@@ -162,55 +162,31 @@ public final class RsyncParametersSynchronize {
         }
     }
 
-    public init(task: String,
-                parameter1: String,
-                parameter2: String,
-                parameter3: String,
-                parameter4: String,
-                parameter8: String?,
-                parameter9: String?,
-                parameter10: String?,
-                parameter11: String?,
-                parameter12: String?,
-                parameter13: String?,
-                parameter14: String?,
-                sshport: String?,
-                sshkeypathandidentityfile: String?,
-                sharedsshport: String?,
-                sharedsshkeypathandidentityfile: String?,
-                localCatalog: String,
-                offsiteCatalog: String,
-                offsiteServer: String,
-                offsiteUsername: String,
-                sharedpathforrestore: String,
-                snapshotnum: Int,
-                rsyncdaemon: Int,
-                rsyncversion3: Bool)
-    {
-        self.task = task
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-        self.parameter3 = parameter3
-        self.parameter4 = parameter4
-        self.parameter8 = parameter8
-        self.parameter9 = parameter9
-        self.parameter10 = parameter10
-        self.parameter11 = parameter11
-        self.parameter12 = parameter12
-        self.parameter13 = parameter13
-        self.parameter14 = parameter14
-        self.sshport = sshport
-        self.sshkeypathandidentityfile = sshkeypathandidentityfile
-        self.sharedsshport = sharedsshport
-        self.sharedsshkeypathandidentityfile = sharedsshkeypathandidentityfile
-        self.localCatalog = localCatalog
-        self.offsiteCatalog = offsiteCatalog
-        self.offsiteServer = offsiteServer
-        self.offsiteUsername = offsiteUsername
-        self.sharedpathforrestore = sharedpathforrestore
-        self.snapshotnum = snapshotnum
-        self.rsyncdaemon = rsyncdaemon
-        self.rsyncversion3 = rsyncversion3
+    public init(parameters: Parameters) {
+        self.task = parameters.task
+        self.parameter1 = parameters.parameter1
+        self.parameter2 = parameters.parameter2
+        self.parameter3 = parameters.parameter3
+        self.parameter4 = parameters.parameter4
+        self.parameter8 = parameters.parameter8
+        self.parameter9 = parameters.parameter9
+        self.parameter10 = parameters.parameter10
+        self.parameter11 = parameters.parameter11
+        self.parameter12 = parameters.parameter12
+        self.parameter13 = parameters.parameter13
+        self.parameter14 = parameters.parameter14
+        self.sshport = parameters.sshport
+        self.sshkeypathandidentityfile = parameters.sshkeypathandidentityfile
+        self.sharedsshport = parameters.sharedsshport
+        self.sharedsshkeypathandidentityfile = parameters.sharedsshkeypathandidentityfile
+        self.localCatalog = parameters.localCatalog
+        self.offsiteCatalog = parameters.offsiteCatalog
+        self.offsiteServer = parameters.offsiteServer
+        self.offsiteUsername = parameters.offsiteUsername
+        self.sharedpathforrestore = parameters.sharedpathforrestore
+        self.snapshotnum = parameters.snapshotnum
+        self.rsyncdaemon = parameters.rsyncdaemon
+        self.rsyncversion3 = parameters.rsyncversion3
 
         computedarguments.removeAll()
     }
