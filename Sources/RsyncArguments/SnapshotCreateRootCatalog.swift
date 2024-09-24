@@ -12,15 +12,12 @@ public final class SnapshotCreateRootCatalog: SSHCommandParametersInitialize {
 
     public func snapshotcreaterootcatalog(offsiteCatalog: String) -> [String] {
         if offsiteServer.isEmpty == false {
-            appendparameter(remotearges())
+            let remotearges = offsiteUsername + "@" + offsiteServer
+            appendparameter(remotearges)
         }
         let remotecommand = "mkdir -p " + offsiteCatalog
         appendparameter(remotecommand)
         return computedarguments
-    }
-
-    private func remotearges() -> String {
-        offsiteUsername + "@" + offsiteServer
     }
 
     override public init(offsiteServer: String,
@@ -38,5 +35,9 @@ public final class SnapshotCreateRootCatalog: SSHCommandParametersInitialize {
                    sharedsshport: sharedsshport,
                    sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
                    rsyncversion3: rsyncversion3)
+    }
+    
+    override public init(sshparameters: SSHParameters) {
+        super.init(sshparameters: sshparameters)
     }
 }
