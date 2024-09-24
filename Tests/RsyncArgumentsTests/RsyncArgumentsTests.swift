@@ -267,15 +267,16 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let sshcommands = await SnapshotDelete(
-                    offsiteServer: testconfigurations[i].offsiteServer,
-                    offsiteUsername: testconfigurations[i].offsiteUsername,
-                    sshport: String(testconfigurations[i].sshport ?? -1),
-                    sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                    sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                    sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                    rsyncversion3: TestSharedReference.shared.rsyncversion3
-                )
+                let sshparameters = await SSHParameters(offsiteServer: testconfigurations[i].offsiteServer,
+                                                  offsiteUsername: testconfigurations[i].offsiteUsername,
+                                                  sshport: String(testconfigurations[i].sshport ?? -1),
+                                                  sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                                                  sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                                                  sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                                                  rsyncversion3: TestSharedReference.shared.rsyncversion3)
+                
+                
+                let sshcommands = await SnapshotDelete(sshparameters: sshparameters)
                 await sshcommands.initialise_setsshidentityfileandsshport()
 
                 switch i {
