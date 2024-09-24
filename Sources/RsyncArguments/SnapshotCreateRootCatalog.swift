@@ -19,23 +19,6 @@ public final class SnapshotCreateRootCatalog: SSHCommandParametersInitialize {
         appendparameter(remotecommand)
         return computedarguments
     }
-
-    override public init(offsiteServer: String,
-                         offsiteUsername: String,
-                         sshport: String?,
-                         sshkeypathandidentityfile: String?,
-                         sharedsshport: String?,
-                         sharedsshkeypathandidentityfile: String?,
-                         rsyncversion3: Bool)
-    {
-        super.init(offsiteServer: offsiteServer,
-                   offsiteUsername: offsiteUsername,
-                   sshport: sshport,
-                   sshkeypathandidentityfile: sshkeypathandidentityfile,
-                   sharedsshport: sharedsshport,
-                   sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
-                   rsyncversion3: rsyncversion3)
-    }
     
     override public init(sshparameters: SSHParameters) {
         super.init(sshparameters: sshparameters)

@@ -98,16 +98,4 @@ public class SSHCommandParameters {
 
         computedarguments.removeAll()
     }
-    
-    
-    public init(sshparameters: SSHParameters) {
-        self.offsiteServer = sshparameters.offsiteServer
-        self.sshport = sshparameters.sshport
-        self.sshkeypathandidentityfile = sshparameters.sshkeypathandidentityfile
-        self.sharedsshport = sshparameters.sharedsshport
-        self.sharedsshkeypathandidentityfile = sshparameters.sharedsshkeypathandidentityfile
-        self.rsyncversion3 = sshparameters.rsyncversion3
-
-        computedarguments.removeAll()
-    }
 }
