@@ -79,7 +79,7 @@ public final class RsyncParametersRestore {
             rsyncversion3: rsyncversion3
         )
 
-        computedarguments += sshparametersonly.setParameters1SSHandSSHPORT(forDisplay: forDisplay, verify: verify)
+        computedarguments += sshparametersonly.setParametersSSHandSSHPORT(forDisplay: forDisplay, verify: verify)
     }
 
     public func remoteargumentsfilelist() {

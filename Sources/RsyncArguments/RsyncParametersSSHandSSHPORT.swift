@@ -8,7 +8,7 @@
 import Foundation
 
 public final class RsyncParametersSSHandSSHPORT: SSHParametersRsync {
-    public func setParameters1SSHandSSHPORT(forDisplay: Bool, verify _: Bool) -> [String] {
+    public func setParametersSSHandSSHPORT(forDisplay: Bool, verify _: Bool) -> [String] {
         if offsiteServer.isEmpty == false {
                 if let verify: Verifysshparameters = verifysshparameters() {
                     switch verify {
