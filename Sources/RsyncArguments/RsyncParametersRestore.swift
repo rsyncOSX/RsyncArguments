@@ -44,7 +44,7 @@ public final class RsyncParametersRestore {
     var rsyncversion3 = false
 
     public func initialise_rsyncparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
-        let rsyncparameters1to6 = RsyncParameters1to4(parameter1: parameter1,
+        let rsyncparameters1to4 = RsyncParameters1to4(parameter1: parameter1,
                                                       parameter2: parameter2,
                                                       parameter3: parameter3,
                                                       parameter4: parameter4,
@@ -55,7 +55,7 @@ public final class RsyncParametersRestore {
                                                       sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
                                                       rsyncversion3: rsyncversion3)
 
-        computedarguments += rsyncparameters1to6.setParameters1To4(forDisplay: forDisplay, verify: verify)
+        computedarguments += rsyncparameters1to4.setParameters1To4(forDisplay: forDisplay, verify: verify)
 
         let rsyncparameters8to14 = RsyncParameters8to14(parameter8: parameter8,
                                                         parameter9: parameter9,
