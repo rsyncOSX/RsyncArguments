@@ -12,6 +12,7 @@ public enum Verifysshparameters: String, CaseIterable, Identifiable, CustomStrin
     case localesshkeypath
     case alllocale
     case allglobal
+    case essh // set -e ssh
 
     public var id: String { rawValue }
     public var description: String { rawValue.localizedLowercase }
@@ -31,6 +32,15 @@ public class SSHParametersRsync {
     var sharedsshkeypathandidentityfile: String?
 
     var rsyncversion3 = false
+    
+    // Only set -e ssh
+    
+    public func setessh(forDisplay: Bool) {
+        computedarguments.append("-e ssh")
+        if forDisplay { computedarguments.append(" ") }
+        // computedarguments.append("ssh")
+        // if forDisplay { computedarguments.append(" ") }
+    }
 
     // Local params rules global settings
     public func sshparameterslocal(forDisplay: Bool) {
@@ -101,6 +111,11 @@ public class SSHParametersRsync {
             return .allglobal
         } else if let sharedsshport, sharedsshport != "-1" {
             return .allglobal
+        } else if sshport == "-1",
+                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true ,
+                  let sharedsshport, sharedsshport == "-1",
+                    sharedsshkeypathandidentityfile == nil {
+            return .essh
         }
         return nil
     }

@@ -20,6 +20,8 @@ public final class RsyncParametersSSHandSSHPORT: SSHParametersRsync {
                         sshparameterslocal(forDisplay: forDisplay)
                     case .allglobal:
                         sshparametersglobal(forDisplay: forDisplay)
+                    case .essh:
+                        setessh(forDisplay: forDisplay)
                     }
                 }
         }

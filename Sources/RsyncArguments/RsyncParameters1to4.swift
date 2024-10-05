@@ -54,6 +54,8 @@ public final class RsyncParameters1to4: SSHParametersRsync {
                     sshparameterslocal(forDisplay: forDisplay)
                 case .allglobal:
                     sshparametersglobal(forDisplay: forDisplay)
+                case .essh:
+                    setessh(forDisplay: forDisplay)
                 }
             }
         }
