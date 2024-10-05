@@ -140,8 +140,11 @@ public final class RsyncParametersRestore {
         guard sharedpathforrestore.isEmpty == false else { return }
 
         computedarguments.append(DefaultRsyncParameters.archive_parameter1.rawValue)
+        if forDisplay { computedarguments.append(" ") }
         computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
+        if forDisplay { computedarguments.append(" ") }
         computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
+        if forDisplay { computedarguments.append(" ") }
 
         // Must add --dryrun here, normally it is appended in syncparameters8to14
         // Only parameters 1to6 are added for getting remote filelists
