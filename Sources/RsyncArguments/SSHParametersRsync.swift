@@ -116,6 +116,11 @@ public class SSHParametersRsync {
                   let sharedsshport, sharedsshport == "-1",
                     sharedsshkeypathandidentityfile == nil {
             return .essh
+        }  else if sshport == "-1",
+                   sshkeypathandidentityfile == nil ,
+                   let sharedsshport, sharedsshport == "-1",
+                   sharedsshkeypathandidentityfile == nil {
+            return .essh
         }
         return nil
     }
