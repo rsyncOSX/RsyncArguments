@@ -34,12 +34,10 @@ public class SSHParametersRsync {
     var rsyncversion3 = false
     
     // Only set -e ssh
-    
     public func setessh(forDisplay: Bool) {
+        if forDisplay { computedarguments.append(" ") }
         computedarguments.append("-e ssh")
         if forDisplay { computedarguments.append(" ") }
-        // computedarguments.append("ssh")
-        // if forDisplay { computedarguments.append(" ") }
     }
 
     // Local params rules global settings
