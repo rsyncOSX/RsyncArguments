@@ -5,10 +5,9 @@
 //  Created by Thomas Evensen on 23/09/2024.
 //
 
-
 public final class Parameters {
     public var task = ""
-    
+
     public var parameter1 = ""
     public var parameter2 = ""
     public var parameter3 = ""
@@ -39,7 +38,7 @@ public final class Parameters {
     public var rsyncdaemon = -1
 
     public var rsyncversion3 = false
-    
+
     public init(task: String,
                 parameter1: String,
                 parameter2: String,
@@ -63,8 +62,7 @@ public final class Parameters {
                 sharedpathforrestore: String,
                 snapshotnum: Int,
                 rsyncdaemon: Int,
-                rsyncversion3: Bool)
-    {
+                rsyncversion3: Bool) {
         self.task = task
         self.parameter1 = parameter1
         self.parameter2 = parameter2

@@ -8,7 +8,6 @@
 import Foundation
 
 struct ArgumentsSynchronizeNOSSH {
-    
     let nr0 = ["--archive",
                "--verbose",
                "--compress",

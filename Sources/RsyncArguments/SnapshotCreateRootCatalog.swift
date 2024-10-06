@@ -19,7 +19,7 @@ public final class SnapshotCreateRootCatalog: SSHCommandParametersInitialize {
         appendparameter(remotecommand)
         return computedarguments
     }
-    
+
     override public init(sshparameters: SSHParameters) {
         super.init(sshparameters: sshparameters)
     }

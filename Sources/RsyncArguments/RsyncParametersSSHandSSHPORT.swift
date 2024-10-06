@@ -10,20 +10,20 @@ import Foundation
 public final class RsyncParametersSSHandSSHPORT: SSHParametersRsync {
     public func setParametersSSHandSSHPORT(forDisplay: Bool, verify _: Bool) -> [String] {
         if offsiteServer.isEmpty == false {
-                if let verify: Verifysshparameters = verifysshparameters() {
-                    switch verify {
-                    case .localesshport:
-                        sshparameterslocal(forDisplay: forDisplay)
-                    case .localesshkeypath:
-                        sshparameterslocal(forDisplay: forDisplay)
-                    case .alllocale:
-                        sshparameterslocal(forDisplay: forDisplay)
-                    case .allglobal:
-                        sshparametersglobal(forDisplay: forDisplay)
-                    case .essh:
-                        setessh(forDisplay: forDisplay)
-                    }
+            if let verify: Verifysshparameters = verifysshparameters() {
+                switch verify {
+                case .localesshport:
+                    sshparameterslocal(forDisplay: forDisplay)
+                case .localesshkeypath:
+                    sshparameterslocal(forDisplay: forDisplay)
+                case .alllocale:
+                    sshparameterslocal(forDisplay: forDisplay)
+                case .allglobal:
+                    sshparametersglobal(forDisplay: forDisplay)
+                case .essh:
+                    setessh(forDisplay: forDisplay)
                 }
+            }
         }
 
         return computedarguments

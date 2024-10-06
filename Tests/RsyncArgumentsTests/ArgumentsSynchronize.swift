@@ -8,7 +8,6 @@
 import Foundation
 
 struct ArgumentsSynchronize {
-   
     let nr0 = ["--archive",
                "--verbose",
                "--compress",
@@ -21,7 +20,7 @@ struct ArgumentsSynchronize {
                "--link-dest=/backups/snapshots_JSON/53",
                "/Users/thomas/GitHub/",
                "thomas@raspberrypi:/backups/snapshots_JSON/54"]
-    
+
     let nr1 = ["--archive",
                "--verbose",
                "--compress",

@@ -163,30 +163,30 @@ public final class RsyncParametersSynchronize {
     }
 
     public init(parameters: Parameters) {
-        self.task = parameters.task
-        self.parameter1 = parameters.parameter1
-        self.parameter2 = parameters.parameter2
-        self.parameter3 = parameters.parameter3
-        self.parameter4 = parameters.parameter4
-        self.parameter8 = parameters.parameter8
-        self.parameter9 = parameters.parameter9
-        self.parameter10 = parameters.parameter10
-        self.parameter11 = parameters.parameter11
-        self.parameter12 = parameters.parameter12
-        self.parameter13 = parameters.parameter13
-        self.parameter14 = parameters.parameter14
-        self.sshport = parameters.sshport
-        self.sshkeypathandidentityfile = parameters.sshkeypathandidentityfile
-        self.sharedsshport = parameters.sharedsshport
-        self.sharedsshkeypathandidentityfile = parameters.sharedsshkeypathandidentityfile
-        self.localCatalog = parameters.localCatalog
-        self.offsiteCatalog = parameters.offsiteCatalog
-        self.offsiteServer = parameters.offsiteServer
-        self.offsiteUsername = parameters.offsiteUsername
-        self.sharedpathforrestore = parameters.sharedpathforrestore
-        self.snapshotnum = parameters.snapshotnum
-        self.rsyncdaemon = parameters.rsyncdaemon
-        self.rsyncversion3 = parameters.rsyncversion3
+        task = parameters.task
+        parameter1 = parameters.parameter1
+        parameter2 = parameters.parameter2
+        parameter3 = parameters.parameter3
+        parameter4 = parameters.parameter4
+        parameter8 = parameters.parameter8
+        parameter9 = parameters.parameter9
+        parameter10 = parameters.parameter10
+        parameter11 = parameters.parameter11
+        parameter12 = parameters.parameter12
+        parameter13 = parameters.parameter13
+        parameter14 = parameters.parameter14
+        sshport = parameters.sshport
+        sshkeypathandidentityfile = parameters.sshkeypathandidentityfile
+        sharedsshport = parameters.sharedsshport
+        sharedsshkeypathandidentityfile = parameters.sharedsshkeypathandidentityfile
+        localCatalog = parameters.localCatalog
+        offsiteCatalog = parameters.offsiteCatalog
+        offsiteServer = parameters.offsiteServer
+        offsiteUsername = parameters.offsiteUsername
+        sharedpathforrestore = parameters.sharedpathforrestore
+        snapshotnum = parameters.snapshotnum
+        rsyncdaemon = parameters.rsyncdaemon
+        rsyncversion3 = parameters.rsyncversion3
 
         computedarguments.removeAll()
     }

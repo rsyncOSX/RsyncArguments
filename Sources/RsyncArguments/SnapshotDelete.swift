@@ -24,7 +24,7 @@ public final class SnapshotDelete: SSHCommandParametersInitialize {
             return computedarguments
         }
     }
-    
+
     override public init(sshparameters: SSHParameters) {
         super.init(sshparameters: sshparameters)
     }

@@ -32,7 +32,7 @@ public class SSHParametersRsync {
     var sharedsshkeypathandidentityfile: String?
 
     var rsyncversion3 = false
-    
+
     // Only set -e ssh
     public func setessh(forDisplay: Bool) {
         if forDisplay { computedarguments.append(" ") }
@@ -68,8 +68,7 @@ public class SSHParametersRsync {
         computedarguments.append("-e")
         if forDisplay { computedarguments.append(" ") }
         if let sshkeypathandidentityfile = sharedsshkeypathandidentityfile,
-           sshkeypathandidentityfile.isEmpty == false
-        {
+           sshkeypathandidentityfile.isEmpty == false {
             if forDisplay { computedarguments.append(" \"") }
             // Then check if ssh port is set also
             if let sshport = sharedsshport, sshport != "-1" {
@@ -87,40 +86,36 @@ public class SSHParametersRsync {
         }
         if forDisplay { computedarguments.append(" ") }
     }
-    
+
     public func verifysshparameters() -> Verifysshparameters? {
         if let sshport, sshport != "-1",
-           let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true
-        {
+           let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true {
             return .localesshport
         } else if let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false,
-                  let sshport, sshport == "-1"
-        {
+                  let sshport, sshport == "-1" {
             return .localesshkeypath
         } else if let sshport, sshport != "-1",
-                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false
-        {
+                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == false {
             return .alllocale
         } else if let sharedsshkeypathandidentityfile, sharedsshkeypathandidentityfile.isEmpty == false,
-                  let sharedsshport, sharedsshport != "-1"
-        {
+                  let sharedsshport, sharedsshport != "-1" {
             return .allglobal
         } else if let sharedsshkeypathandidentityfile, sharedsshkeypathandidentityfile.isEmpty == false {
             return .allglobal
         } else if let sharedsshport, sharedsshport != "-1" {
             return .allglobal
         } else if sshport == "-1",
-                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true ,
+                  let sshkeypathandidentityfile, sshkeypathandidentityfile.isEmpty == true,
                   let sharedsshport, sharedsshport == "-1",
-                    sharedsshkeypathandidentityfile == nil {
-            return .essh
-        }  else if sshport == "-1",
-                   sshkeypathandidentityfile == nil ,
-                   let sharedsshport, sharedsshport == "-1",
-                   sharedsshkeypathandidentityfile == nil {
+                  sharedsshkeypathandidentityfile == nil {
             return .essh
         } else if sshport == "-1",
-                  sshkeypathandidentityfile == nil ,
+                  sshkeypathandidentityfile == nil,
+                  let sharedsshport, sharedsshport == "-1",
+                  sharedsshkeypathandidentityfile == nil {
+            return .essh
+        } else if sshport == "-1",
+                  sshkeypathandidentityfile == nil,
                   let sharedsshport, sharedsshport == "-1",
                   let sharedsshkeypathandidentityfile, sharedsshkeypathandidentityfile.isEmpty == true {
             return .essh
@@ -133,8 +128,7 @@ public class SSHParametersRsync {
                 sshkeypathandidentityfile: String?,
                 sharedsshport: String?,
                 sharedsshkeypathandidentityfile: String?,
-                rsyncversion3: Bool)
-    {
+                rsyncversion3: Bool) {
         self.offsiteServer = offsiteServer
         self.sshport = sshport
         self.sshkeypathandidentityfile = sshkeypathandidentityfile
