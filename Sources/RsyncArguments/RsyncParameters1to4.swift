@@ -9,11 +9,7 @@
 import Foundation
 
 public final class RsyncParameters1to4: SSHParametersRsync {
-    // -e "ssh -i ~/.ssh/id_myserver -p 22"
-    // -e "ssh -i ~/sshkeypath/sshidentityfile -p portnumber"
-    // default is
-    // -e "ssh -i ~/.ssh/id_rsa -p 22"
-
+    
     var parameter1 = ""
     var parameter2 = ""
     var parameter3 = ""
