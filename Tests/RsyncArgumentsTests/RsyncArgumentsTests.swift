@@ -10,11 +10,22 @@ import Testing
     var nr3: [String]?
     var nr4: [String]?
     var nr5: [String]?
-
-    @Test func LodaDataTestSynchronize() async {
+    
+    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil, nr4: [String]? = nil, nr5: [String]? = nil) async {
+        self.testconfigurations = testconfigurations
+        self.nr0 = nr0
+        self.nr1 = nr1
+        self.nr2 = nr2
+        self.nr3 = nr3
+        self.nr4 = nr4
+        self.nr5 = nr5
+        
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdata()
-        testconfigurations = loadtestdata.testconfigurations
+        self.testconfigurations = loadtestdata.testconfigurations
+    }
+
+    @Test func LodaDataTestSynchronize() async {
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
@@ -97,11 +108,20 @@ import Testing
     var nr1: [String]?
     var nr2: [String]?
     var nr3: [String]?
-
-    @Test func LodaDataTestRestore() async {
+    
+    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil) async {
+        self.testconfigurations = testconfigurations
+        self.nr0 = nr0
+        self.nr1 = nr1
+        self.nr2 = nr2
+        self.nr3 = nr3
+        
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdata()
-        testconfigurations = loadtestdata.testconfigurations
+        self.testconfigurations = loadtestdata.testconfigurations
+    }
+
+    @Test func LodaDataTestRestore() async {
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
@@ -181,11 +201,20 @@ import Testing
     var nr1: [String]?
     var nr2: [String]?
     var nr3: [String]?
-
-    @Test func LodaDataTestRestoreFiles() async {
+    
+    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil) async {
+        self.testconfigurations = testconfigurations
+        self.nr0 = nr0
+        self.nr1 = nr1
+        self.nr2 = nr2
+        self.nr3 = nr3
+        
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdata()
-        testconfigurations = loadtestdata.testconfigurations
+        self.testconfigurations = loadtestdata.testconfigurations
+    }
+
+    @Test func LodaDataTestRestoreFiles() async {
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
@@ -259,11 +288,22 @@ import Testing
     var nr3: [String]?
     var nr4: [String]?
     var nr5: [String]?
-
-    @Test func LodaDataSSHCommands() async {
+    
+    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil, nr4: [String]? = nil, nr5: [String]? = nil) async {
+        self.testconfigurations = testconfigurations
+        self.nr0 = nr0
+        self.nr1 = nr1
+        self.nr2 = nr2
+        self.nr3 = nr3
+        self.nr4 = nr4
+        self.nr5 = nr5
+        
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdata()
-        testconfigurations = loadtestdata.testconfigurations
+        self.testconfigurations = loadtestdata.testconfigurations
+    }
+
+    @Test func LodaDataSSHCommands() async {
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
@@ -321,11 +361,23 @@ import Testing
     var nr3: [String]?
     var nr4: [String]?
     var nr5: [String]?
-
-    @Test func LodaDataTestSynchronize() async {
+    
+    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil, nr4: [String]? = nil, nr5: [String]? = nil) async {
+        self.testconfigurations = testconfigurations
+        self.nr0 = nr0
+        self.nr1 = nr1
+        self.nr2 = nr2
+        self.nr3 = nr3
+        self.nr4 = nr4
+        self.nr5 = nr5
+        
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdatanossh()
-        testconfigurations = loadtestdata.testconfigurations
+        self.testconfigurations = loadtestdata.testconfigurations
+    }
+
+    @Test func LodaDataTestSynchronize() async {
+        
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
