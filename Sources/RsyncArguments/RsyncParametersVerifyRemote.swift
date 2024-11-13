@@ -121,8 +121,10 @@ public final class RsyncParametersVerifyRemote {
             if forDisplay { computedarguments.append(" ") }
         }
         computedarguments.append("--stats")
+        if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.git/")
-
+        if forDisplay { computedarguments.append(" ") }
+        
         initialise_sshparametersonly(forDisplay: forDisplay, verify: verify)
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append(remoteargs())
