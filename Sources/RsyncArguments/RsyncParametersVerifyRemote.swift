@@ -101,8 +101,8 @@ public final class RsyncParametersVerifyRemote {
         return computedremoteargs
     }
 
-    public func argumentsverifyremote (forDisplay: Bool, verify: Bool, dryrun: Bool) {
-        // Verify only for synchronize and snapshottasks
+    public func argumentsverifyremote(forDisplay: Bool, verify: Bool, dryrun: Bool) {
+        // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
         guard offsiteServer.isEmpty == false else { return }
@@ -127,6 +127,25 @@ public final class RsyncParametersVerifyRemote {
         if forDisplay { computedarguments.append(" ") }
         
         initialise_sshparametersonly(forDisplay: forDisplay, verify: verify)
+        if forDisplay { computedarguments.append(" ") }
+        computedarguments.append(remoteargs())
+        if forDisplay { computedarguments.append(" ") }
+        computedarguments.append(localCatalog)
+    }
+    
+    public func argumentsverifyremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
+        // Verify only for synchronize tasks
+        guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
+        guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
+        guard offsiteServer.isEmpty == false else { return }
+
+        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
+        
+        computedarguments.append("--exclude=.git/")
+        if forDisplay { computedarguments.append(" ") }
+        computedarguments.append("--exclude=.DS_Store")
+        if forDisplay { computedarguments.append(" ") }
+        
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append(remoteargs())
         if forDisplay { computedarguments.append(" ") }
