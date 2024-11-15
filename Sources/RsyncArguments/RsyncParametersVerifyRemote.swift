@@ -133,13 +133,18 @@ public final class RsyncParametersVerifyRemote {
         computedarguments.append(localCatalog)
     }
     
-    public func argumentsverifyremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
+    public func argumentsverifyremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool, nodelete: Bool) {
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
         guard offsiteServer.isEmpty == false else { return }
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
+        if nodelete {
+            computedarguments.removeAll { argument in
+                argument.hasPrefix("--delete")
+            }
+        }
         
         computedarguments.append("--exclude=.git/")
         if forDisplay { computedarguments.append(" ") }
