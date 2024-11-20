@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-public final class RsyncParametersVerifyRemote {
+public final class RsyncParametersPullRemote {
     public private(set) var computedarguments = [String]()
 
     var task = ""
@@ -101,7 +101,7 @@ public final class RsyncParametersVerifyRemote {
         return computedremoteargs
     }
 
-    public func argumentsverifyremote(forDisplay: Bool, verify: Bool, dryrun: Bool) {
+    public func argumentspullremote(forDisplay: Bool, verify: Bool, dryrun: Bool) {
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
@@ -133,7 +133,7 @@ public final class RsyncParametersVerifyRemote {
         computedarguments.append(localCatalog)
     }
     
-    public func argumentsverifyremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool, nodelete: Bool) {
+    public func argumentspullremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool, nodelete: Bool) {
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
