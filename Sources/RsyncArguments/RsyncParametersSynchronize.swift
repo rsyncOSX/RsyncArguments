@@ -87,6 +87,40 @@ public final class RsyncParametersSynchronize {
             if forDisplay { computedarguments.append(" ") }
         }
     }
+    
+    // This function is used in push and pull remote to check
+    // if local data is updated or not.
+    // arguments for --delete is deleted
+    // arguments for --exclude=.git and --exclude=DS_Store are added
+    
+    public func argumentsforpushlocaltoremote(forDisplay: Bool, verify: Bool, dryrun: Bool) {
+        
+        // Verify only for synchronize tasks
+        guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
+        guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
+
+        initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
+        
+        computedarguments.removeAll { argument in
+            argument.hasPrefix("--delete")
+        }
+        computedarguments.append("--exclude=.git/")
+        if forDisplay { computedarguments.append(" ") }
+        computedarguments.append("--exclude=.DS_Store")
+        if forDisplay { computedarguments.append(" ") }
+
+        computedarguments.append(localCatalog)
+
+        if offsiteServer.isEmpty == true {
+            if forDisplay { computedarguments.append(" ") }
+            computedarguments.append(offsiteCatalog)
+            if forDisplay { computedarguments.append(" ") }
+        } else {
+            if forDisplay { computedarguments.append(" ") }
+            computedarguments.append(remoteargs())
+            if forDisplay { computedarguments.append(" ") }
+        }
+    }
 
     public func argumentsforsynchronizeremote(forDisplay: Bool, verify: Bool, dryrun: Bool) {
         guard task == DefaultRsyncParameters.syncremote.rawValue else { return }

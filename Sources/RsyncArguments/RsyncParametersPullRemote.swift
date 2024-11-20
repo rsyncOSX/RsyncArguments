@@ -105,7 +105,6 @@ public final class RsyncParametersPullRemote {
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
-        guard offsiteServer.isEmpty == false else { return }
 
         computedarguments.append(DefaultRsyncParameters.archive_parameter1.rawValue)
         if forDisplay { computedarguments.append(" ") }
@@ -133,19 +132,16 @@ public final class RsyncParametersPullRemote {
         computedarguments.append(localCatalog)
     }
     
-    public func argumentspullremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool, nodelete: Bool) {
+    public func argumentspullremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
-        guard offsiteServer.isEmpty == false else { return }
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-        if nodelete {
-            computedarguments.removeAll { argument in
-                argument.hasPrefix("--delete")
-            }
-        }
         
+        computedarguments.removeAll { argument in
+            argument.hasPrefix("--delete")
+        }
         computedarguments.append("--exclude=.git/")
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.DS_Store")
