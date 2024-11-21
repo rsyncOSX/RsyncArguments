@@ -100,33 +100,33 @@ public final class RsyncParametersSynchronize {
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-        
-        var tmpcomputedarguments = computedarguments.compactMap { argument in
-            return argument.contains("--delete") == false ||
-            argument.contains("--exclude=.git/") == false ||
-            argument.contains("--exclude=.DS_Store") == false ? argument : nil
+        if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
+            computedarguments.remove(at: index)
+        }
+        if let index = computedarguments.firstIndex(where: { $0 == "--exclude=.git/" }) {
+            computedarguments.remove(at: index)
+        }
+        if let index = computedarguments.firstIndex(where: { $0 == "--exclude=.DS_Store" }) {
+            computedarguments.remove(at: index)
         }
         
         // Then add new arguments
-        tmpcomputedarguments.append("--exclude=.git/")
-        if forDisplay { tmpcomputedarguments.append(" ") }
-        tmpcomputedarguments.append("--exclude=.DS_Store")
-        if forDisplay { tmpcomputedarguments.append(" ") }
+        computedarguments.append("--exclude=.git/")
+        if forDisplay { computedarguments.append(" ") }
+        computedarguments.append("--exclude=.DS_Store")
+        if forDisplay { computedarguments.append(" ") }
 
-        tmpcomputedarguments.append(localCatalog)
+        computedarguments.append(localCatalog)
 
         if offsiteServer.isEmpty == true {
-            if forDisplay { tmpcomputedarguments.append(" ") }
-            tmpcomputedarguments.append(offsiteCatalog)
-            if forDisplay { tmpcomputedarguments.append(" ") }
+            if forDisplay { computedarguments.append(" ") }
+            computedarguments.append(offsiteCatalog)
+            if forDisplay { computedarguments.append(" ") }
         } else {
-            if forDisplay { tmpcomputedarguments.append(" ") }
-            tmpcomputedarguments.append(remoteargs())
-            if forDisplay { tmpcomputedarguments.append(" ") }
+            if forDisplay { computedarguments.append(" ") }
+            computedarguments.append(remoteargs())
+            if forDisplay { computedarguments.append(" ") }
         }
-        
-        computedarguments.removeAll()
-        computedarguments = tmpcomputedarguments
     }
 
     public func argumentsforsynchronizeremote(forDisplay: Bool, verify: Bool, dryrun: Bool) {
