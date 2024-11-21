@@ -101,9 +101,12 @@ public final class RsyncParametersSynchronize {
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
         
-        computedarguments.removeAll { argument in
-            argument.hasPrefix("--delete")
+        computedarguments = computedarguments.compactMap { argument in
+            return argument.hasPrefix("--delete") == false ||
+            argument.hasPrefix("--exclude=.git/") == false ||
+            argument.hasPrefix("--exclude=.DS_Store") == false ? argument : nil
         }
+        // Then add new arguments
         computedarguments.append("--exclude=.git/")
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.DS_Store")
