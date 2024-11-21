@@ -101,29 +101,32 @@ public final class RsyncParametersSynchronize {
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
         
-        let tempcomputedarguments = computedarguments.compactMap { argument in
+        var tmpcomputedarguments = computedarguments.compactMap { argument in
             return argument.contains("--delete") == false ||
             argument.contains("--exclude=.git/") == false ||
             argument.contains("--exclude=.DS_Store") == false ? argument : nil
         }
         
         // Then add new arguments
-        computedarguments.append("--exclude=.git/")
-        if forDisplay { computedarguments.append(" ") }
-        computedarguments.append("--exclude=.DS_Store")
-        if forDisplay { computedarguments.append(" ") }
+        tmpcomputedarguments.append("--exclude=.git/")
+        if forDisplay { tmpcomputedarguments.append(" ") }
+        tmpcomputedarguments.append("--exclude=.DS_Store")
+        if forDisplay { tmpcomputedarguments.append(" ") }
 
-        computedarguments.append(localCatalog)
+        tmpcomputedarguments.append(localCatalog)
 
         if offsiteServer.isEmpty == true {
-            if forDisplay { computedarguments.append(" ") }
-            computedarguments.append(offsiteCatalog)
-            if forDisplay { computedarguments.append(" ") }
+            if forDisplay { tmpcomputedarguments.append(" ") }
+            tmpcomputedarguments.append(offsiteCatalog)
+            if forDisplay { tmpcomputedarguments.append(" ") }
         } else {
-            if forDisplay { computedarguments.append(" ") }
-            computedarguments.append(remoteargs())
-            if forDisplay { computedarguments.append(" ") }
+            if forDisplay { tmpcomputedarguments.append(" ") }
+            tmpcomputedarguments.append(remoteargs())
+            if forDisplay { tmpcomputedarguments.append(" ") }
         }
+        
+        computedarguments.removeAll()
+        computedarguments = tmpcomputedarguments
     }
 
     public func argumentsforsynchronizeremote(forDisplay: Bool, verify: Bool, dryrun: Bool) {
