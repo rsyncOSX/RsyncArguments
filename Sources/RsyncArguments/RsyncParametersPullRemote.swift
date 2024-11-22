@@ -139,8 +139,8 @@ public final class RsyncParametersPullRemote {
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
         
-        computedarguments.removeAll { argument in
-            argument.hasPrefix("--delete")
+        if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
+            computedarguments.remove(at: index)
         }
         computedarguments.append("--exclude=.git/")
         if forDisplay { computedarguments.append(" ") }
