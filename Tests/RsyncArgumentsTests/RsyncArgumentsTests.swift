@@ -56,13 +56,10 @@ import Testing
                 let rsyncparameterssynchronize = await RsyncParametersSynchronize(parameters: parameters)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
-                    print("SYNCHRONIZE")
                     await rsyncparameterssynchronize.argumentsforsynchronize(forDisplay: false, verify: false, dryrun: true)
                 case TestSharedReference.shared.snapshot:
-                    print("SNAPSHOT")
                     await rsyncparameterssynchronize.argumentsforsynchronizesnapshot(forDisplay: false, verify: false, dryrun: true)
                 case TestSharedReference.shared.syncremote:
-                    print("SYNCREMOTE")
                     await rsyncparameterssynchronize.argumentsforsynchronizeremote(forDisplay: false, verify: false, dryrun: true)
                 default:
                     break
@@ -70,31 +67,24 @@ import Testing
 
                 switch i {
                 case 0:
-                    print("Assigned first arguments SYNCHRONIZE")
                     nr0 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronize().nr0 == nr0)
                 case 1:
-                    print("Assigned second arguments SYNCHRONIZE")
                     nr1 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronize().nr1 == nr1)
                 case 2:
-                    print("Assigned third arguments SYNCHRONIZE")
                     nr2 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronize().nr2 == nr2)
                 case 3:
-                    print("Assigned fourth arguments SYNCHRONIZE")
                     nr3 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronize().nr3 == nr3)
                 case 4:
-                    print("Assigned fifth arguments SYNCHRONIZE")
                     nr4 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronize().nr4 == nr4)
                 case 5:
-                    print("Assigned sixth arguments SYNCHRONIZE")
                     nr5 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronize().nr5 == nr5)
                 default:
-                    print("Assigned NO arguments SYNCHRONIZE")
                     return
                 }
             }
@@ -152,10 +142,8 @@ import Testing
                 let rsyncparametersrestore = await RsyncParametersRestore(parameters: parameters)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
-                    print("SYNCHRONIZE filelist")
                     await rsyncparametersrestore.remoteargumentsfilelist()
                 case TestSharedReference.shared.snapshot:
-                    print("SNAPSHOT filelist")
                     await rsyncparametersrestore.remoteargumentssnapshotcataloglist()
                 default:
                     break
@@ -163,31 +151,24 @@ import Testing
 
                 switch i {
                 case 0:
-                    print("Assigned first arguments RESTORE filelist")
                     nr0 = await rsyncparametersrestore.computedarguments
                     #expect(ArgumentsRestoreFilelist().nr0 == nr0)
                 case 1:
-                    print("Assigned second arguments RESTORE filelist")
                     nr1 = await rsyncparametersrestore.computedarguments
                     #expect(ArgumentsRestoreFilelist().nr1 == nr1)
                 case 2:
-                    print("Assigned third arguments RESTORE filelist")
                     nr2 = await rsyncparametersrestore.computedarguments
                     #expect(ArgumentsRestoreFilelist().nr2 == nr2)
                 case 3:
-                    print("Assigned fourth arguments RESTORE filelist")
                     nr3 = await rsyncparametersrestore.computedarguments
                     #expect(ArgumentsRestoreFilelist().nr3 == nr3)
                 case 4:
-                    print("Assigned fifth arguments RESTORE filelist")
                     let arguments = await rsyncparametersrestore.computedarguments
                     #expect(arguments.isEmpty == true)
                 case 5:
-                    print("Assigned sixth arguments RESTORE filelist")
                     let arguments = await rsyncparametersrestore.computedarguments
                     #expect(arguments.isEmpty == true)
                 default:
-                    print("Assigned NO arguments RESTORE")
                     return
                 }
             }
@@ -247,31 +228,24 @@ import Testing
 
                 switch i {
                 case 0:
-                    print("Assigned first arguments RESTORE")
                     nr0 = await rsyncparametersrestorefiles.computedarguments
                     #expect(ArgumentsRestore().nr0 == nr0)
                 case 1:
-                    print("Assigned second arguments RESTORE")
                     nr1 = await rsyncparametersrestorefiles.computedarguments
                     #expect(ArgumentsRestore().nr1 == nr1)
                 case 2:
-                    print("Assigned third arguments RESTORE")
                     nr2 = await rsyncparametersrestorefiles.computedarguments
                     #expect(ArgumentsRestore().nr2 == nr2)
                 case 3:
-                    print("Assigned fourth arguments RESTORE")
                     nr3 = await rsyncparametersrestorefiles.computedarguments
                     #expect(ArgumentsRestore().nr3 == nr3)
                 case 4:
-                    print("Assigned fifth arguments RESTORE")
                     let arguments = await rsyncparametersrestorefiles.computedarguments
                     #expect(arguments.isEmpty == true)
                 case 5:
-                    print("Assigned sixth arguments RESTORE")
                     let arguments = await rsyncparametersrestorefiles.computedarguments
                     #expect(arguments.isEmpty == true)
                 default:
-                    print("Assigned NO arguments RESTORE")
                     return
                 }
             }
@@ -320,31 +294,24 @@ import Testing
 
                 switch i {
                 case 0:
-                    print("Assigned first arguments Delete snapshot")
                     let nr0 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr0 == nr0)
                 case 1:
-                    print("Assigned second arguments Delete snapshot")
                     let nr1 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr1 == nr1)
                 case 2:
-                    print("Assigned third arguments Delete snapshot")
                     let nr2 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr2 == nr2)
                 case 3:
-                    print("Assigned fourth arguments Delete snapshot")
                     let nr3 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr3 == nr3)
                 case 4:
-                    print("Assigned fifth arguments Delete snapshot")
                     let nr4 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr4 == nr4)
                 case 5:
-                    print("Assigned sixth arguments Delete snapshot")
                     let nr5 = await sshcommands.snapshotdelete(remotecatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr5 == nr5)
                 default:
-                    print("Assigned NO arguments Delete snapshot")
                     return
                 }
             }
@@ -408,13 +375,10 @@ import Testing
                 let rsyncparameterssynchronize = await RsyncParametersSynchronize(parameters: parameters)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
-                    print("SYNCHRONIZE")
                     await rsyncparameterssynchronize.argumentsforsynchronize(forDisplay: false, verify: false, dryrun: true)
                 case TestSharedReference.shared.snapshot:
-                    print("SNAPSHOT")
                     await rsyncparameterssynchronize.argumentsforsynchronizesnapshot(forDisplay: false, verify: false, dryrun: true)
                 case TestSharedReference.shared.syncremote:
-                    print("SYNCREMOTE")
                     await rsyncparameterssynchronize.argumentsforsynchronizeremote(forDisplay: false, verify: false, dryrun: true)
                 default:
                     break
@@ -422,31 +386,24 @@ import Testing
 
                 switch i {
                 case 0:
-                    print("Assigned first arguments NOSSH SYNCHRONIZE")
                     nr0 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronizeNOSSH().nr0 == nr0)
                 case 1:
-                    print("Assigned second arguments NOSSH SYNCHRONIZE")
                     nr1 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronizeNOSSH().nr1 == nr1)
                 case 2:
-                    print("Assigned third arguments NOSSH SYNCHRONIZE")
                     nr2 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronizeNOSSH().nr2 == nr2)
                 case 3:
-                    print("Assigned fourth arguments NOSSH SYNCHRONIZE")
                     nr3 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronizeNOSSH().nr3 == nr3)
                 case 4:
-                    print("Assigned fifth arguments NOSSH SYNCHRONIZE")
                     nr4 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronizeNOSSH().nr4 == nr4)
                 case 5:
-                    print("Assigned sixth arguments NOSSH SYNCHRONIZE")
                     nr5 = await rsyncparameterssynchronize.computedarguments
                     #expect(ArgumentsSynchronizeNOSSH().nr5 == nr5)
                 default:
-                    print("Assigned NO arguments NOSSH SYNCHRONIZE")
                     return
                 }
             }
@@ -517,19 +474,15 @@ import Testing
                 
                 switch i {
                 case 0:
-                    print("Assigned first arguments PUSH")
                     nr0 = await rsyncparameterspull.computedarguments
                     #expect(ArgumentsPull().nr0 == nr0)
                 case 1:
-                    print("Assigned second arguments PUSH")
                     nr1 = await rsyncparameterspull.computedarguments
                     #expect(ArgumentsPull().nr1 == nr1)
                 case 2:
-                    print("Assigned third arguments PUSH")
                     nr2 = await rsyncparameterspull.computedarguments
                     #expect(ArgumentsPull().nr2 == nr2)
                 default:
-                    print("Assigned NO arguments PUSH")
                     return
                 }
             }
@@ -599,19 +552,15 @@ import Testing
                 
                 switch i {
                 case 0:
-                    print("Assigned first arguments PULL")
                     nr0 = await rsyncparameterpush.computedarguments
                     #expect(ArgumentsPush().nr0 == nr0)
                 case 1:
-                    print("Assigned second arguments PULL")
                     nr1 = await rsyncparameterpush.computedarguments
                     #expect(ArgumentsPush().nr1 == nr1)
                 case 2:
-                    print("Assigned third arguments PULL")
                     nr2 = await rsyncparameterpush.computedarguments
                     #expect(ArgumentsPush().nr2 == nr2)
                 default:
-                    print("Assigned NO arguments PULL")
                     return
                 }
             }
