@@ -21,7 +21,6 @@ final class TestSharedReference {
     var norsync: Bool = false
     var pathforrestore: String?
     var addsummarylogrecord: Bool = true
-    var logtofile: Bool = false
     var marknumberofdayssince: Int = 5
     var environment: String?
     var environmentvalue: String?

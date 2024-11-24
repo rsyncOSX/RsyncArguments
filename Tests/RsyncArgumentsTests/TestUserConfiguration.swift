@@ -11,8 +11,6 @@ struct TestUserConfiguration: Codable {
     var rsyncversion3: Int = -1
     // Detailed logging
     var addsummarylogrecord: Int = 1
-    // Logging to logfile
-    var logtofile: Int = 1
     // Montor network connection
     var monitornetworkconnection: Int = -1
     // local path for rsync
@@ -42,11 +40,6 @@ struct TestUserConfiguration: Codable {
             TestSharedReference.shared.addsummarylogrecord = true
         } else {
             TestSharedReference.shared.addsummarylogrecord = false
-        }
-        if logtofile == 1 {
-            TestSharedReference.shared.logtofile = true
-        } else {
-            TestSharedReference.shared.logtofile = false
         }
         if monitornetworkconnection == 1 {
             TestSharedReference.shared.monitornetworkconnection = true
@@ -95,7 +88,6 @@ struct TestUserConfiguration: Codable {
     @MainActor init(_ data: DecodeTestUserConfiguration) {
         rsyncversion3 = data.rsyncversion3 ?? -1
         addsummarylogrecord = data.addsummarylogrecord ?? 1
-        logtofile = data.logtofile ?? 0
         monitornetworkconnection = data.monitornetworkconnection ?? -1
         localrsyncpath = data.localrsyncpath
         pathforrestore = data.pathforrestore
@@ -122,11 +114,6 @@ struct TestUserConfiguration: Codable {
             addsummarylogrecord = 1
         } else {
             addsummarylogrecord = -1
-        }
-        if TestSharedReference.shared.logtofile {
-            logtofile = 1
-        } else {
-            logtofile = -1
         }
         if TestSharedReference.shared.monitornetworkconnection {
             monitornetworkconnection = 1
