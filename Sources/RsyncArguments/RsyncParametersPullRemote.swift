@@ -142,6 +142,9 @@ public final class RsyncParametersPullRemote {
         if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
             computedarguments.remove(at: index)
         }
+        
+        computedarguments.append("--update")
+        if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.git/")
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.DS_Store")

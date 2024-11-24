@@ -111,6 +111,8 @@ public final class RsyncParametersSynchronize {
         }
         
         // Then add new arguments
+        computedarguments.append("--update")
+        if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.git/")
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.DS_Store")
