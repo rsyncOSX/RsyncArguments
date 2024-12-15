@@ -145,6 +145,8 @@ public final class RsyncParametersPullRemote {
         
         computedarguments.append("--update")
         if forDisplay { computedarguments.append(" ") }
+        computedarguments.append("--itemize-changes")
+        if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.git/")
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.DS_Store")
