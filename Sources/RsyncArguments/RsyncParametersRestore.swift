@@ -152,7 +152,9 @@ public final class RsyncParametersRestore {
             computedarguments.append(DefaultRsyncParameters.dryrun.rawValue)
             if forDisplay { computedarguments.append(" ") }
         }
+        
         computedarguments.append("--stats")
+        if forDisplay { computedarguments.append(" ") }
 
         initialise_sshparametersonly(forDisplay: forDisplay, verify: verify)
 
