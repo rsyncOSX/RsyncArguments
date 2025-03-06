@@ -102,12 +102,33 @@ public final class RsyncParametersSynchronize {
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
         if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
             computedarguments.remove(at: index)
+            if dryrun {
+                // Remove the " " parameter before, use same index to remove
+                // The parameter is already removed, the " " is now at the same index
+                if computedarguments.count > index {
+                    if computedarguments[index] == " " { computedarguments.remove(at: index) }
+                }
+            }
         }
         if let index = computedarguments.firstIndex(where: { $0 == "--exclude=.git/" }) {
             computedarguments.remove(at: index)
+            if dryrun {
+                // Remove the " " parameter before, use same index to remove
+                // The parameter is already removed, the " " is now at the same index
+                if computedarguments.count > index {
+                    if computedarguments[index] == " " { computedarguments.remove(at: index) }
+                }
+            }
         }
         if let index = computedarguments.firstIndex(where: { $0 == "--exclude=.DS_Store" }) {
             computedarguments.remove(at: index)
+            if dryrun {
+                // Remove the " " parameter before, use same index to remove
+                // The parameter is already removed, the " " is now at the same index
+                if computedarguments.count > index {
+                    if computedarguments[index] == " " { computedarguments.remove(at: index) }
+                }
+            }
         }
         
         // Then add new arguments
