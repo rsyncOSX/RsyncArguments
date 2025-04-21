@@ -470,7 +470,7 @@ import Testing
                 
                 let rsyncparameterspull = await RsyncParametersPullRemote(parameters: parameters)
             
-                await rsyncparameterspull.argumentspullremotewithparameters(forDisplay: false, verify: false, dryrun: true, removedelete: false)
+                await rsyncparameterspull.argumentspullremotewithparameters(forDisplay: false, verify: false, dryrun: true, removedelete: true)
                 
                 switch i {
                 case 0:
