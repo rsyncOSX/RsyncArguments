@@ -470,7 +470,7 @@ import Testing
                 
                 let rsyncparameterspull = await RsyncParametersPullRemote(parameters: parameters)
             
-                await rsyncparameterspull.argumentspullremotewithparameters(forDisplay: false, verify: false, dryrun: true)
+                await rsyncparameterspull.argumentspullremotewithparameters(forDisplay: false, verify: false, dryrun: true, removedelete: false)
                 
                 switch i {
                 case 0:
@@ -548,7 +548,7 @@ import Testing
                                                   rsyncversion3: TestSharedReference.shared.rsyncversion3)
                 
                 let rsyncparameterpush = await RsyncParametersSynchronize(parameters: parameters)
-                await rsyncparameterpush.argumentsforpushlocaltoremote(forDisplay: false, verify: false, dryrun: true)
+                await rsyncparameterpush.argumentsforpushlocaltoremote(forDisplay: false, verify: false, dryrun: true, removedelete: true)
                 
                 switch i {
                 case 0:

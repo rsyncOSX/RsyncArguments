@@ -132,15 +132,24 @@ public final class RsyncParametersPullRemote {
         computedarguments.append(localCatalog)
     }
     
-    public func argumentspullremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
+    public func argumentspullremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool, removedelete: Bool) {
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
         
-        if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
-            computedarguments.remove(at: index)
+        if removedelete == true {
+            if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
+                computedarguments.remove(at: index)
+                if dryrun {
+                    // Remove the " " parameter before, use same index to remove
+                    // The parameter is already removed, the " " is now at the same index
+                    if computedarguments.count > index {
+                        if computedarguments[index] == " " { computedarguments.remove(at: index) }
+                    }
+                }
+            }
         }
         
         computedarguments.append("--update")
