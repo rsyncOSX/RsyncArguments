@@ -93,7 +93,7 @@ public final class RsyncParametersSynchronize {
     // arguments for --delete is deleted
     // arguments for --exclude=.git and --exclude=DS_Store are added
     
-    public func argumentsforpushlocaltoremote(forDisplay: Bool, verify: Bool, dryrun: Bool, removedelete: Bool) {
+    public func argumentsforpushlocaltoremote(forDisplay: Bool, verify: Bool, dryrun: Bool, keepdelete: Bool) {
         
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
@@ -101,7 +101,7 @@ public final class RsyncParametersSynchronize {
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
         
-        if removedelete == true {
+        if keepdelete == false {
             if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
                 computedarguments.remove(at: index)
                 if dryrun {

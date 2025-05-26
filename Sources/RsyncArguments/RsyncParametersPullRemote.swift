@@ -132,14 +132,14 @@ public final class RsyncParametersPullRemote {
         computedarguments.append(localCatalog)
     }
     
-    public func argumentspullremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool, removedelete: Bool) {
+    public func argumentspullremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool, keepdelete: Bool) {
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
         
-        if removedelete == true {
+        if keepdelete == false {
             if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
                 computedarguments.remove(at: index)
                 if dryrun {
