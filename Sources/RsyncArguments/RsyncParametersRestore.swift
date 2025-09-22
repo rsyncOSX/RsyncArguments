@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 public final class RsyncParametersRestore {
     public private(set) var computedarguments = [String]()
 
@@ -152,7 +151,7 @@ public final class RsyncParametersRestore {
             computedarguments.append(DefaultRsyncParameters.dryrun.rawValue)
             if forDisplay { computedarguments.append(" ") }
         }
-        
+
         computedarguments.append("--stats")
         if forDisplay { computedarguments.append(" ") }
 

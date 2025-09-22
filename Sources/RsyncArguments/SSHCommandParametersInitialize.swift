@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 public class SSHCommandParametersInitialize {
     public private(set) var computedarguments = [String]()
 

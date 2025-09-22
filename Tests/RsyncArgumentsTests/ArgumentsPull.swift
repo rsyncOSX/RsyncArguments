@@ -6,7 +6,6 @@
 //
 
 struct ArgumentsPull {
-    
     let nr0 = ["--archive",
                "--verbose",
                "--compress",
@@ -23,7 +22,7 @@ struct ArgumentsPull {
                "--exclude=.DS_Store",
                "thomas@raspberrypi:/backups/Pictures_dopfiles/",
                "/Users/thomas/Pictures_raw/"]
-    
+
     let nr1 = ["--archive",
                "--verbose",
                "--compress",
@@ -39,7 +38,7 @@ struct ArgumentsPull {
                "--exclude=.DS_Store",
                "thomas@raspberrypi:/backups/Documents/",
                "/Users/thomas/Documents/"]
-    
+
     let nr2 = ["--archive",
                "--verbose",
                "--compress",
@@ -55,4 +54,3 @@ struct ArgumentsPull {
                "thomas@raspberrypi:/backups/GitHub/",
                "/Users/thomas/GitHub/"]
 }
-

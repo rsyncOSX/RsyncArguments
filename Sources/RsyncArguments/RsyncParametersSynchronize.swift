@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 public final class RsyncParametersSynchronize {
     public private(set) var computedarguments = [String]()
 
@@ -87,20 +86,19 @@ public final class RsyncParametersSynchronize {
             if forDisplay { computedarguments.append(" ") }
         }
     }
-    
+
     // This function is used in push and pull remote to check
     // if local data is updated or not.
     // arguments for --delete is deleted
     // arguments for --exclude=.git and --exclude=DS_Store are added
-    
+
     public func argumentsforpushlocaltoremote(forDisplay: Bool, verify: Bool, dryrun: Bool, keepdelete: Bool) {
-        
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-        
+
         if keepdelete == false {
             if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
                 computedarguments.remove(at: index)
@@ -113,7 +111,7 @@ public final class RsyncParametersSynchronize {
                 }
             }
         }
-        
+
         if let index = computedarguments.firstIndex(where: { $0 == "--exclude=.git/" }) {
             computedarguments.remove(at: index)
             if dryrun {
@@ -134,7 +132,7 @@ public final class RsyncParametersSynchronize {
                 }
             }
         }
-        
+
         // Then add new arguments
         computedarguments.append("--update")
         if forDisplay { computedarguments.append(" ") }

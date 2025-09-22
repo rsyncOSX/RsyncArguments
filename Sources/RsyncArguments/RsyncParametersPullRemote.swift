@@ -1,5 +1,5 @@
 //
-//  RsyncParametersVerifyRemote.swift
+//  RsyncParametersPullRemote.swift
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 13/11/2024.
@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 public final class RsyncParametersPullRemote {
     public private(set) var computedarguments = [String]()
 
@@ -124,21 +123,21 @@ public final class RsyncParametersPullRemote {
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.DS_Store")
         if forDisplay { computedarguments.append(" ") }
-        
+
         initialise_sshparametersonly(forDisplay: forDisplay, verify: verify)
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append(remoteargs())
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append(localCatalog)
     }
-    
+
     public func argumentspullremotewithparameters(forDisplay: Bool, verify: Bool, dryrun: Bool, keepdelete: Bool) {
         // Verify only for synchronize tasks
         guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
         guard task != DefaultRsyncParameters.snapshot.rawValue else { return }
 
         initialise_rsyncparameters(forDisplay: forDisplay, verify: verify, dryrun: dryrun)
-        
+
         if keepdelete == false {
             if let index = computedarguments.firstIndex(where: { $0 == "--delete" }) {
                 computedarguments.remove(at: index)
@@ -151,7 +150,7 @@ public final class RsyncParametersPullRemote {
                 }
             }
         }
-        
+
         computedarguments.append("--update")
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--itemize-changes")
@@ -160,7 +159,7 @@ public final class RsyncParametersPullRemote {
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append("--exclude=.DS_Store")
         if forDisplay { computedarguments.append(" ") }
-        
+
         if forDisplay { computedarguments.append(" ") }
         computedarguments.append(remoteargs())
         if forDisplay { computedarguments.append(" ") }

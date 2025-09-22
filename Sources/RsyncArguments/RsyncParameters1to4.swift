@@ -9,7 +9,6 @@
 import Foundation
 
 public final class RsyncParameters1to4: SSHParametersRsync {
-    
     var parameter1 = ""
     var parameter2 = ""
     var parameter3 = ""
