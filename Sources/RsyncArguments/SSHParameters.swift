@@ -2,9 +2,8 @@
 //  SSHParameters.swift
 //  RsyncArguments
 //
-//  Created by Thomas Evensen on 24/09/2024.
+//  Created by Thomas Evensen on 18/11/2025.
 //
-
 public class SSHParameters {
     var offsiteServer = ""
     var offsiteUsername = ""

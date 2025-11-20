@@ -19,10 +19,11 @@ struct ArgumentsRestoreFilelist {
 
     let nr0 = ["--verbose",
                "--compress",
+               "-r",
                "--list-only",
                "-e",
                "ssh -i ~/.ssh_local/local",
-               "thomas@raspberrypi:/backups/snapshots_JSON/"]
+               "thomas@raspberrypi:/backups/snapshots_JSON/53/"]
 
     // The rest are various tasks, list files.
 

@@ -3,215 +3,197 @@
 //  RsyncArguments
 //
 //  Created by Thomas Evensen on 07/08/2024.
+//  Refactored to eliminate state mutation and improve clarity
 //
 
 import Foundation
 
+/// Builds rsync arguments for restore operations and file listings
 public final class RsyncParametersRestore {
-    public private(set) var computedarguments = [String]()
-
-    var task = ""
-
-    var parameter1 = ""
-    var parameter2 = ""
-    var parameter3 = ""
-    var parameter4 = ""
-
-    var parameter8: String?
-    var parameter9: String?
-    var parameter10: String?
-    var parameter11: String?
-    var parameter12: String?
-    var parameter13: String?
-    var parameter14: String?
-
-    var sshport: String?
-    var sshkeypathandidentityfile: String?
-    var sharedsshport: String?
-    var sharedsshkeypathandidentityfile: String?
-
-    var localCatalog = ""
-    var offsiteCatalog = ""
-    var offsiteServer = ""
-    var offsiteUsername = ""
-    var computedremoteargs = ""
-    var sharedpathforrestore = ""
-
-    var snapshotnum = -1
-    var rsyncdaemon = -1
-
-    var rsyncversion3 = false
-
-    public func initialise_rsyncparameters(forDisplay: Bool, verify: Bool, dryrun: Bool) {
-        let rsyncparameters1to4 = RsyncParameters1to4(parameter1: parameter1,
-                                                      parameter2: parameter2,
-                                                      parameter3: parameter3,
-                                                      parameter4: parameter4,
-                                                      offsiteServer: offsiteServer,
-                                                      sshport: sshport,
-                                                      sshkeypathandidentityfile: sshkeypathandidentityfile,
-                                                      sharedsshport: sharedsshport,
-                                                      sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
-                                                      rsyncversion3: rsyncversion3)
-
-        computedarguments += rsyncparameters1to4.setParameters1To4(forDisplay: forDisplay, verify: verify)
-
-        let rsyncparameters8to14 = RsyncParameters8to14(parameter8: parameter8,
-                                                        parameter9: parameter9,
-                                                        parameter10: parameter10,
-                                                        parameter11: parameter11,
-                                                        parameter12: parameter12,
-                                                        parameter13: parameter13,
-                                                        parameter14: parameter14,
-                                                        rsyncversion3: rsyncversion3)
-
-        computedarguments += rsyncparameters8to14.setParameters8To14(dryRun: dryrun, forDisplay: forDisplay)
+    public private(set) var computedArguments = [String]()
+    
+    private let parameters: Parameters
+    private let sshBuilder: SSHParameterBuilder
+    
+    public init(parameters: Parameters) {
+        self.parameters = parameters
+        self.sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
     }
-
-    public func initialise_sshparametersonly(forDisplay: Bool, verify: Bool) {
-        let sshparametersonly = RsyncParametersSSHandSSHPORT(
-            offsiteServer: offsiteServer,
-            sshport: sshport,
-            sshkeypathandidentityfile: sshkeypathandidentityfile,
-            sharedsshport: sharedsshport,
-            sharedsshkeypathandidentityfile: sharedsshkeypathandidentityfile,
-            rsyncversion3: rsyncversion3
-        )
-
-        computedarguments += sshparametersonly.setParametersSSHandSSHPORT(forDisplay: forDisplay, verify: verify)
-    }
-
-    public func remoteargumentsfilelist() {
-        guard offsiteServer.isEmpty == false else { return }
-        computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
-        computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
-        computedarguments.append("-r")
-        computedarguments.append("--list-only")
-        initialise_sshparametersonly(forDisplay: false, verify: false)
-        computedarguments.append(remoteargs())
-    }
-
-    public func remoteargumentssnapshotcataloglist() {
-        guard rsyncversion3 == true else { return }
-        guard offsiteServer.isEmpty == false else { return }
-        computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
-        computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
-        computedarguments.append("--list-only")
-        initialise_sshparametersonly(forDisplay: false, verify: false)
-        computedarguments.append(remoteargs())
-    }
-
-    // Retrive files within ONE snapshotcatalog
-    public func remoteargumentssnapshotfilelist() {
-        guard rsyncversion3 == true else { return }
-        guard offsiteServer.isEmpty == false else { return }
-        computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
-        computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
-        computedarguments.append("-r")
-        computedarguments.append("--list-only")
-        initialise_sshparametersonly(forDisplay: false, verify: false)
-        computedarguments.append(remoteargssnapshot())
-    }
-
-    private func remoteargs() -> String {
-        if rsyncdaemon == 1 {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + offsiteCatalog
-        } else {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + offsiteCatalog
+    
+    // MARK: - File Listing Operations
+    
+    /// Builds arguments for listing remote files
+    /// - Throws: ParameterError if server is not configured
+    public func remoteArgumentsFileList() throws {
+        guard parameters.sshParameters.isRemote else {
+            throw ParameterError.missingOffsiteServer
         }
-        return computedremoteargs
-    }
-
-    private func remoteargssnapshot() -> String {
-        offsiteCatalog += String(snapshotnum - 1) + "/"
-        if rsyncdaemon == 1 {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + "::" + offsiteCatalog
-        } else {
-            computedremoteargs = offsiteUsername + "@" + offsiteServer + ":" + offsiteCatalog
+        
+        var builder = RsyncArgumentBuilder()
+        builder.add(DefaultRsyncParameters.verboseOutput.rawValue)
+        builder.add(DefaultRsyncParameters.compressionEnabled.rawValue)
+        builder.add("-r")
+        builder.add("--list-only")
+        
+        // Only add SSH parameters if they're configured
+        if parameters.sshParameters.effectiveConfig.hasConfiguration {
+            let sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
+            builder.addAll(sshBuilder.buildRsyncSSHParameters(forDisplay: false))
         }
-        return computedremoteargs
+        
+        builder.add(buildRemoteSource(catalog: parameters.paths.offsiteCatalog))
+        
+        computedArguments = builder.build()
     }
-
-    public func argumentsrestore(forDisplay: Bool, verify: Bool, dryrun: Bool, restoresnapshotbyfiles: Bool) {
-        // Restore only for synchronize and snapshottasks
-        guard task != DefaultRsyncParameters.syncremote.rawValue else { return }
-        guard offsiteServer.isEmpty == false else { return }
-        guard sharedpathforrestore.isEmpty == false else { return }
-
-        computedarguments.append(DefaultRsyncParameters.archive_parameter1.rawValue)
-        if forDisplay { computedarguments.append(" ") }
-        computedarguments.append(DefaultRsyncParameters.verbose_parameter2.rawValue)
-        if forDisplay { computedarguments.append(" ") }
-        computedarguments.append(DefaultRsyncParameters.compress_parameter3.rawValue)
-        if forDisplay { computedarguments.append(" ") }
-
-        // Must add --dryrun here, normally it is appended in syncparameters8to14
-        // Only parameters 1to6 are added for getting remote filelists
+    
+    /// Builds arguments for listing snapshot catalogs
+    /// - Throws: ParameterError if configuration is invalid
+    public func remoteArgumentsSnapshotCatalogList() throws {
+        guard parameters.rsyncVersion3 else {
+            throw ParameterError.invalidTaskType
+        }
+        
+        guard parameters.sshParameters.isRemote else {
+            throw ParameterError.missingOffsiteServer
+        }
+        
+        var builder = RsyncArgumentBuilder()
+        builder.add(DefaultRsyncParameters.verboseOutput.rawValue)
+        builder.add(DefaultRsyncParameters.compressionEnabled.rawValue)
+        builder.add("--list-only")
+        
+        // Only add SSH parameters if they're configured
+        if parameters.sshParameters.effectiveConfig.hasConfiguration {
+            let sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
+            builder.addAll(sshBuilder.buildRsyncSSHParameters(forDisplay: false))
+        }
+        
+        builder.add(buildRemoteSource(catalog: parameters.paths.offsiteCatalog))
+        
+        computedArguments = builder.build()
+    }
+    
+    /// Builds arguments for listing files within a snapshot catalog
+    /// - Throws: ParameterError if configuration is invalid
+    public func remoteArgumentsSnapshotFileList() throws {
+        guard parameters.rsyncVersion3 else {
+            throw ParameterError.invalidTaskType
+        }
+        
+        guard parameters.sshParameters.isRemote else {
+            throw ParameterError.missingOffsiteServer
+        }
+        
+        guard let snapshotNum = parameters.snapshotNumber else {
+            throw ParameterError.invalidSnapshotNumber
+        }
+        
+        let snapshotCatalog = parameters.paths.offsiteCatalog + String(snapshotNum - 1) + "/"
+        
+        var builder = RsyncArgumentBuilder()
+        builder.add(DefaultRsyncParameters.verboseOutput.rawValue)
+        builder.add(DefaultRsyncParameters.compressionEnabled.rawValue)
+        builder.add("-r")
+        builder.add("--list-only")
+        
+        // Only add SSH parameters if they're configured
+        if parameters.sshParameters.effectiveConfig.hasConfiguration {
+            let sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
+            builder.addAll(sshBuilder.buildRsyncSSHParameters(forDisplay: false))
+        }
+        
+        builder.add(buildRemoteSource(catalog: snapshotCatalog))
+        
+        computedArguments = builder.build()
+    }
+    
+    // MARK: - Restore Operations
+    
+    /// Builds arguments for restoring files from remote
+    /// - Parameters:
+    ///   - forDisplay: Whether to format for display
+    ///   - verify: Whether to use verification mode
+    ///   - dryrun: Whether this is a dry run
+    ///   - restoreSnapshotByFiles: Whether to restore specific files from snapshot
+    /// - Throws: ParameterError if configuration is invalid
+    public func argumentsRestore(
+        forDisplay: Bool,
+        verify: Bool,
+        dryrun: Bool,
+        restoreSnapshotByFiles: Bool
+    ) throws {
+        // Validate configuration
+        guard parameters.task != DefaultRsyncParameters.syncremote.rawValue else {
+            throw ParameterError.invalidTaskType
+        }
+        
+        guard parameters.sshParameters.isRemote else {
+            throw ParameterError.missingOffsiteServer
+        }
+        
+        guard !parameters.paths.sharedPathForRestore.isEmpty else {
+            throw ParameterError.missingLocalCatalog
+        }
+        
+        var builder = RsyncArgumentBuilder()
+        
+        // Core parameters
+        builder.add(DefaultRsyncParameters.archiveMode.rawValue)
+        if forDisplay { builder.add(" ") }
+        builder.add(DefaultRsyncParameters.verboseOutput.rawValue)
+        if forDisplay { builder.add(" ") }
+        builder.add(DefaultRsyncParameters.compressionEnabled.rawValue)
+        if forDisplay { builder.add(" ") }
+        
+        // Dry run if requested
         if dryrun {
-            computedarguments.append(DefaultRsyncParameters.dryrun.rawValue)
-            if forDisplay { computedarguments.append(" ") }
+            builder.add(DefaultRsyncParameters.dryRunMode.rawValue)
+            if forDisplay { builder.add(" ") }
         }
-
-        computedarguments.append("--stats")
-        if forDisplay { computedarguments.append(" ") }
-
-        initialise_sshparametersonly(forDisplay: forDisplay, verify: verify)
-
-        let snapshot: Bool = snapshotnum != -1 ? true : false
-        if snapshot {
-            if restoresnapshotbyfiles == true {
-                // This is a hack for fixing correct restore for files
-                // from a snapshot. The last snapshot is base for restore
-                // of files. The correct snapshot is added within the
-                // ObserveableRestore which is used within the RestoreView
-                // --archive --verbose --compress --delete -e "ssh -i ~/.ssh_rsyncosx/rsyncosx -p 22"
-                // --exclude-from=/Users/thomas/Documents/excludersync/exclude-list-github.txt --dry-run --stats
-                // thomas@backup:/backups/snapshots/Github/85/AlertToast /Users/thomas/tmp
-                if forDisplay { computedarguments.append(" ") }
-                computedarguments.append(remoteargs())
-                if forDisplay { computedarguments.append(" ") }
+        
+        builder.add("--stats")
+        if forDisplay { builder.add(" ") }
+        
+        // SSH parameters
+        // Only add SSH parameters if they're configured
+        if parameters.sshParameters.effectiveConfig.hasConfiguration {
+            let sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
+            builder.addAll(sshBuilder.buildRsyncSSHParameters(forDisplay: forDisplay))
+        }
+        
+        // Source (remote)
+        let isSnapshot = parameters.snapshotNumber != nil
+        let remoteCatalog: String
+        
+        if isSnapshot {
+            if restoreSnapshotByFiles {
+                // Restoring specific files - use base catalog
+                remoteCatalog = parameters.paths.offsiteCatalog
             } else {
-                // --archive --verbose --compress --delete -e "ssh -i ~/.ssh_rsyncosx/rsyncosx -p 22"
-                // --exclude-from=/Users/thomas/Documents/excludersync/exclude-list-github.txt --dry-run --stats
-                // thomas@backup:/backups/snapshots/Github/85/ /Users/thomas/tmp
-                if forDisplay { computedarguments.append(" ") }
-                computedarguments.append(remoteargssnapshot())
-                if forDisplay { computedarguments.append(" ") }
+                // Restoring entire snapshot
+                guard let snapshotNum = parameters.snapshotNumber else {
+                    throw ParameterError.invalidSnapshotNumber
+                }
+                remoteCatalog = parameters.paths.offsiteCatalog + String(snapshotNum - 1) + "/"
             }
         } else {
-            if forDisplay { computedarguments.append(" ") }
-            computedarguments.append(remoteargs())
-            if forDisplay { computedarguments.append(" ") }
+            remoteCatalog = parameters.paths.offsiteCatalog
         }
-        computedarguments.append(sharedpathforrestore)
+        
+        if forDisplay { builder.add(" ") }
+        builder.add(buildRemoteSource(catalog: remoteCatalog))
+        if forDisplay { builder.add(" ") }
+        
+        // Destination (local restore path)
+        builder.add(parameters.paths.sharedPathForRestore)
+        
+        computedArguments = builder.build()
     }
-
-    public init(parameters: Parameters) {
-        task = parameters.task
-        parameter1 = parameters.parameter1
-        parameter2 = parameters.parameter2
-        parameter3 = parameters.parameter3
-        parameter4 = parameters.parameter4
-        parameter8 = parameters.parameter8
-        parameter9 = parameters.parameter9
-        parameter10 = parameters.parameter10
-        parameter11 = parameters.parameter11
-        parameter12 = parameters.parameter12
-        parameter13 = parameters.parameter13
-        parameter14 = parameters.parameter14
-        sshport = parameters.sshport
-        sshkeypathandidentityfile = parameters.sshkeypathandidentityfile
-        sharedsshport = parameters.sharedsshport
-        sharedsshkeypathandidentityfile = parameters.sharedsshkeypathandidentityfile
-        localCatalog = parameters.localCatalog
-        offsiteCatalog = parameters.offsiteCatalog
-        offsiteServer = parameters.offsiteServer
-        offsiteUsername = parameters.offsiteUsername
-        sharedpathforrestore = parameters.sharedpathforrestore
-        snapshotnum = parameters.snapshotnum
-        rsyncdaemon = parameters.rsyncdaemon
-        rsyncversion3 = parameters.rsyncversion3
-
-        computedarguments.removeAll()
+    
+    // MARK: - Private Helpers
+    
+    /// Builds remote source string without mutation
+    private func buildRemoteSource(catalog: String) -> String {
+        sshBuilder.buildRemoteArgument(catalog: catalog, isDaemon: parameters.isRsyncDaemon)
     }
 }

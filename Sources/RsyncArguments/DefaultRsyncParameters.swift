@@ -1,3 +1,8 @@
+//  DefaultRsyncParameters.swift
+//  RsyncArguments
+//
+//  Created by Thomas Evensen on 02/08/2024.
+//
 //
 //  DefaultRsyncParameters.swift
 //  RsyncArguments
@@ -7,20 +12,24 @@
 
 import Foundation
 
+/// Standard rsync parameters and task types
 public enum DefaultRsyncParameters: String, CaseIterable, Identifiable, CustomStringConvertible {
-    case verify_parameter1 = "--checksum"
-    case archive_parameter1 = "--archive"
-    case verbose_parameter2 = "--verbose"
-    case compress_parameter3 = "--compress"
-    case delete_parameter4 = "--delete"
-    case recursive = "--recursive"
-    case stats = "--stats"
-    case dryrun = "--dry-run"
-    case linkdest = "--link-dest="
+    // Rsync flags
+    case verifyChecksum = "--checksum"
+    case archiveMode = "--archive"
+    case verboseOutput = "--verbose"
+    case compressionEnabled = "--compress"
+    case deleteExtraneous = "--delete"
+    case recursiveMode = "--recursive"
+    case statisticsOutput = "--stats"
+    case dryRunMode = "--dry-run"
+    case linkDestination = "--link-dest="
+    
+    // Task types
     case synchronize
     case snapshot
     case syncremote
-
+    
     public var id: String { rawValue }
     public var description: String { rawValue.localizedLowercase }
 }

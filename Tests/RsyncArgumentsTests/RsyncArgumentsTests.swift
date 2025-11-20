@@ -11,7 +11,13 @@ import Testing
     var nr4: [String]?
     var nr5: [String]?
 
-    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil, nr4: [String]? = nil, nr5: [String]? = nil) async {
+    init(testconfigurations: [TestSynchronizeConfiguration]? = nil,
+         nr0: [String]? = nil,
+         nr1: [String]? = nil,
+         nr2: [String]? = nil,
+         nr3: [String]? = nil,
+         nr4: [String]? = nil,
+         nr5: [String]? = nil) async {
         self.testconfigurations = testconfigurations
         self.nr0 = nr0
         self.nr1 = nr1
@@ -29,60 +35,76 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let parameters = await Parameters(task: testconfigurations[i].task,
-                                                  parameter1: testconfigurations[i].parameter1,
-                                                  parameter2: testconfigurations[i].parameter2,
-                                                  parameter3: testconfigurations[i].parameter3,
-                                                  parameter4: testconfigurations[i].parameter4,
-                                                  parameter8: testconfigurations[i].parameter8,
-                                                  parameter9: testconfigurations[i].parameter9,
-                                                  parameter10: testconfigurations[i].parameter10,
-                                                  parameter11: testconfigurations[i].parameter11,
-                                                  parameter12: testconfigurations[i].parameter12,
-                                                  parameter13: testconfigurations[i].parameter13,
-                                                  parameter14: testconfigurations[i].parameter14,
-                                                  sshport: String(testconfigurations[i].sshport ?? -1),
-                                                  sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                                                  sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                                                  sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                                                  localCatalog: testconfigurations[i].localCatalog,
-                                                  offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                                                  offsiteServer: testconfigurations[i].offsiteServer,
-                                                  offsiteUsername: testconfigurations[i].offsiteUsername,
-                                                  sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
-                                                  snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                  rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
-                                                  rsyncversion3: TestSharedReference.shared.rsyncversion3)
-                let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: parameters)
+                let params =  Parameters(
+                    task: testconfigurations[i].task,
+                    basicParameters: BasicRsyncParameters(
+                        archiveMode: "--archive",
+                        verboseOutput: "--verbose",
+                        compressionEnabled: "--compress",
+                        deleteExtraneous: "--delete"
+                    ),
+                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
+                                                                parameter9: testconfigurations[i].parameter9,
+                                                                parameter10: testconfigurations[i].parameter10,
+                                                                parameter11: testconfigurations[i].parameter11,
+                                                                parameter12: testconfigurations[i].parameter12,
+                                                                parameter13: testconfigurations[i].parameter13,
+                                                                parameter14: testconfigurations[i].parameter14),
+                    
+                    sshParameters: SSHParameters(
+                        offsiteServer: testconfigurations[i].offsiteServer,
+                        offsiteUsername: testconfigurations[i].offsiteUsername,
+                        sshport: String(testconfigurations[i].sshport ?? -1),
+                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                        rsyncversion3: TestSharedReference.shared.rsyncversion3
+                    ),
+                    paths: PathConfiguration(
+                        localCatalog: testconfigurations[i].localCatalog,
+                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
+                    ),
+                    snapshotNumber: testconfigurations[i].snapshotnum,
+                    isRsyncDaemon: false,  // Use Bool instead of -1/1
+                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
+                )
+                let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: params)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
-                    rsyncparameterssynchronize.argumentsforsynchronize(forDisplay: false, verify: false, dryrun: true)
+                    do {
+                        try rsyncparameterssynchronize.argumentsForSynchronize(forDisplay: false, verify: false, dryrun: true)
+                    } catch {}
                 case TestSharedReference.shared.snapshot:
-                    rsyncparameterssynchronize.argumentsforsynchronizesnapshot(forDisplay: false, verify: false, dryrun: true)
+                    do {
+                        try rsyncparameterssynchronize.argumentsForSynchronizeSnapshot(forDisplay: false, verify: false, dryrun: true)
+                    } catch {}
                 case TestSharedReference.shared.syncremote:
-                    rsyncparameterssynchronize.argumentsforsynchronizeremote(forDisplay: false, verify: false, dryrun: true)
+                    do {
+                        try rsyncparameterssynchronize.argumentsForSynchronizeRemote(forDisplay: false, verify: false, dryrun: true)
+                    } catch {}
+                    
                 default:
                     break
                 }
 
                 switch i {
                 case 0:
-                    nr0 = rsyncparameterssynchronize.computedarguments
+                    nr0 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronize().nr0 == nr0)
                 case 1:
-                    nr1 = rsyncparameterssynchronize.computedarguments
+                    nr1 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronize().nr1 == nr1)
                 case 2:
-                    nr2 = rsyncparameterssynchronize.computedarguments
+                    nr2 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronize().nr2 == nr2)
                 case 3:
-                    nr3 = rsyncparameterssynchronize.computedarguments
+                    nr3 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronize().nr3 == nr3)
                 case 4:
-                    nr4 = rsyncparameterssynchronize.computedarguments
+                    nr4 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronize().nr4 == nr4)
                 case 5:
-                    nr5 = rsyncparameterssynchronize.computedarguments
+                    nr5 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronize().nr5 == nr5)
                 default:
                     return
@@ -90,83 +112,78 @@ import Testing
             }
         }
     }
-}
-
-@Suite final class TestRestoreFilelist {
-    var testconfigurations: [TestSynchronizeConfiguration]?
-    var nr0: [String]?
-    var nr1: [String]?
-    var nr2: [String]?
-    var nr3: [String]?
-
-    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil) async {
-        self.testconfigurations = testconfigurations
-        self.nr0 = nr0
-        self.nr1 = nr1
-        self.nr2 = nr2
-        self.nr3 = nr3
-
-        let loadtestdata = ReadTestdataFromGitHub()
-        await loadtestdata.getdata()
-        self.testconfigurations = loadtestdata.testconfigurations
-    }
-
+    
     @Test func LodaDataTestRestore() async {
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let parameters = await Parameters(task: testconfigurations[i].task,
-                                                  parameter1: testconfigurations[i].parameter1,
-                                                  parameter2: testconfigurations[i].parameter2,
-                                                  parameter3: testconfigurations[i].parameter3,
-                                                  parameter4: testconfigurations[i].parameter4,
-                                                  parameter8: testconfigurations[i].parameter8,
-                                                  parameter9: testconfigurations[i].parameter9,
-                                                  parameter10: testconfigurations[i].parameter10,
-                                                  parameter11: testconfigurations[i].parameter11,
-                                                  parameter12: testconfigurations[i].parameter12,
-                                                  parameter13: testconfigurations[i].parameter13,
-                                                  parameter14: testconfigurations[i].parameter14,
-                                                  sshport: String(testconfigurations[i].sshport ?? -1),
-                                                  sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                                                  sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                                                  sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                                                  localCatalog: testconfigurations[i].localCatalog,
-                                                  offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                                                  offsiteServer: testconfigurations[i].offsiteServer,
-                                                  offsiteUsername: testconfigurations[i].offsiteUsername,
-                                                  sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
-                                                  snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                  rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
-                                                  rsyncversion3: TestSharedReference.shared.rsyncversion3)
-                let rsyncparametersrestore = RsyncParametersRestore(parameters: parameters)
+                let params =  Parameters(
+                    task: testconfigurations[i].task,
+                    basicParameters: BasicRsyncParameters(
+                        archiveMode: "--archive",
+                        verboseOutput: "--verbose",
+                        compressionEnabled: "--compress",
+                        deleteExtraneous: "--delete"
+                    ),
+                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
+                                                                parameter9: testconfigurations[i].parameter9,
+                                                                parameter10: testconfigurations[i].parameter10,
+                                                                parameter11: testconfigurations[i].parameter11,
+                                                                parameter12: testconfigurations[i].parameter12,
+                                                                parameter13: testconfigurations[i].parameter13,
+                                                                parameter14: testconfigurations[i].parameter14),
+                    
+                    sshParameters: SSHParameters(
+                        offsiteServer: testconfigurations[i].offsiteServer,
+                        offsiteUsername: testconfigurations[i].offsiteUsername,
+                        sshport: String(testconfigurations[i].sshport ?? -1),
+                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                        rsyncversion3: TestSharedReference.shared.rsyncversion3
+                    ),
+                    paths: PathConfiguration(
+                        localCatalog: testconfigurations[i].localCatalog,
+                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
+                    ),
+                    snapshotNumber: testconfigurations[i].snapshotnum,
+                    isRsyncDaemon: false,  // Use Bool instead of -1/1
+                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
+                )
+                let rsyncparametersrestore = RsyncParametersRestore(parameters: params)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
-                    rsyncparametersrestore.remoteargumentsfilelist()
+                    do {
+                        try rsyncparametersrestore.remoteArgumentsFileList()
+                    } catch {}
+                    
                 case TestSharedReference.shared.snapshot:
-                    rsyncparametersrestore.remoteargumentssnapshotcataloglist()
+                    do {
+                        try rsyncparametersrestore.remoteArgumentsSnapshotFileList()
+                    } catch {}
+                    
                 default:
                     break
                 }
 
                 switch i {
                 case 0:
-                    nr0 = rsyncparametersrestore.computedarguments
+                    nr0 = rsyncparametersrestore.computedArguments
                     #expect(ArgumentsRestoreFilelist().nr0 == nr0)
                 case 1:
-                    nr1 = rsyncparametersrestore.computedarguments
+                    nr1 = rsyncparametersrestore.computedArguments
                     #expect(ArgumentsRestoreFilelist().nr1 == nr1)
                 case 2:
-                    nr2 = rsyncparametersrestore.computedarguments
+                    nr2 = rsyncparametersrestore.computedArguments
                     #expect(ArgumentsRestoreFilelist().nr2 == nr2)
                 case 3:
-                    nr3 = rsyncparametersrestore.computedarguments
+                    nr3 = rsyncparametersrestore.computedArguments
                     #expect(ArgumentsRestoreFilelist().nr3 == nr3)
                 case 4:
-                    let arguments = rsyncparametersrestore.computedarguments
+                    let arguments = rsyncparametersrestore.computedArguments
                     #expect(arguments.isEmpty == true)
                 case 5:
-                    let arguments = rsyncparametersrestore.computedarguments
+                    let arguments = rsyncparametersrestore.computedArguments
                     #expect(arguments.isEmpty == true)
                 default:
                     return
@@ -174,76 +191,67 @@ import Testing
             }
         }
     }
-}
-
-@Suite final class TestRestoreFiles {
-    var testconfigurations: [TestSynchronizeConfiguration]?
-    var nr0: [String]?
-    var nr1: [String]?
-    var nr2: [String]?
-    var nr3: [String]?
-
-    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil) async {
-        self.testconfigurations = testconfigurations
-        self.nr0 = nr0
-        self.nr1 = nr1
-        self.nr2 = nr2
-        self.nr3 = nr3
-
-        let loadtestdata = ReadTestdataFromGitHub()
-        await loadtestdata.getdata()
-        self.testconfigurations = loadtestdata.testconfigurations
-    }
-
+    
     @Test func LodaDataTestRestoreFiles() async {
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let parameters = await Parameters(task: testconfigurations[i].task,
-                                                  parameter1: testconfigurations[i].parameter1,
-                                                  parameter2: testconfigurations[i].parameter2,
-                                                  parameter3: testconfigurations[i].parameter3,
-                                                  parameter4: testconfigurations[i].parameter4,
-                                                  parameter8: testconfigurations[i].parameter8,
-                                                  parameter9: testconfigurations[i].parameter9,
-                                                  parameter10: testconfigurations[i].parameter10,
-                                                  parameter11: testconfigurations[i].parameter11,
-                                                  parameter12: testconfigurations[i].parameter12,
-                                                  parameter13: testconfigurations[i].parameter13,
-                                                  parameter14: testconfigurations[i].parameter14,
-                                                  sshport: String(testconfigurations[i].sshport ?? -1),
-                                                  sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                                                  sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                                                  sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                                                  localCatalog: testconfigurations[i].localCatalog,
-                                                  offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                                                  offsiteServer: testconfigurations[i].offsiteServer,
-                                                  offsiteUsername: testconfigurations[i].offsiteUsername,
-                                                  sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
-                                                  snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                  rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
-                                                  rsyncversion3: TestSharedReference.shared.rsyncversion3)
-                let rsyncparametersrestorefiles = RsyncParametersRestore(parameters: parameters)
-                rsyncparametersrestorefiles.argumentsrestore(forDisplay: false, verify: false, dryrun: true, restoresnapshotbyfiles: false)
-
+                let params =  Parameters(
+                    task: testconfigurations[i].task,
+                    basicParameters: BasicRsyncParameters(
+                        archiveMode: "--archive",
+                        verboseOutput: "--verbose",
+                        compressionEnabled: "--compress",
+                        deleteExtraneous: "--delete"
+                    ),
+                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
+                                                                parameter9: testconfigurations[i].parameter9,
+                                                                parameter10: testconfigurations[i].parameter10,
+                                                                parameter11: testconfigurations[i].parameter11,
+                                                                parameter12: testconfigurations[i].parameter12,
+                                                                parameter13: testconfigurations[i].parameter13,
+                                                                parameter14: testconfigurations[i].parameter14),
+                    
+                    sshParameters: SSHParameters(
+                        offsiteServer: testconfigurations[i].offsiteServer,
+                        offsiteUsername: testconfigurations[i].offsiteUsername,
+                        sshport: String(testconfigurations[i].sshport ?? -1),
+                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                        rsyncversion3: TestSharedReference.shared.rsyncversion3
+                    ),
+                    paths: PathConfiguration(
+                        localCatalog: testconfigurations[i].localCatalog,
+                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
+                        sharedPathForRestore: TestSharedReference.shared.pathforrestore ?? "",
+                    ),
+                    snapshotNumber: testconfigurations[i].snapshotnum,
+                    isRsyncDaemon: false,  // Use Bool instead of -1/1
+                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
+                )
+                let rsyncparametersrestore = RsyncParametersRestore(parameters: params)
+                do {
+                    try rsyncparametersrestore.argumentsRestore(forDisplay: false, verify: false, dryrun: true, restoreSnapshotByFiles: false)
+                } catch { }
                 switch i {
                 case 0:
-                    nr0 = rsyncparametersrestorefiles.computedarguments
+                    nr0 = rsyncparametersrestore.computedArguments
                     #expect(ArgumentsRestore().nr0 == nr0)
                 case 1:
-                    nr1 = rsyncparametersrestorefiles.computedarguments
+                    nr1 = rsyncparametersrestore.computedArguments
                     #expect(ArgumentsRestore().nr1 == nr1)
                 case 2:
-                    nr2 = rsyncparametersrestorefiles.computedarguments
+                    nr2 = rsyncparametersrestore.computedArguments
                     #expect(ArgumentsRestore().nr2 == nr2)
                 case 3:
-                    nr3 = rsyncparametersrestorefiles.computedarguments
+                    nr3 = rsyncparametersrestore.computedArguments
                     #expect(ArgumentsRestore().nr3 == nr3)
                 case 4:
-                    let arguments = rsyncparametersrestorefiles.computedarguments
+                    let arguments = rsyncparametersrestore.computedArguments
                     #expect(arguments.isEmpty == true)
                 case 5:
-                    let arguments = rsyncparametersrestorefiles.computedarguments
+                    let arguments = rsyncparametersrestore.computedArguments
                     #expect(arguments.isEmpty == true)
                 default:
                     return
@@ -251,65 +259,40 @@ import Testing
             }
         }
     }
-}
-
-@Suite final class TestDeleteSnapshot {
-    var testconfigurations: [TestSynchronizeConfiguration]?
-
-    var nr0: [String]?
-    var nr1: [String]?
-    var nr2: [String]?
-    var nr3: [String]?
-    var nr4: [String]?
-    var nr5: [String]?
-
-    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil, nr4: [String]? = nil, nr5: [String]? = nil) async {
-        self.testconfigurations = testconfigurations
-        self.nr0 = nr0
-        self.nr1 = nr1
-        self.nr2 = nr2
-        self.nr3 = nr3
-        self.nr4 = nr4
-        self.nr5 = nr5
-
-        let loadtestdata = ReadTestdataFromGitHub()
-        await loadtestdata.getdata()
-        self.testconfigurations = loadtestdata.testconfigurations
-    }
-
+/*
     @Test func LodaDataSSHCommands() async {
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let sshparameters = await SSHParameters(offsiteServer: testconfigurations[i].offsiteServer,
-                                                        offsiteUsername: testconfigurations[i].offsiteUsername,
-                                                        sshport: String(testconfigurations[i].sshport ?? -1),
-                                                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                                                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                                                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                                                        rsyncversion3: TestSharedReference.shared.rsyncversion3)
-
-                let sshcommands = SnapshotDelete(sshparameters: sshparameters)
-                sshcommands.initialise_setsshidentityfileandsshport()
-
+                let sshparameters =  SSHParameters(
+                    offsiteServer: testconfigurations[i].offsiteServer,
+                    offsiteUsername: testconfigurations[i].offsiteUsername,
+                    sshport: String(testconfigurations[i].sshport ?? -1),
+                    sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                    sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                    sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                    rsyncversion3: TestSharedReference.shared.rsyncversion3
+                )
+                
+                let sshcommands = SnapshotDelete(sshParameters: sshparameters)
                 switch i {
                 case 0:
-                    let nr0 = sshcommands.snapshotdelete(remotecatalog: "Remote")
+                    let nr0 = sshcommands.snapshotDelete(remoteCatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr0 == nr0)
                 case 1:
-                    let nr1 = sshcommands.snapshotdelete(remotecatalog: "Remote")
+                    let nr1 = sshcommands.snapshotDelete(remoteCatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr1 == nr1)
                 case 2:
-                    let nr2 = sshcommands.snapshotdelete(remotecatalog: "Remote")
+                    let nr2 = sshcommands.snapshotDelete(remoteCatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr2 == nr2)
                 case 3:
-                    let nr3 = sshcommands.snapshotdelete(remotecatalog: "Remote")
+                    let nr3 = sshcommands.snapshotDelete(remoteCatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr3 == nr3)
                 case 4:
-                    let nr4 = sshcommands.snapshotdelete(remotecatalog: "Remote")
+                    let nr4 = sshcommands.snapshotDelete(remoteCatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr4 == nr4)
                 case 5:
-                    let nr5 = sshcommands.snapshotdelete(remotecatalog: "Remote")
+                    let nr5 = sshcommands.snapshotDelete(remoteCatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr5 == nr5)
                 default:
                     return
@@ -317,6 +300,7 @@ import Testing
             }
         }
     }
+ */
 }
 
 @Suite final class TestSynchronizeNOSSH {
@@ -329,7 +313,13 @@ import Testing
     var nr4: [String]?
     var nr5: [String]?
 
-    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil, nr4: [String]? = nil, nr5: [String]? = nil) async {
+    init(testconfigurations: [TestSynchronizeConfiguration]? = nil,
+         nr0: [String]? = nil,
+         nr1: [String]? = nil,
+         nr2: [String]? = nil,
+         nr3: [String]? = nil,
+         nr4: [String]? = nil,
+         nr5: [String]? = nil) async {
         self.testconfigurations = testconfigurations
         self.nr0 = nr0
         self.nr1 = nr1
@@ -347,60 +337,79 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let parameters = await Parameters(task: testconfigurations[i].task,
-                                                  parameter1: testconfigurations[i].parameter1,
-                                                  parameter2: testconfigurations[i].parameter2,
-                                                  parameter3: testconfigurations[i].parameter3,
-                                                  parameter4: testconfigurations[i].parameter4,
-                                                  parameter8: testconfigurations[i].parameter8,
-                                                  parameter9: testconfigurations[i].parameter9,
-                                                  parameter10: testconfigurations[i].parameter10,
-                                                  parameter11: testconfigurations[i].parameter11,
-                                                  parameter12: testconfigurations[i].parameter12,
-                                                  parameter13: testconfigurations[i].parameter13,
-                                                  parameter14: testconfigurations[i].parameter14,
-                                                  sshport: String(testconfigurations[i].sshport ?? -1),
-                                                  sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                                                  sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                                                  sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                                                  localCatalog: testconfigurations[i].localCatalog,
-                                                  offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                                                  offsiteServer: testconfigurations[i].offsiteServer,
-                                                  offsiteUsername: testconfigurations[i].offsiteUsername,
-                                                  sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
-                                                  snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                  rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
-                                                  rsyncversion3: TestSharedReference.shared.rsyncversion3)
-                let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: parameters)
+                let params =  Parameters(
+                    task: testconfigurations[i].task,
+                    basicParameters: BasicRsyncParameters(
+                        archiveMode: "--archive",
+                        verboseOutput: "--verbose",
+                        compressionEnabled: "--compress",
+                        deleteExtraneous: "--delete"
+                    ),
+                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
+                                                                parameter9: testconfigurations[i].parameter9,
+                                                                parameter10: testconfigurations[i].parameter10,
+                                                                parameter11: testconfigurations[i].parameter11,
+                                                                parameter12: testconfigurations[i].parameter12,
+                                                                parameter13: testconfigurations[i].parameter13,
+                                                                parameter14: testconfigurations[i].parameter14),
+                    
+                    sshParameters: SSHParameters(
+                        offsiteServer: testconfigurations[i].offsiteServer,
+                        offsiteUsername: testconfigurations[i].offsiteUsername,
+                        sshport: String(testconfigurations[i].sshport ?? -1),
+                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                        rsyncversion3: TestSharedReference.shared.rsyncversion3
+                    ),
+                    paths: PathConfiguration(
+                        localCatalog: testconfigurations[i].localCatalog,
+                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
+                        sharedPathForRestore: TestSharedReference.shared.pathforrestore ?? "",
+                    ),
+                    snapshotNumber: testconfigurations[i].snapshotnum,
+                    isRsyncDaemon: false,  // Use Bool instead of -1/1
+                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
+                )
+                let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: params)
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
-                    rsyncparameterssynchronize.argumentsforsynchronize(forDisplay: false, verify: false, dryrun: true)
+                    do {
+                        try rsyncparameterssynchronize.argumentsForSynchronize(forDisplay: false, verify: false, dryrun: true)
+                    } catch {}
+                    
                 case TestSharedReference.shared.snapshot:
-                    rsyncparameterssynchronize.argumentsforsynchronizesnapshot(forDisplay: false, verify: false, dryrun: true)
+                    do {
+                        try rsyncparameterssynchronize.argumentsForSynchronizeSnapshot(forDisplay: false, verify: false, dryrun: true)
+
+                    } catch {}
                 case TestSharedReference.shared.syncremote:
-                    rsyncparameterssynchronize.argumentsforsynchronizeremote(forDisplay: false, verify: false, dryrun: true)
+                    do {
+                        try rsyncparameterssynchronize.argumentsForSynchronizeRemote(forDisplay: false, verify: false, dryrun: true)
+
+                    } catch {}
                 default:
                     break
                 }
 
                 switch i {
                 case 0:
-                    nr0 = rsyncparameterssynchronize.computedarguments
+                    nr0 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronizeNOSSH().nr0 == nr0)
                 case 1:
-                    nr1 = rsyncparameterssynchronize.computedarguments
+                    nr1 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronizeNOSSH().nr1 == nr1)
                 case 2:
-                    nr2 = rsyncparameterssynchronize.computedarguments
+                    nr2 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronizeNOSSH().nr2 == nr2)
                 case 3:
-                    nr3 = rsyncparameterssynchronize.computedarguments
+                    nr3 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronizeNOSSH().nr3 == nr3)
                 case 4:
-                    nr4 = rsyncparameterssynchronize.computedarguments
+                    nr4 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronizeNOSSH().nr4 == nr4)
                 case 5:
-                    nr5 = rsyncparameterssynchronize.computedarguments
+                    nr5 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronizeNOSSH().nr5 == nr5)
                 default:
                     return
@@ -410,7 +419,8 @@ import Testing
     }
 }
 
-@Suite final class TestPull {
+
+@Suite final class TestPullPush {
     var testconfigurations: [TestSynchronizeConfiguration]?
     // Save computed parameters
     var nr0: [String]?
@@ -432,53 +442,64 @@ import Testing
         let loadtestdata = ReadTestdataFromGitHub()
         await loadtestdata.getdata()
         // Only pick the right task for testing
-        self.testconfigurations = loadtestdata.testconfigurations.compactMap { configuration in
+        self.testconfigurations =  loadtestdata.testconfigurations.compactMap { configuration in
             (configuration.task == "synchronize" && configuration.offsiteServer.isEmpty == false) ? configuration : nil
         }
     }
 
-    @Test func LodaDataTestSynchronize() async {
+    @Test func TestPull() async {
         if let testconfigurations {
             // It are THREE test configurations for pull and push
             for i in 0 ..< testconfigurations.count {
-                let parameters = await Parameters(task: testconfigurations[i].task,
-                                                  parameter1: testconfigurations[i].parameter1,
-                                                  parameter2: testconfigurations[i].parameter2,
-                                                  parameter3: testconfigurations[i].parameter3,
-                                                  parameter4: testconfigurations[i].parameter4,
-                                                  parameter8: testconfigurations[i].parameter8,
-                                                  parameter9: testconfigurations[i].parameter9,
-                                                  parameter10: testconfigurations[i].parameter10,
-                                                  parameter11: testconfigurations[i].parameter11,
-                                                  parameter12: testconfigurations[i].parameter12,
-                                                  parameter13: testconfigurations[i].parameter13,
-                                                  parameter14: testconfigurations[i].parameter14,
-                                                  sshport: String(testconfigurations[i].sshport ?? -1),
-                                                  sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                                                  sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                                                  sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                                                  localCatalog: testconfigurations[i].localCatalog,
-                                                  offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                                                  offsiteServer: testconfigurations[i].offsiteServer,
-                                                  offsiteUsername: testconfigurations[i].offsiteUsername,
-                                                  sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
-                                                  snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                  rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
-                                                  rsyncversion3: TestSharedReference.shared.rsyncversion3)
+                let params =  Parameters(
+                    task: testconfigurations[i].task,
+                    basicParameters: BasicRsyncParameters(
+                        archiveMode: "--archive",
+                        verboseOutput: "--verbose",
+                        compressionEnabled: "--compress",
+                        deleteExtraneous: "--delete"
+                    ),
+                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
+                                                                parameter9: testconfigurations[i].parameter9,
+                                                                parameter10: testconfigurations[i].parameter10,
+                                                                parameter11: testconfigurations[i].parameter11,
+                                                                parameter12: testconfigurations[i].parameter12,
+                                                                parameter13: testconfigurations[i].parameter13,
+                                                                parameter14: testconfigurations[i].parameter14),
+                    
+                    sshParameters: SSHParameters(
+                        offsiteServer: testconfigurations[i].offsiteServer,
+                        offsiteUsername: testconfigurations[i].offsiteUsername,
+                        sshport: String(testconfigurations[i].sshport ?? -1),
+                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                        rsyncversion3: TestSharedReference.shared.rsyncversion3
+                    ),
+                    paths: PathConfiguration(
+                        localCatalog: testconfigurations[i].localCatalog,
+                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
+                    ),
+                    snapshotNumber: testconfigurations[i].snapshotnum,
+                    isRsyncDaemon: false,  // Use Bool instead of -1/1
+                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
+                )
 
-                let rsyncparameterspull = RsyncParametersPullRemote(parameters: parameters)
+                let rsyncparameterspull = RsyncParametersPullRemote(parameters: params)
 
-                rsyncparameterspull.argumentspullremotewithparameters(forDisplay: false, verify: false, dryrun: true, keepdelete: false)
-
+                do {
+                    try rsyncparameterspull.argumentsPullRemoteWithParameters(forDisplay: false, verify: false, dryrun: true, keepDelete: false)
+                } catch { }
+                
                 switch i {
                 case 0:
-                    nr0 = rsyncparameterspull.computedarguments
+                    nr0 = rsyncparameterspull.computedArguments
                     #expect(ArgumentsPull().nr0 == nr0)
                 case 1:
-                    nr1 = rsyncparameterspull.computedarguments
+                    nr1 = rsyncparameterspull.computedArguments
                     #expect(ArgumentsPull().nr1 == nr1)
                 case 2:
-                    nr2 = rsyncparameterspull.computedarguments
+                    nr2 = rsyncparameterspull.computedArguments
                     #expect(ArgumentsPull().nr2 == nr2)
                 default:
                     return
@@ -486,76 +507,60 @@ import Testing
             }
         }
     }
-}
-
-@Suite final class TestPush {
-    var testconfigurations: [TestSynchronizeConfiguration]?
-    // Save computed parameters
-    var nr0: [String]?
-    var nr1: [String]?
-    var nr2: [String]?
-    var nr3: [String]?
-    var nr4: [String]?
-    var nr5: [String]?
-
-    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil, nr4: [String]? = nil, nr5: [String]? = nil) async {
-        self.testconfigurations = testconfigurations
-        self.nr0 = nr0
-        self.nr1 = nr1
-        self.nr2 = nr2
-        self.nr3 = nr3
-        self.nr4 = nr4
-        self.nr5 = nr5
-
-        let loadtestdata = ReadTestdataFromGitHub()
-        await loadtestdata.getdata()
-        // Only pick the right task for testing
-        self.testconfigurations = loadtestdata.testconfigurations.compactMap { configuration in
-            (configuration.task == "synchronize" && configuration.offsiteServer.isEmpty == false) ? configuration : nil
-        }
-    }
-
-    @Test func LodaDataTestSynchronize() async {
+    
+    @Test func TestPush() async {
         if let testconfigurations {
             // It are THREE test configurations for pull and push
             for i in 0 ..< testconfigurations.count {
-                let parameters = await Parameters(task: testconfigurations[i].task,
-                                                  parameter1: testconfigurations[i].parameter1,
-                                                  parameter2: testconfigurations[i].parameter2,
-                                                  parameter3: testconfigurations[i].parameter3,
-                                                  parameter4: testconfigurations[i].parameter4,
-                                                  parameter8: testconfigurations[i].parameter8,
-                                                  parameter9: testconfigurations[i].parameter9,
-                                                  parameter10: testconfigurations[i].parameter10,
-                                                  parameter11: testconfigurations[i].parameter11,
-                                                  parameter12: testconfigurations[i].parameter12,
-                                                  parameter13: testconfigurations[i].parameter13,
-                                                  parameter14: testconfigurations[i].parameter14,
-                                                  sshport: String(testconfigurations[i].sshport ?? -1),
-                                                  sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                                                  sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                                                  sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                                                  localCatalog: testconfigurations[i].localCatalog,
-                                                  offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                                                  offsiteServer: testconfigurations[i].offsiteServer,
-                                                  offsiteUsername: testconfigurations[i].offsiteUsername,
-                                                  sharedpathforrestore: TestSharedReference.shared.pathforrestore ?? "",
-                                                  snapshotnum: testconfigurations[i].snapshotnum ?? -1,
-                                                  rsyncdaemon: testconfigurations[i].rsyncdaemon ?? -1,
-                                                  rsyncversion3: TestSharedReference.shared.rsyncversion3)
-
-                let rsyncparameterpush = RsyncParametersSynchronize(parameters: parameters)
-                rsyncparameterpush.argumentsforpushlocaltoremote(forDisplay: false, verify: false, dryrun: true, keepdelete: false)
-
+                let params =   Parameters(
+                    task: testconfigurations[i].task,
+                    basicParameters: BasicRsyncParameters(
+                        archiveMode: "--archive",
+                        verboseOutput: "--verbose",
+                        compressionEnabled: "--compress",
+                        deleteExtraneous: "--delete"
+                    ),
+                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
+                                                                parameter9: testconfigurations[i].parameter9,
+                                                                parameter10: testconfigurations[i].parameter10,
+                                                                parameter11: testconfigurations[i].parameter11,
+                                                                parameter12: testconfigurations[i].parameter12,
+                                                                parameter13: testconfigurations[i].parameter13,
+                                                                parameter14: testconfigurations[i].parameter14),
+                    
+                    sshParameters: SSHParameters(
+                        offsiteServer: testconfigurations[i].offsiteServer,
+                        offsiteUsername: testconfigurations[i].offsiteUsername,
+                        sshport: String(testconfigurations[i].sshport ?? -1),
+                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
+                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
+                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
+                        rsyncversion3: TestSharedReference.shared.rsyncversion3
+                    ),
+                    paths: PathConfiguration(
+                        localCatalog: testconfigurations[i].localCatalog,
+                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
+                    ),
+                    snapshotNumber: testconfigurations[i].snapshotnum,
+                    isRsyncDaemon: false,  // Use Bool instead of -1/1
+                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
+                )
+                
+                let rsyncparameterpush = RsyncParametersSynchronize(parameters: params)
+                do {
+                    try rsyncparameterpush.argumentsForPushLocalToRemoteWithParameters(forDisplay: false, verify: false, dryrun: true, keepDelete: false)
+                    
+                } catch { }
+                
                 switch i {
                 case 0:
-                    nr0 = rsyncparameterpush.computedarguments
+                    nr0 = rsyncparameterpush.computedArguments
                     #expect(ArgumentsPush().nr0 == nr0)
                 case 1:
-                    nr1 = rsyncparameterpush.computedarguments
+                    nr1 = rsyncparameterpush.computedArguments
                     #expect(ArgumentsPush().nr1 == nr1)
                 case 2:
-                    nr2 = rsyncparameterpush.computedarguments
+                    nr2 = rsyncparameterpush.computedArguments
                     #expect(ArgumentsPush().nr2 == nr2)
                 default:
                     return
