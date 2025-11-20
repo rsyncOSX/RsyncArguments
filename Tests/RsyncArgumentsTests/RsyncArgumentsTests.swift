@@ -259,7 +259,7 @@ import Testing
             }
         }
     }
-/*
+
     @Test func LodaDataSSHCommands() async {
         if let testconfigurations {
             // It are six test configurations
@@ -300,7 +300,6 @@ import Testing
             }
         }
     }
- */
 }
 
 @Suite final class TestSynchronizeNOSSH {
