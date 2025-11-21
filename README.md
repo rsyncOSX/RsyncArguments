@@ -1,5 +1,7 @@
 # RsyncArguments
 
+Version 2.0.0
+
 A Swift package for building rsync command arguments in RsyncUI. This package provides type-safe, maintainable builders for creating rsync parameters for synchronization, snapshot, and remote sync operations.
 
 ## Note
