@@ -10,7 +10,7 @@ import Testing
     var nr3: [String]?
     var nr4: [String]?
     var nr5: [String]?
-
+    
     init(testconfigurations: [TestSynchronizeConfiguration]? = nil,
          nr0: [String]? = nil,
          nr1: [String]? = nil,
@@ -35,40 +35,10 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let params =  Parameters(
-                    task: testconfigurations[i].task,
-                    basicParameters: BasicRsyncParameters(
-                        archiveMode: "--archive",
-                        verboseOutput: "--verbose",
-                        compressionEnabled: "--compress",
-                        deleteExtraneous: "--delete"
-                    ),
-                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
-                                                                parameter9: testconfigurations[i].parameter9,
-                                                                parameter10: testconfigurations[i].parameter10,
-                                                                parameter11: testconfigurations[i].parameter11,
-                                                                parameter12: testconfigurations[i].parameter12,
-                                                                parameter13: testconfigurations[i].parameter13,
-                                                                parameter14: testconfigurations[i].parameter14),
-                    
-                    sshParameters: SSHParameters(
-                        offsiteServer: testconfigurations[i].offsiteServer,
-                        offsiteUsername: testconfigurations[i].offsiteUsername,
-                        sshport: String(testconfigurations[i].sshport ?? -1),
-                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                        rsyncversion3: TestSharedReference.shared.rsyncversion3
-                    ),
-                    paths: PathConfiguration(
-                        localCatalog: testconfigurations[i].localCatalog,
-                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                    ),
-                    snapshotNumber: testconfigurations[i].snapshotnum,
-                    isRsyncDaemon: false,  // Use Bool instead of -1/1
-                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
-                )
+                
+                let params = Params().params(config: testconfigurations[i])
                 let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: params)
+                
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
                     do {
@@ -117,40 +87,10 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let params =  Parameters(
-                    task: testconfigurations[i].task,
-                    basicParameters: BasicRsyncParameters(
-                        archiveMode: "--archive",
-                        verboseOutput: "--verbose",
-                        compressionEnabled: "--compress",
-                        deleteExtraneous: "--delete"
-                    ),
-                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
-                                                                parameter9: testconfigurations[i].parameter9,
-                                                                parameter10: testconfigurations[i].parameter10,
-                                                                parameter11: testconfigurations[i].parameter11,
-                                                                parameter12: testconfigurations[i].parameter12,
-                                                                parameter13: testconfigurations[i].parameter13,
-                                                                parameter14: testconfigurations[i].parameter14),
-                    
-                    sshParameters: SSHParameters(
-                        offsiteServer: testconfigurations[i].offsiteServer,
-                        offsiteUsername: testconfigurations[i].offsiteUsername,
-                        sshport: String(testconfigurations[i].sshport ?? -1),
-                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                        rsyncversion3: TestSharedReference.shared.rsyncversion3
-                    ),
-                    paths: PathConfiguration(
-                        localCatalog: testconfigurations[i].localCatalog,
-                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                    ),
-                    snapshotNumber: testconfigurations[i].snapshotnum,
-                    isRsyncDaemon: false,  // Use Bool instead of -1/1
-                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
-                )
+                
+                let params = Params().params(config: testconfigurations[i])
                 let rsyncparametersrestore = RsyncParametersRestore(parameters: params)
+                
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
                     do {
@@ -196,41 +136,10 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let params =  Parameters(
-                    task: testconfigurations[i].task,
-                    basicParameters: BasicRsyncParameters(
-                        archiveMode: "--archive",
-                        verboseOutput: "--verbose",
-                        compressionEnabled: "--compress",
-                        deleteExtraneous: "--delete"
-                    ),
-                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
-                                                                parameter9: testconfigurations[i].parameter9,
-                                                                parameter10: testconfigurations[i].parameter10,
-                                                                parameter11: testconfigurations[i].parameter11,
-                                                                parameter12: testconfigurations[i].parameter12,
-                                                                parameter13: testconfigurations[i].parameter13,
-                                                                parameter14: testconfigurations[i].parameter14),
-                    
-                    sshParameters: SSHParameters(
-                        offsiteServer: testconfigurations[i].offsiteServer,
-                        offsiteUsername: testconfigurations[i].offsiteUsername,
-                        sshport: String(testconfigurations[i].sshport ?? -1),
-                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                        rsyncversion3: TestSharedReference.shared.rsyncversion3
-                    ),
-                    paths: PathConfiguration(
-                        localCatalog: testconfigurations[i].localCatalog,
-                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                        sharedPathForRestore: TestSharedReference.shared.pathforrestore ?? "",
-                    ),
-                    snapshotNumber: testconfigurations[i].snapshotnum,
-                    isRsyncDaemon: false,  // Use Bool instead of -1/1
-                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
-                )
+                
+                let params = Params().params(config: testconfigurations[i])
                 let rsyncparametersrestore = RsyncParametersRestore(parameters: params)
+                
                 do {
                     try rsyncparametersrestore.argumentsRestore(forDisplay: false, verify: false, dryrun: true, restoreSnapshotByFiles: false)
                 } catch { }
@@ -264,17 +173,10 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let sshparameters =  SSHParameters(
-                    offsiteServer: testconfigurations[i].offsiteServer,
-                    offsiteUsername: testconfigurations[i].offsiteUsername,
-                    sshport: String(testconfigurations[i].sshport ?? -1),
-                    sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                    sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                    sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                    rsyncversion3: TestSharedReference.shared.rsyncversion3
-                )
                 
+                let sshparameters = Params().sshparams(config: testconfigurations[i])
                 let sshcommands = SnapshotDelete(sshParameters: sshparameters)
+                
                 switch i {
                 case 0:
                     let nr0 = sshcommands.snapshotDelete(remoteCatalog: "Remote")
@@ -336,41 +238,10 @@ import Testing
         if let testconfigurations {
             // It are six test configurations
             for i in 0 ..< testconfigurations.count {
-                let params =  Parameters(
-                    task: testconfigurations[i].task,
-                    basicParameters: BasicRsyncParameters(
-                        archiveMode: "--archive",
-                        verboseOutput: "--verbose",
-                        compressionEnabled: "--compress",
-                        deleteExtraneous: "--delete"
-                    ),
-                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
-                                                                parameter9: testconfigurations[i].parameter9,
-                                                                parameter10: testconfigurations[i].parameter10,
-                                                                parameter11: testconfigurations[i].parameter11,
-                                                                parameter12: testconfigurations[i].parameter12,
-                                                                parameter13: testconfigurations[i].parameter13,
-                                                                parameter14: testconfigurations[i].parameter14),
-                    
-                    sshParameters: SSHParameters(
-                        offsiteServer: testconfigurations[i].offsiteServer,
-                        offsiteUsername: testconfigurations[i].offsiteUsername,
-                        sshport: String(testconfigurations[i].sshport ?? -1),
-                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                        rsyncversion3: TestSharedReference.shared.rsyncversion3
-                    ),
-                    paths: PathConfiguration(
-                        localCatalog: testconfigurations[i].localCatalog,
-                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                        sharedPathForRestore: TestSharedReference.shared.pathforrestore ?? "",
-                    ),
-                    snapshotNumber: testconfigurations[i].snapshotnum,
-                    isRsyncDaemon: false,  // Use Bool instead of -1/1
-                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
-                )
+                
+                let params = Params().params(config: testconfigurations[i])
                 let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: params)
+                
                 switch testconfigurations[i].task {
                 case TestSharedReference.shared.synchronize:
                     do {
@@ -450,40 +321,8 @@ import Testing
         if let testconfigurations {
             // It are THREE test configurations for pull and push
             for i in 0 ..< testconfigurations.count {
-                let params =  Parameters(
-                    task: testconfigurations[i].task,
-                    basicParameters: BasicRsyncParameters(
-                        archiveMode: "--archive",
-                        verboseOutput: "--verbose",
-                        compressionEnabled: "--compress",
-                        deleteExtraneous: "--delete"
-                    ),
-                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
-                                                                parameter9: testconfigurations[i].parameter9,
-                                                                parameter10: testconfigurations[i].parameter10,
-                                                                parameter11: testconfigurations[i].parameter11,
-                                                                parameter12: testconfigurations[i].parameter12,
-                                                                parameter13: testconfigurations[i].parameter13,
-                                                                parameter14: testconfigurations[i].parameter14),
-                    
-                    sshParameters: SSHParameters(
-                        offsiteServer: testconfigurations[i].offsiteServer,
-                        offsiteUsername: testconfigurations[i].offsiteUsername,
-                        sshport: String(testconfigurations[i].sshport ?? -1),
-                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                        rsyncversion3: TestSharedReference.shared.rsyncversion3
-                    ),
-                    paths: PathConfiguration(
-                        localCatalog: testconfigurations[i].localCatalog,
-                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                    ),
-                    snapshotNumber: testconfigurations[i].snapshotnum,
-                    isRsyncDaemon: false,  // Use Bool instead of -1/1
-                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
-                )
-
+                
+                let params = Params().params(config: testconfigurations[i])
                 let rsyncparameterspull = RsyncParametersPullRemote(parameters: params)
 
                 do {
@@ -511,41 +350,10 @@ import Testing
         if let testconfigurations {
             // It are THREE test configurations for pull and push
             for i in 0 ..< testconfigurations.count {
-                let params =   Parameters(
-                    task: testconfigurations[i].task,
-                    basicParameters: BasicRsyncParameters(
-                        archiveMode: "--archive",
-                        verboseOutput: "--verbose",
-                        compressionEnabled: "--compress",
-                        deleteExtraneous: "--delete"
-                    ),
-                    optionalParameters: OptionalRsyncParameters(parameter8: testconfigurations[i].parameter8,
-                                                                parameter9: testconfigurations[i].parameter9,
-                                                                parameter10: testconfigurations[i].parameter10,
-                                                                parameter11: testconfigurations[i].parameter11,
-                                                                parameter12: testconfigurations[i].parameter12,
-                                                                parameter13: testconfigurations[i].parameter13,
-                                                                parameter14: testconfigurations[i].parameter14),
-                    
-                    sshParameters: SSHParameters(
-                        offsiteServer: testconfigurations[i].offsiteServer,
-                        offsiteUsername: testconfigurations[i].offsiteUsername,
-                        sshport: String(testconfigurations[i].sshport ?? -1),
-                        sshkeypathandidentityfile: testconfigurations[i].sshkeypathandidentityfile ?? "",
-                        sharedsshport: String(TestSharedReference.shared.sshport ?? -1),
-                        sharedsshkeypathandidentityfile: TestSharedReference.shared.sshkeypathandidentityfile,
-                        rsyncversion3: TestSharedReference.shared.rsyncversion3
-                    ),
-                    paths: PathConfiguration(
-                        localCatalog: testconfigurations[i].localCatalog,
-                        offsiteCatalog: testconfigurations[i].offsiteCatalog,
-                    ),
-                    snapshotNumber: testconfigurations[i].snapshotnum,
-                    isRsyncDaemon: false,  // Use Bool instead of -1/1
-                    rsyncVersion3: TestSharedReference.shared.rsyncversion3
-                )
                 
+                let params = Params().params(config: testconfigurations[i])
                 let rsyncparameterpush = RsyncParametersSynchronize(parameters: params)
+                
                 do {
                     try rsyncparameterpush.argumentsForPushLocalToRemoteWithParameters(forDisplay: false, verify: false, dryrun: true, keepDelete: false)
                     
