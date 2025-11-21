@@ -4,7 +4,7 @@ A Swift package for building rsync command arguments in RsyncUI. This package pr
 
 ## Note
 
-This SPM is still in testing. DO NOY USE.
+This SPM is still in testing. DO NOT USE.
 
 ## Features
 
@@ -189,22 +189,8 @@ do {
 }
 ```
 
-## Migration from Previous Version
+### Parameters
 
-### Old Code
-```swift
-let params = Parameters(
-    task: "synchronize",
-    parameter1: "--archive",
-    parameter2: "--verbose",
-    parameter3: "--compress",
-    parameter4: "--delete",
-    parameter8: nil,
-    // ... 20 more parameters
-)
-```
-
-### New Code
 ```swift
 let params = Parameters(
     task: DefaultRsyncParameters.synchronize.rawValue,
@@ -231,24 +217,3 @@ let params = Parameters(
 ## License
 
 See LICENSE file for details.
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Add tests for new functionality
-4. Ensure all tests pass
-5. Submit a pull request
-
-## Changelog
-
-### Version 2.0.0
-- ✅ Refactored for type safety and immutability
-- ✅ Eliminated state mutation bugs
-- ✅ Added comprehensive error handling
-- ✅ Improved naming conventions
-- ✅ Consolidated SSH parameter logic
-- ✅ Added proper documentation
-
-### Version 1.0.0
-- Initial release with basic functionality
