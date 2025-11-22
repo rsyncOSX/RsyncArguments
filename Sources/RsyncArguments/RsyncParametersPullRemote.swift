@@ -48,8 +48,8 @@ public final class RsyncParametersPullRemote {
         verify: Bool,
         dryrun: Bool
     ) throws {
-        guard parameters.task != DefaultRsyncParameters.syncremote.rawValue,
-              parameters.task != DefaultRsyncParameters.snapshot.rawValue else {
+        
+        guard parameters.task == DefaultRsyncParameters.synchronize.rawValue else {
             throw ParameterError.invalidTaskType
         }
         
@@ -104,8 +104,7 @@ public final class RsyncParametersPullRemote {
         dryrun: Bool,
         keepDelete: Bool
     ) throws {
-        guard parameters.task != DefaultRsyncParameters.syncremote.rawValue,
-              parameters.task != DefaultRsyncParameters.snapshot.rawValue else {
+        guard parameters.task == DefaultRsyncParameters.synchronize.rawValue else {
             throw ParameterError.invalidTaskType
         }
         
