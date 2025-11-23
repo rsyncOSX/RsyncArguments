@@ -6,6 +6,7 @@
 //
 @testable import RsyncArguments
 
+@MainActor
 struct Params {
     func params(
         config: TestSynchronizeConfiguration) -> Parameters

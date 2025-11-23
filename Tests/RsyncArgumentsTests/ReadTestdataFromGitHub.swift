@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class ReadTestdataFromGitHub {
     var testconfigurations = [TestSynchronizeConfiguration]()
     private var urlJSONuiconfig: String = "https://raw.githubusercontent.com/rsyncOSX/RsyncArguments/master/Testdata/rsyncuiconfig.json"

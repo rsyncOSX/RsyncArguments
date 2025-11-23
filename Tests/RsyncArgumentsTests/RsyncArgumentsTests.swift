@@ -1,6 +1,7 @@
 @testable import RsyncArguments
 import Testing
 
+@MainActor
 @Suite final class TestSynchronize {
     var testconfigurations: [TestSynchronizeConfiguration]?
     // Save computed parameters
@@ -204,6 +205,7 @@ import Testing
     }
 }
 
+@MainActor
 @Suite final class TestSynchronizeNOSSH {
     var testconfigurations: [TestSynchronizeConfiguration]?
     // Save computed parameters
@@ -289,7 +291,7 @@ import Testing
     }
 }
 
-
+@MainActor
 @Suite final class TestPullPush {
     var testconfigurations: [TestSynchronizeConfiguration]?
     // Save computed parameters
