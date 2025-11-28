@@ -212,4 +212,8 @@ let params = Parameters(
 
 ## License
 
-See LICENSE file for details.
+MIT
+
+## Author
+
+Thomas Evensen
