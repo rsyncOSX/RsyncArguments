@@ -11,7 +11,7 @@ import Foundation
 /// Helper for building rsync argument arrays with optional display formatting
 public struct RsyncArgumentBuilder {
     private var arguments: [String] = []
-    
+
     /// Adds a single argument to the builder
     /// - Parameter argument: The argument to add
     /// - Returns: Self for method chaining
@@ -20,7 +20,7 @@ public struct RsyncArgumentBuilder {
         arguments.append(argument)
         return self
     }
-    
+
     /// Conditionally adds an argument
     /// - Parameters:
     ///   - condition: Whether to add the argument
@@ -33,7 +33,7 @@ public struct RsyncArgumentBuilder {
         }
         return self
     }
-    
+
     /// Adds multiple arguments
     /// - Parameter arguments: Array of arguments to add
     /// - Returns: Self for method chaining
@@ -42,7 +42,7 @@ public struct RsyncArgumentBuilder {
         self.arguments.append(contentsOf: arguments)
         return self
     }
-    
+
     /// Builds the final argument array
     /// - Parameter forDisplay: If true, adds spacing between arguments for display
     /// - Returns: Array of arguments, with optional spacing
@@ -52,7 +52,7 @@ public struct RsyncArgumentBuilder {
         }
         return arguments
     }
-    
+
     /// Returns a human-readable string of all arguments
     public var displayString: String {
         arguments.joined(separator: " ")

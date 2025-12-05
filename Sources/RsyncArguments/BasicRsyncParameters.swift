@@ -14,7 +14,7 @@ public struct BasicRsyncParameters {
     public let verboseOutput: String
     public let compressionEnabled: String
     public let deleteExtraneous: String
-    
+
     public init(
         archiveMode: String,
         verboseOutput: String,
@@ -37,7 +37,7 @@ public struct OptionalRsyncParameters {
     public let parameter12: String?
     public let parameter13: String?
     public let parameter14: String?
-    
+
     public init(
         parameter8: String? = nil,
         parameter9: String? = nil,
@@ -62,7 +62,7 @@ public struct PathConfiguration {
     public let localCatalog: String
     public let offsiteCatalog: String
     public let sharedPathForRestore: String
-    
+
     public init(
         localCatalog: String,
         offsiteCatalog: String,
@@ -81,11 +81,11 @@ public struct Parameters {
     public let optionalParameters: OptionalRsyncParameters
     public let sshParameters: SSHParameters
     public let paths: PathConfiguration
-    
+
     public let snapshotNumber: Int?
     public let isRsyncDaemon: Bool
     public let rsyncVersion3: Bool
-    
+
     public init(
         task: String,
         basicParameters: BasicRsyncParameters,

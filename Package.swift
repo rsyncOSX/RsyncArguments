@@ -26,15 +26,15 @@ let package = Package(
 )
 
 /*
-let strictConcurrencyTargets = ["RsyncUI"]
+ let strictConcurrencyTargets = ["RsyncUI"]
 
-for target in package.targets where strictConcurrencyTargets.contains(target.name) {
-  var settings = target.swiftSettings ?? []
-  settings.append(contentsOf: [
-    .defaultIsolation(MainActor.self),
-    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-    .enableUpcomingFeature("InferIsolatedConformances")
-  ])
-  target.swiftSettings = settings
-}
-*/
+ for target in package.targets where strictConcurrencyTargets.contains(target.name) {
+   var settings = target.swiftSettings ?? []
+   settings.append(contentsOf: [
+     .defaultIsolation(MainActor.self),
+     .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+     .enableUpcomingFeature("InferIsolatedConformances")
+   ])
+   target.swiftSettings = settings
+ }
+ */

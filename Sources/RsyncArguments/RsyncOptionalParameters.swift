@@ -12,12 +12,12 @@ import Foundation
 public final class RsyncOptionalParameters {
     private let optionalParams: OptionalRsyncParameters
     private let rsyncVersion3: Bool
-    
+
     public init(optionalParameters: OptionalRsyncParameters, rsyncVersion3: Bool) {
-        self.optionalParams = optionalParameters
+        optionalParams = optionalParameters
         self.rsyncVersion3 = rsyncVersion3
     }
-    
+
     /// Builds optional parameter arguments
     /// - Parameters:
     ///   - dryRun: Whether this is a dry run
@@ -26,7 +26,7 @@ public final class RsyncOptionalParameters {
     public func buildArguments(dryRun: Bool, forDisplay: Bool) -> [String] {
         var builder = RsyncArgumentBuilder()
         var hasStatsParameter = false
-        
+
         // Process parameters 8-14
         let parameters = [
             optionalParams.parameter8,
@@ -35,11 +35,11 @@ public final class RsyncOptionalParameters {
             optionalParams.parameter11,
             optionalParams.parameter12,
             optionalParams.parameter13,
-            optionalParams.parameter14
+            optionalParams.parameter14,
         ]
-        
+
         for param in parameters {
-            if let param = param, !param.isEmpty, param.count > 1 {
+            if let param, !param.isEmpty, param.count > 1 {
                 if param == DefaultRsyncParameters.statisticsOutput.rawValue {
                     hasStatsParameter = true
                 }
@@ -47,23 +47,24 @@ public final class RsyncOptionalParameters {
                 if forDisplay { builder.add(" ") }
             }
         }
-        
+
         // Add dry-run and stats parameters
         if dryRun {
             builder.add(DefaultRsyncParameters.dryRunMode.rawValue)
             if forDisplay { builder.add(" ") }
         }
-        
+
         if !hasStatsParameter {
             builder.add(DefaultRsyncParameters.statisticsOutput.rawValue)
             if forDisplay { builder.add(" ") }
         }
-        
+
         return builder.build()
     }
 }
 
 // MARK: - Date Suffix Extension
+
 private extension String {
     /// Appends current date in format -yyyy-MM-dd
     var withDateSuffix: String {

@@ -9,8 +9,7 @@
 @MainActor
 struct Params {
     func params(
-        config: TestSynchronizeConfiguration) -> Parameters
-    {
+        config: TestSynchronizeConfiguration) -> Parameters {
         var rsyncdaemon = false
         if config.rsyncdaemon == 1 { rsyncdaemon = true }
         return Parameters(
@@ -48,10 +47,9 @@ struct Params {
             rsyncVersion3: TestSharedReference.shared.rsyncversion3
         )
     }
-    
+
     func sshparams(
-        config: TestSynchronizeConfiguration) -> SSHParameters
-    {
+        config: TestSynchronizeConfiguration) -> SSHParameters {
         SSHParameters(
             offsiteServer: config.offsiteServer,
             offsiteUsername: config.offsiteUsername,
@@ -62,5 +60,4 @@ struct Params {
             rsyncversion3: TestSharedReference.shared.rsyncversion3
         )
     }
-
 }

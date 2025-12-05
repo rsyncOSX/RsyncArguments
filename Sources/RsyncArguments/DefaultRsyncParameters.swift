@@ -24,12 +24,12 @@ public enum DefaultRsyncParameters: String, CaseIterable, Identifiable, CustomSt
     case statisticsOutput = "--stats"
     case dryRunMode = "--dry-run"
     case linkDestination = "--link-dest="
-    
+
     // Task types
     case synchronize
     case snapshot
     case syncremote
-    
+
     public var id: String { rawValue }
     public var description: String { rawValue.localizedLowercase }
 }
