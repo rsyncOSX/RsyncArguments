@@ -156,4 +156,3 @@ struct TestUserConfiguration: Codable {
     }
 }
 
-// swiftlint:enable cyclomatic_complexity function_body_length
