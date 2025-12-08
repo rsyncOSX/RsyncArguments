@@ -39,46 +39,47 @@ import Testing
                 let params = Params().params(config: testconfigurations[i])
                 let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: params)
 
-                switch testconfigurations[i].task {
-                case TestSharedReference.shared.synchronize:
-                    do {
-                        try rsyncparameterssynchronize.argumentsForSynchronize(forDisplay: false, verify: false, dryrun: true)
-                    } catch {}
-                case TestSharedReference.shared.snapshot:
-                    do {
-                        try rsyncparameterssynchronize.argumentsForSynchronizeSnapshot(forDisplay: false, verify: false, dryrun: true)
-                    } catch {}
-                case TestSharedReference.shared.syncremote:
-                    do {
-                        try rsyncparameterssynchronize.argumentsForSynchronizeRemote(forDisplay: false, verify: false, dryrun: true)
-                    } catch {}
-                default:
-                    break
-                }
-
-                switch i {
-                case 0:
-                    nr0 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronize().nr0 == nr0)
-                case 1:
-                    nr1 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronize().nr1 == nr1)
-                case 2:
-                    nr2 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronize().nr2 == nr2)
-                case 3:
-                    nr3 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronize().nr3 == nr3)
-                case 4:
-                    nr4 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronize().nr4 == nr4)
-                case 5:
-                    nr5 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronize().nr5 == nr5)
-                default:
-                    return
-                }
+                try? await prepareRsyncSynchronizeArguments(rsyncparameterssynchronize, testconfigurations[i].task)
+                validateSynchronizeResults(rsyncparameterssynchronize.computedArguments, index: i)
             }
+        }
+    }
+
+    private func prepareRsyncSynchronizeArguments(_ rsync: RsyncParametersSynchronize, _ task: String) async throws {
+        switch task {
+        case TestSharedReference.shared.synchronize:
+            try rsync.argumentsForSynchronize(forDisplay: false, verify: false, dryrun: true)
+        case TestSharedReference.shared.snapshot:
+            try rsync.argumentsForSynchronizeSnapshot(forDisplay: false, verify: false, dryrun: true)
+        case TestSharedReference.shared.syncremote:
+            try rsync.argumentsForSynchronizeRemote(forDisplay: false, verify: false, dryrun: true)
+        default:
+            break
+        }
+    }
+
+    private func validateSynchronizeResults(_ arguments: [String], index: Int) {
+        switch index {
+        case 0:
+            nr0 = arguments
+            #expect(ArgumentsSynchronize().nr0 == nr0)
+        case 1:
+            nr1 = arguments
+            #expect(ArgumentsSynchronize().nr1 == nr1)
+        case 2:
+            nr2 = arguments
+            #expect(ArgumentsSynchronize().nr2 == nr2)
+        case 3:
+            nr3 = arguments
+            #expect(ArgumentsSynchronize().nr3 == nr3)
+        case 4:
+            nr4 = arguments
+            #expect(ArgumentsSynchronize().nr4 == nr4)
+        case 5:
+            nr5 = arguments
+            #expect(ArgumentsSynchronize().nr5 == nr5)
+        default:
+            break
         }
     }
 
@@ -104,29 +105,31 @@ import Testing
                     break
                 }
 
-                switch i {
-                case 0:
-                    nr0 = rsyncparametersrestore.computedArguments
-                    #expect(ArgumentsRestoreFilelist().nr0 == nr0)
-                case 1:
-                    nr1 = rsyncparametersrestore.computedArguments
-                    #expect(ArgumentsRestoreFilelist().nr1 == nr1)
-                case 2:
-                    nr2 = rsyncparametersrestore.computedArguments
-                    #expect(ArgumentsRestoreFilelist().nr2 == nr2)
-                case 3:
-                    nr3 = rsyncparametersrestore.computedArguments
-                    #expect(ArgumentsRestoreFilelist().nr3 == nr3)
-                case 4:
-                    let arguments = rsyncparametersrestore.computedArguments
-                    #expect(arguments.isEmpty == true)
-                case 5:
-                    let arguments = rsyncparametersrestore.computedArguments
-                    #expect(arguments.isEmpty == true)
-                default:
-                    return
-                }
+                validateRestoreResults(rsyncparametersrestore.computedArguments, index: i)
             }
+        }
+    }
+
+    private func validateRestoreResults(_ arguments: [String], index: Int) {
+        switch index {
+        case 0:
+            nr0 = arguments
+            #expect(ArgumentsRestoreFilelist().nr0 == nr0)
+        case 1:
+            nr1 = arguments
+            #expect(ArgumentsRestoreFilelist().nr1 == nr1)
+        case 2:
+            nr2 = arguments
+            #expect(ArgumentsRestoreFilelist().nr2 == nr2)
+        case 3:
+            nr3 = arguments
+            #expect(ArgumentsRestoreFilelist().nr3 == nr3)
+        case 4:
+            #expect(arguments.isEmpty == true)
+        case 5:
+            #expect(arguments.isEmpty == true)
+        default:
+            return
         }
     }
 
