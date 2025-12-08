@@ -6,6 +6,7 @@ disabled_rules:
   - trailing_comma
   - function_parameter_count
   - identifier_name
+  - cyclomatic_complexity
 
 opt_in_rules:
   - force_unwrapping
