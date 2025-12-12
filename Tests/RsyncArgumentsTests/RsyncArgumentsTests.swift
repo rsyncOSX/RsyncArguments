@@ -32,15 +32,15 @@ import Testing
         self.testconfigurations = loadtestdata.testconfigurations
     }
 
-    @Test func LodaDataTestSynchronize() async {
+    @Test func lodaDataTestSynchronize() async {
         if let testconfigurations {
             // It are six test configurations
-            for i in 0 ..< testconfigurations.count {
-                let params = Params().params(config: testconfigurations[i])
+            for index in 0 ..< testconfigurations.count {
+                let params = Params().params(config: testconfigurations[index])
                 let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: params)
 
-                try? await prepareRsyncSynchronizeArguments(rsyncparameterssynchronize, testconfigurations[i].task)
-                validateSynchronizeResults(rsyncparameterssynchronize.computedArguments, index: i)
+                try? await prepareRsyncSynchronizeArguments(rsyncparameterssynchronize, testconfigurations[index].task)
+                validateSynchronizeResults(rsyncparameterssynchronize.computedArguments, index: index)
             }
         }
     }
@@ -83,14 +83,14 @@ import Testing
         }
     }
 
-    @Test func LodaDataTestRestore() async {
+    @Test func lodaDataTestRestore() async {
         if let testconfigurations {
             // It are six test configurations
-            for i in 0 ..< testconfigurations.count {
-                let params = Params().params(config: testconfigurations[i])
+            for index in 0 ..< testconfigurations.count {
+                let params = Params().params(config: testconfigurations[index])
                 let rsyncparametersrestore = RsyncParametersRestore(parameters: params)
 
-                switch testconfigurations[i].task {
+                switch testconfigurations[index].task {
                 case TestSharedReference.shared.synchronize:
                     do {
                         try rsyncparametersrestore.remoteArgumentsFileList()
@@ -105,7 +105,7 @@ import Testing
                     break
                 }
 
-                validateRestoreResults(rsyncparametersrestore.computedArguments, index: i)
+                validateRestoreResults(rsyncparametersrestore.computedArguments, index: index)
             }
         }
     }
@@ -133,17 +133,22 @@ import Testing
         }
     }
 
-    @Test func LodaDataTestRestoreFiles() async {
+    @Test func lodaDataTestRestoreFiles() async {
         if let testconfigurations {
             // It are six test configurations
-            for i in 0 ..< testconfigurations.count {
-                let params = Params().params(config: testconfigurations[i])
+            for index in 0 ..< testconfigurations.count {
+                let params = Params().params(config: testconfigurations[index])
                 let rsyncparametersrestore = RsyncParametersRestore(parameters: params)
 
                 do {
-                    try rsyncparametersrestore.argumentsRestore(forDisplay: false, verify: false, dryrun: true, restoreSnapshotByFiles: false)
+                    try rsyncparametersrestore.argumentsRestore(
+                        forDisplay: false,
+                        verify: false,
+                        dryrun: true,
+                        restoreSnapshotByFiles: false
+                    )
                 } catch {}
-                switch i {
+                switch index {
                 case 0:
                     nr0 = rsyncparametersrestore.computedArguments
                     #expect(ArgumentsRestore().nr0 == nr0)
@@ -169,14 +174,14 @@ import Testing
         }
     }
 
-    @Test func LodaDataSSHCommands() async {
+    @Test func lodaDataSSHCommands() async {
         if let testconfigurations {
             // It are six test configurations
-            for i in 0 ..< testconfigurations.count {
-                let sshparameters = Params().sshparams(config: testconfigurations[i])
+            for index in 0 ..< testconfigurations.count {
+                let sshparameters = Params().sshparams(config: testconfigurations[index])
                 let sshcommands = SnapshotDelete(sshParameters: sshparameters)
 
-                switch i {
+                switch index {
                 case 0:
                     let nr0 = sshcommands.snapshotDelete(remoteCatalog: "Remote")
                     #expect(ArgumentsDeleteSnapshot().nr0 == nr0)
@@ -234,14 +239,14 @@ import Testing
         self.testconfigurations = loadtestdata.testconfigurations
     }
 
-    @Test func LodaDataTestSynchronize() async {
+    @Test func lodaDataTestSynchronize() async {
         if let testconfigurations {
             // It are six test configurations
-            for i in 0 ..< testconfigurations.count {
-                let params = Params().params(config: testconfigurations[i])
+            for index in 0 ..< testconfigurations.count {
+                let params = Params().params(config: testconfigurations[index])
                 let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: params)
 
-                switch testconfigurations[i].task {
+                switch testconfigurations[index].task {
                 case TestSharedReference.shared.synchronize:
                     do {
                         try rsyncparameterssynchronize.argumentsForSynchronize(forDisplay: false, verify: false, dryrun: true)
@@ -260,7 +265,7 @@ import Testing
                     break
                 }
 
-                switch i {
+                switch index {
                 case 0:
                     nr0 = rsyncparameterssynchronize.computedArguments
                     #expect(ArgumentsSynchronizeNOSSH().nr0 == nr0)
@@ -298,7 +303,13 @@ import Testing
     var nr4: [String]?
     var nr5: [String]?
 
-    init(testconfigurations: [TestSynchronizeConfiguration]? = nil, nr0: [String]? = nil, nr1: [String]? = nil, nr2: [String]? = nil, nr3: [String]? = nil, nr4: [String]? = nil, nr5: [String]? = nil) async {
+    init(testconfigurations: [TestSynchronizeConfiguration]? = nil,
+         nr0: [String]? = nil,
+         nr1: [String]? = nil,
+         nr2: [String]? = nil,
+         nr3: [String]? = nil,
+         nr4: [String]? = nil,
+         nr5: [String]? = nil) async {
         self.testconfigurations = testconfigurations
         self.nr0 = nr0
         self.nr1 = nr1
@@ -315,18 +326,18 @@ import Testing
         }
     }
 
-    @Test func TestPull() async {
+    @Test func testPull() async {
         if let testconfigurations {
             // It are THREE test configurations for pull and push
-            for i in 0 ..< testconfigurations.count {
-                let params = Params().params(config: testconfigurations[i])
+            for index in 0 ..< testconfigurations.count {
+                let params = Params().params(config: testconfigurations[index])
                 let rsyncparameterspull = RsyncParametersPullRemote(parameters: params)
 
                 do {
                     try rsyncparameterspull.argumentsPullRemoteWithParameters(forDisplay: false, verify: false, dryrun: true, keepDelete: false)
                 } catch {}
 
-                switch i {
+                switch index {
                 case 0:
                     nr0 = rsyncparameterspull.computedArguments
                     #expect(ArgumentsPull().nr0 == nr0)
@@ -343,19 +354,23 @@ import Testing
         }
     }
 
-    @Test func TestPush() async {
+    @Test func testPush() async {
         if let testconfigurations {
             // It are THREE test configurations for pull and push
-            for i in 0 ..< testconfigurations.count {
-                let params = Params().params(config: testconfigurations[i])
+            for index in 0 ..< testconfigurations.count {
+                let params = Params().params(config: testconfigurations[index])
                 let rsyncparameterpush = RsyncParametersSynchronize(parameters: params)
 
                 do {
-                    try rsyncparameterpush.argumentsForPushLocalToRemoteWithParameters(forDisplay: false, verify: false, dryrun: true, keepDelete: false)
-
+                    try rsyncparameterpush.argumentsForPushLocalToRemoteWithParameters(
+                        forDisplay: false,
+                        verify: false,
+                        dryrun: true,
+                        keepDelete: false
+                    )
                 } catch {}
 
-                switch i {
+                switch index {
                 case 0:
                     nr0 = rsyncparameterpush.computedArguments
                     #expect(ArgumentsPush().nr0 == nr0)

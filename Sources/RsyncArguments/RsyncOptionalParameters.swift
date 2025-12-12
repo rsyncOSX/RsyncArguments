@@ -35,7 +35,7 @@ public final class RsyncOptionalParameters {
             optionalParams.parameter11,
             optionalParams.parameter12,
             optionalParams.parameter13,
-            optionalParams.parameter14,
+            optionalParams.parameter14
         ]
 
         for param in parameters {

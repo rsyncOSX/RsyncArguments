@@ -31,8 +31,8 @@ final class ReadTestdataFromGitHub {
         do {
             if let testdata = try await testdata.loadanddecodearraydata(DecodeTestdata.self, fromwhere: urlJSON) {
                 testconfigurations.removeAll()
-                for i in 0 ..< testdata.count {
-                    var configuration = TestSynchronizeConfiguration(testdata[i])
+                for index in 0 ..< testdata.count {
+                    var configuration = TestSynchronizeConfiguration(testdata[index])
                     configuration.profile = "test"
                     testconfigurations.append(configuration)
                 }
@@ -60,8 +60,8 @@ final class ReadTestdataFromGitHub {
         do {
             if let testdata = try await testdata.loadanddecodearraydata(DecodeTestdata.self, fromwhere: urlJSON) {
                 testconfigurations.removeAll()
-                for i in 0 ..< testdata.count {
-                    var configuration = TestSynchronizeConfiguration(testdata[i])
+                for index in 0 ..< testdata.count {
+                    var configuration = TestSynchronizeConfiguration(testdata[index])
                     configuration.profile = "test"
                     testconfigurations.append(configuration)
                 }
