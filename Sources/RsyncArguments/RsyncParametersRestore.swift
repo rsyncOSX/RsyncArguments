@@ -138,6 +138,19 @@ public final class RsyncParametersRestore {
         var builder = RsyncArgumentBuilder()
 
         // Core parameters
+        addCoreParameters(to: &builder, forDisplay: forDisplay, dryrun: dryrun)
+
+        // SSH parameters
+        addSSHParameters(to: &builder, forDisplay: forDisplay)
+
+        // Source (remote)
+        let remoteCatalog = try computeRemoteCatalog(restoreSnapshotByFiles: restoreSnapshotByFiles)
+        addRemoteAndLocalPaths(to: &builder, remoteCatalog: remoteCatalog, forDisplay: forDisplay)
+
+        computedArguments = builder.build()
+    }
+
+    private func addCoreParameters(to builder: inout RsyncArgumentBuilder, forDisplay: Bool, dryrun: Bool) {
         builder.add(DefaultRsyncParameters.archiveMode.rawValue)
         if forDisplay { builder.add(" ") }
         builder.add(DefaultRsyncParameters.verboseOutput.rawValue)
@@ -145,7 +158,6 @@ public final class RsyncParametersRestore {
         builder.add(DefaultRsyncParameters.compressionEnabled.rawValue)
         if forDisplay { builder.add(" ") }
 
-        // Dry run if requested
         if dryrun {
             builder.add(DefaultRsyncParameters.dryRunMode.rawValue)
             if forDisplay { builder.add(" ") }
@@ -153,41 +165,39 @@ public final class RsyncParametersRestore {
 
         builder.add("--stats")
         if forDisplay { builder.add(" ") }
+    }
 
-        // SSH parameters
-        // Only add SSH parameters if they're configured
-        if parameters.sshParameters.effectiveConfig.hasConfiguration {
-            let sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
-            builder.addAll(sshBuilder.buildRsyncSSHParameters(forDisplay: forDisplay))
+    private func addSSHParameters(to builder: inout RsyncArgumentBuilder, forDisplay: Bool) {
+        guard parameters.sshParameters.effectiveConfig.hasConfiguration else {
+            return
         }
+        let sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
+        builder.addAll(sshBuilder.buildRsyncSSHParameters(forDisplay: forDisplay))
+    }
 
-        // Source (remote)
+    private func computeRemoteCatalog(restoreSnapshotByFiles: Bool) throws -> String {
         let isSnapshot = parameters.snapshotNumber != nil
-        let remoteCatalog: String
 
-        if isSnapshot {
-            if restoreSnapshotByFiles {
-                // Restoring specific files - use base catalog
-                remoteCatalog = parameters.paths.offsiteCatalog
-            } else {
-                // Restoring entire snapshot
-                guard let snapshotNum = parameters.snapshotNumber else {
-                    throw ParameterError.invalidSnapshotNumber
-                }
-                remoteCatalog = parameters.paths.offsiteCatalog + String(snapshotNum - 1) + "/"
-            }
-        } else {
-            remoteCatalog = parameters.paths.offsiteCatalog
+        guard !isSnapshot || !restoreSnapshotByFiles else {
+            return parameters.paths.offsiteCatalog
         }
 
+        guard isSnapshot else {
+            return parameters.paths.offsiteCatalog
+        }
+
+        guard let snapshotNum = parameters.snapshotNumber else {
+            throw ParameterError.invalidSnapshotNumber
+        }
+
+        return parameters.paths.offsiteCatalog + String(snapshotNum - 1) + "/"
+    }
+
+    private func addRemoteAndLocalPaths(to builder: inout RsyncArgumentBuilder, remoteCatalog: String, forDisplay: Bool) {
         if forDisplay { builder.add(" ") }
         builder.add(buildRemoteSource(catalog: remoteCatalog))
         if forDisplay { builder.add(" ") }
-
-        // Destination (local restore path)
         builder.add(parameters.paths.sharedPathForRestore)
-
-        computedArguments = builder.build()
     }
 
     // MARK: - Private Helpers

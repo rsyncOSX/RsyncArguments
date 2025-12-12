@@ -246,48 +246,53 @@ import Testing
                 let params = Params().params(config: testconfigurations[index])
                 let rsyncparameterssynchronize = RsyncParametersSynchronize(parameters: params)
 
-                switch testconfigurations[index].task {
-                case TestSharedReference.shared.synchronize:
-                    do {
-                        try rsyncparameterssynchronize.argumentsForSynchronize(forDisplay: false, verify: false, dryrun: true)
-                    } catch {}
-                case TestSharedReference.shared.snapshot:
-                    do {
-                        try rsyncparameterssynchronize.argumentsForSynchronizeSnapshot(forDisplay: false, verify: false, dryrun: true)
-
-                    } catch {}
-                case TestSharedReference.shared.syncremote:
-                    do {
-                        try rsyncparameterssynchronize.argumentsForSynchronizeRemote(forDisplay: false, verify: false, dryrun: true)
-
-                    } catch {}
-                default:
-                    break
-                }
-
-                switch index {
-                case 0:
-                    nr0 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronizeNOSSH().nr0 == nr0)
-                case 1:
-                    nr1 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronizeNOSSH().nr1 == nr1)
-                case 2:
-                    nr2 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronizeNOSSH().nr2 == nr2)
-                case 3:
-                    nr3 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronizeNOSSH().nr3 == nr3)
-                case 4:
-                    nr4 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronizeNOSSH().nr4 == nr4)
-                case 5:
-                    nr5 = rsyncparameterssynchronize.computedArguments
-                    #expect(ArgumentsSynchronizeNOSSH().nr5 == nr5)
-                default:
-                    return
-                }
+                await prepareRsyncSynchronizeArgumentsNOSSH(rsyncparameterssynchronize, testconfigurations[index].task)
+                validateSynchronizeResultsNOSSH(rsyncparameterssynchronize.computedArguments, index: index)
             }
+        }
+    }
+
+    private func prepareRsyncSynchronizeArgumentsNOSSH(_ rsync: RsyncParametersSynchronize, _ task: String) async {
+        switch task {
+        case TestSharedReference.shared.synchronize:
+            do {
+                try rsync.argumentsForSynchronize(forDisplay: false, verify: false, dryrun: true)
+            } catch {}
+        case TestSharedReference.shared.snapshot:
+            do {
+                try rsync.argumentsForSynchronizeSnapshot(forDisplay: false, verify: false, dryrun: true)
+            } catch {}
+        case TestSharedReference.shared.syncremote:
+            do {
+                try rsync.argumentsForSynchronizeRemote(forDisplay: false, verify: false, dryrun: true)
+            } catch {}
+        default:
+            break
+        }
+    }
+
+    private func validateSynchronizeResultsNOSSH(_ arguments: [String], index: Int) {
+        switch index {
+        case 0:
+            nr0 = arguments
+            #expect(ArgumentsSynchronizeNOSSH().nr0 == nr0)
+        case 1:
+            nr1 = arguments
+            #expect(ArgumentsSynchronizeNOSSH().nr1 == nr1)
+        case 2:
+            nr2 = arguments
+            #expect(ArgumentsSynchronizeNOSSH().nr2 == nr2)
+        case 3:
+            nr3 = arguments
+            #expect(ArgumentsSynchronizeNOSSH().nr3 == nr3)
+        case 4:
+            nr4 = arguments
+            #expect(ArgumentsSynchronizeNOSSH().nr4 == nr4)
+        case 5:
+            nr5 = arguments
+            #expect(ArgumentsSynchronizeNOSSH().nr5 == nr5)
+        default:
+            return
         }
     }
 }

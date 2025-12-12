@@ -55,36 +55,24 @@ public final class RsyncParametersPullRemote {
         var builder = RsyncArgumentBuilder()
 
         // Basic parameters
-        builder.add(DefaultRsyncParameters.archiveMode.rawValue)
-        if forDisplay { builder.add(" ") }
-        builder.add(DefaultRsyncParameters.verboseOutput.rawValue)
-        if forDisplay { builder.add(" ") }
-        builder.add(DefaultRsyncParameters.compressionEnabled.rawValue)
-        if forDisplay { builder.add(" ") }
+        addParameter(DefaultRsyncParameters.archiveMode.rawValue, to: &builder, forDisplay: forDisplay)
+        addParameter(DefaultRsyncParameters.verboseOutput.rawValue, to: &builder, forDisplay: forDisplay)
+        addParameter(DefaultRsyncParameters.compressionEnabled.rawValue, to: &builder, forDisplay: forDisplay)
 
         // Dry run if requested
         if dryrun {
-            builder.add(DefaultRsyncParameters.dryRunMode.rawValue)
-            if forDisplay { builder.add(" ") }
+            addParameter(DefaultRsyncParameters.dryRunMode.rawValue, to: &builder, forDisplay: forDisplay)
         }
 
-        builder.add("--stats")
-        if forDisplay { builder.add(" ") }
-        builder.add("--exclude=.git/")
-        if forDisplay { builder.add(" ") }
-        builder.add("--exclude=.DS_Store")
-        if forDisplay { builder.add(" ") }
+        addParameter("--stats", to: &builder, forDisplay: forDisplay)
+        addParameter("--exclude=.git/", to: &builder, forDisplay: forDisplay)
+        addParameter("--exclude=.DS_Store", to: &builder, forDisplay: forDisplay)
 
         // SSH parameters - only if configured
-        if parameters.sshParameters.isRemote, parameters.sshParameters.effectiveConfig.hasConfiguration {
-            let sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
-            builder.addAll(sshBuilder.buildRsyncSSHParameters(forDisplay: forDisplay))
-            if forDisplay { builder.add(" ") }
-        }
+        addSSHParametersIfNeeded(to: &builder, forDisplay: forDisplay)
 
         // Source (remote) and destination (local)
-        builder.add(buildRemoteSource(catalog: parameters.paths.offsiteCatalog))
-        if forDisplay { builder.add(" ") }
+        addParameter(buildRemoteSource(catalog: parameters.paths.offsiteCatalog), to: &builder, forDisplay: forDisplay)
         builder.add(parameters.paths.localCatalog)
 
         computedArguments = builder.build()
@@ -140,6 +128,29 @@ public final class RsyncParametersPullRemote {
 
     // MARK: - Private Helpers
 
+    /// Adds a parameter to the builder with optional display spacing
+    private func addParameter(_ param: String, to builder: inout RsyncArgumentBuilder, forDisplay: Bool) {
+        builder.add(param)
+        if forDisplay { builder.add(" ") }
+    }
+    
+    /// Adds an array of parameters to the builder with optional display spacing
+    private func addParameters(_ params: [String], to builder: inout RsyncArgumentBuilder, forDisplay: Bool) {
+        for param in params {
+            builder.add(param)
+            if forDisplay { builder.add(" ") }
+        }
+    }
+
+    /// Adds SSH parameters to the builder if they are configured
+    private func addSSHParametersIfNeeded(to builder: inout RsyncArgumentBuilder, forDisplay: Bool) {
+        let sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
+        let sshParams = sshBuilder.buildRsyncSSHParameters(forDisplay: forDisplay)
+        if !sshParams.isEmpty {
+            addParameters(sshParams, to: &builder, forDisplay: forDisplay)
+        }
+    }
+
     /// Builds remote source string without mutation
     private func buildRemoteSource(catalog: String) -> String {
         let sshBuilder = SSHParameterBuilder(sshParameters: parameters.sshParameters)
@@ -162,3 +173,4 @@ public final class RsyncParametersPullRemote {
         return result
     }
 }
+
