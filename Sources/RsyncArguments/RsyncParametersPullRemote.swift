@@ -133,7 +133,7 @@ public final class RsyncParametersPullRemote {
         builder.add(param)
         if forDisplay { builder.add(" ") }
     }
-    
+
     /// Adds an array of parameters to the builder with optional display spacing
     private func addParameters(_ params: [String], to builder: inout RsyncArgumentBuilder, forDisplay: Bool) {
         for param in params {
@@ -173,4 +173,3 @@ public final class RsyncParametersPullRemote {
         return result
     }
 }
-
