@@ -100,6 +100,8 @@ public final class RsyncParametersSynchronize {
         if forDisplay { builder.add(" ") }
         builder.add("--exclude=.DS_Store")
         if forDisplay { builder.add(" ") }
+        builder.add("--exclude=.build")
+        if forDisplay { builder.add(" ") }
 
         // Add source and destination
         builder.add(parameters.paths.localCatalog)
