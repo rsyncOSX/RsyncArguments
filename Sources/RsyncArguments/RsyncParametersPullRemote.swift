@@ -116,7 +116,7 @@ public final class RsyncParametersPullRemote {
         if forDisplay { builder.add(" ") }
         builder.add("--exclude=.DS_Store")
         if forDisplay { builder.add(" ") }
-        builder.add("--exclude=.build")
+        builder.add("--exclude=.build/")
         if forDisplay { builder.add(" ") }
 
         // Source (remote) and destination (local)
