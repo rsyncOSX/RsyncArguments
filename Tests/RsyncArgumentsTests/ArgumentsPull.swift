@@ -19,7 +19,6 @@ struct ArgumentsPull {
                "--update",
                "--itemize-changes",
                "--exclude=.git/",
-               "--exclude=.DS_Store",
                "thomas@raspberrypi:/backups/Pictures_dopfiles/",
                "/Users/thomas/Pictures_raw/"]
 
@@ -35,7 +34,6 @@ struct ArgumentsPull {
                "--update",
                "--itemize-changes",
                "--exclude=.git/",
-               "--exclude=.DS_Store",
                "thomas@raspberrypi:/backups/Documents/",
                "/Users/thomas/Documents/"]
 
@@ -50,7 +48,6 @@ struct ArgumentsPull {
                "--update",
                "--itemize-changes",
                "--exclude=.git/",
-               "--exclude=.DS_Store",
                "thomas@raspberrypi:/backups/GitHub/",
                "/Users/thomas/GitHub/"]
 }

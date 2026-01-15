@@ -84,25 +84,23 @@ public final class RsyncParametersSynchronize {
             args = removeParameter("--delete", from: args, forDisplay: forDisplay)
         }
 
-        // Remove existing exclude parameters
-        args = removeParameter("--exclude=.git/", from: args, forDisplay: forDisplay)
-        args = removeParameter("--exclude=.DS_Store", from: args, forDisplay: forDisplay)
-
         // Add update and exclude parameters
         var builder = RsyncArgumentBuilder()
         builder.addAll(args)
-
-        builder.add("--update")
-        if forDisplay { builder.add(" ") }
-        builder.add("--itemize-changes")
-        if forDisplay { builder.add(" ") }
-        builder.add("--exclude=.git/")
-        if forDisplay { builder.add(" ") }
-        builder.add("--exclude=.DS_Store")
-        if forDisplay { builder.add(" ") }
-        builder.add("--exclude=.build/")
-        if forDisplay { builder.add(" ") }
-
+        
+        let itemizechanges = args.contains("--itemize-changes") && args.contains("--update")
+        if itemizechanges == false {
+            builder.add("--update")
+            if forDisplay { builder.add(" ") }
+            builder.add("--itemize-changes")
+            if forDisplay { builder.add(" ") }
+        }
+        let excludegit = args.contains("--exclude=.git/")
+        if excludegit == false {
+            builder.add("--exclude=.git/")
+            if forDisplay { builder.add(" ") }
+        }
+        
         // Add source and destination
         builder.add(parameters.paths.localCatalog)
         if forDisplay { builder.add(" ") }

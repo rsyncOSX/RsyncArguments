@@ -64,10 +64,6 @@ public final class RsyncParametersPullRemote {
             addParameter(DefaultRsyncParameters.dryRunMode.rawValue, to: &builder, forDisplay: forDisplay)
         }
 
-        addParameter("--stats", to: &builder, forDisplay: forDisplay)
-        addParameter("--exclude=.git/", to: &builder, forDisplay: forDisplay)
-        addParameter("--exclude=.DS_Store", to: &builder, forDisplay: forDisplay)
-
         // SSH parameters - only if configured
         addSSHParametersIfNeeded(to: &builder, forDisplay: forDisplay)
 
@@ -107,17 +103,18 @@ public final class RsyncParametersPullRemote {
         var builder = RsyncArgumentBuilder()
         builder.addAll(args)
 
-        // Add update and exclude parameters
-        builder.add("--update")
-        if forDisplay { builder.add(" ") }
-        builder.add("--itemize-changes")
-        if forDisplay { builder.add(" ") }
-        builder.add("--exclude=.git/")
-        if forDisplay { builder.add(" ") }
-        builder.add("--exclude=.DS_Store")
-        if forDisplay { builder.add(" ") }
-        builder.add("--exclude=.build/")
-        if forDisplay { builder.add(" ") }
+        let itemizechanges = args.contains("--itemize-changes") && args.contains("--update")
+        if itemizechanges == false {
+            builder.add("--update")
+            if forDisplay { builder.add(" ") }
+            builder.add("--itemize-changes")
+            if forDisplay { builder.add(" ") }
+        }
+        let excludegit = args.contains("--exclude=.git/")
+        if excludegit == false {
+            builder.add("--exclude=.git/")
+            if forDisplay { builder.add(" ") }
+        }
 
         // Source (remote) and destination (local)
         if forDisplay { builder.add(" ") }
